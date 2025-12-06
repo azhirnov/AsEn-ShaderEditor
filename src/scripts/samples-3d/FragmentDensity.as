@@ -49,7 +49,7 @@
 			pass.Slider( "iRate",	float2(0.0),	float2(1.0) );
 		}{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/FragmentDensity.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/FragmentDensity.as)
+			draw.AddPipeline( "samples/FragmentDensity.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/FragmentDensity.as)
 			draw.Output( "out_Color", rt2, RGBA32f(0.0) );
 			draw.Output( ds, DepthStencil(1.f, 0) );
 			draw.FragmentDensityMap( fdm );

@@ -65,7 +65,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene_to_cm.AddGraphicsPass( "draw to cubemap" );
-			draw.AddPipeline( "sphere/SphericalCube-5a.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/sphere/SphericalCube-5a.as)
+			draw.AddPipeline( "sphere/SphericalCube-5a.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/sphere/SphericalCube-5a.as)
 			draw.Output(	"out_Color",	cubemap, RGBA32f(0.2) );
 			draw.Constant(	"iProj",		proj_type );
 			draw.Slider(	"iProjInFS",	0, 1 );
@@ -74,7 +74,7 @@
 		}
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "draw sphere" );
-			draw.AddPipeline( "sphere/SphericalCube-5b.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/sphere/SphericalCube-5b.as)
+			draw.AddPipeline( "sphere/SphericalCube-5b.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/sphere/SphericalCube-5b.as)
 			draw.Output(	"out_Color", rt, RGBA32f(0.2) );
 			draw.Output(	ds,			DepthStencil(1.f, 0) );
 			draw.Constant(	"iProj",	proj_type );

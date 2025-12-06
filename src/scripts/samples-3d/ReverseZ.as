@@ -78,7 +78,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/ColoredSpheres-RevZ.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/ColoredSpheres-RevZ.as)
+			draw.AddPipeline( "samples/ColoredSpheres-RevZ.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/ColoredSpheres-RevZ.as)
 			draw.Output( "out_Color", rt, RGBA32f(0.f) );
 			draw.Output( ds, DepthStencil( 0.f, 0 ));
 		}

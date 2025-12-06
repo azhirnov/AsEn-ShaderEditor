@@ -57,7 +57,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "grid" );
-			pass.AddPipeline( "tests/ProceduralGrid.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/ProceduralGrid.as)
+			pass.AddPipeline( "tests/ProceduralGrid.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ProceduralGrid.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.3, 0.5, 1.0, 1.0) );
 			pass.Constant( "iGridSize",	grid_size );
 			pass.Slider( "iWireframe",	0,	1 );

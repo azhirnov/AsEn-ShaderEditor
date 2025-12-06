@@ -95,7 +95,7 @@
 			ClearBuffer( count_buf, 0 );
 
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/OIT-LinkedList1.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/OIT-LinkedList1.as)
+			draw.AddPipeline( "samples/OIT-LinkedList1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/OIT-LinkedList1.as)
 			draw.Output( ds, DepthStencil( 1.f, 0 ));
 		}
 		{

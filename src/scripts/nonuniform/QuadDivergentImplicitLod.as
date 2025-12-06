@@ -42,7 +42,7 @@
 			args.Add( "array",	images );
 			args.Add( "layers",	img_arr );
 
-			RunScript( "NonUniform-GenImages.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/callable/NonUniform-GenImages.as)
+			RunScript( "NonUniform-GenImages.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/callable/NonUniform-GenImages.as)
 		}
 
 		// render loop

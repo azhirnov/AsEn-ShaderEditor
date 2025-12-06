@@ -5,7 +5,7 @@
 	compare accuracy of cluster to frustum conversion
 
 	related:
-	* [view clusters in 3D](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/light-cull/test-ClusterBoundingSphere.as)
+	* [view clusters in 3D](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/light-cull/test-ClusterBoundingSphere.as)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>

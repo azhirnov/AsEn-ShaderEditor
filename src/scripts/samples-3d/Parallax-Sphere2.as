@@ -39,7 +39,7 @@
 			RC<Collection>	args = Collection();
 			args.Add( "height_norm",	height_view );
 			args.Add( "color",			color_view );
-			RunScript( "GenParallaxCubemap.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/callable/GenParallaxCubemap.as)
+			RunScript( "GenParallaxCubemap.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/callable/GenParallaxCubemap.as)
 		}
 
 		// create cube
@@ -73,7 +73,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/Parallax-Sphere2.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/Parallax-Sphere2.as)
+			draw.AddPipeline( "samples/Parallax-Sphere2.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Parallax-Sphere2.as)
 			draw.Output( "out_Color", rt, RGBA32f( 0.3, 0.5, 1.0, 1.0 ));
 			draw.Output( ds, DepthStencil( 1.f, 0 ));
 			draw.Slider( "iHeightScale",	0.f,	0.2f,	0.1f );

@@ -59,7 +59,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "draw sphere" );
-			draw.AddPipeline( "sphere/SphericalCube-1.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/sphere/SphericalCube-1.as)
+			draw.AddPipeline( "sphere/SphericalCube-1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/sphere/SphericalCube-1.as)
 			draw.Output( "out_Color", rt, RGBA32f(0.0) );
 			draw.Output( ds, DepthStencil(1.f, 0) );
 			draw.Slider( "iAreaScale",	40.0f,	60.f,	45.f );

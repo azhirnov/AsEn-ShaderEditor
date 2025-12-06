@@ -62,7 +62,7 @@
 			pass.Slider( "iAScale",	0.f,			1.f,			0.47f );
 		}{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "draw to cubemap" );
-			draw.AddPipeline( "sphere/UVSphere-2.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/sphere/UVSphere-2.as)
+			draw.AddPipeline( "sphere/UVSphere-2.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/sphere/UVSphere-2.as)
 			draw.Output(	"out_Color",	cubemap,	RGBA32f(0.1, 0.1, 0.4, 0.0) );
 			draw.ArgIn(		"un_Dots",		buf );
 			draw.ArgIn(		"un_CBuf",		cbuf );

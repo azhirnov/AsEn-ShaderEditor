@@ -62,13 +62,13 @@ void ASmain ()
 		args.Add( "albedo",		albedo_view );
 		args.Add( "emission",	emission_view );
 
-		RunScript( "GenPlanet.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/callable/GenPlanet.as)
+		RunScript( "GenPlanet.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/callable/GenPlanet.as)
 	}
 
 	// render loop
 	{
 		RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-		draw.AddPipeline( "samples/Planet-1.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/Planet-1.as)
+		draw.AddPipeline( "samples/Planet-1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Planet-1.as)
 		draw.Output( "out_Color", rt, RGBA32f(0.0) );
 		draw.Output( ds, DepthStencil(1.f, 0) );
 	}

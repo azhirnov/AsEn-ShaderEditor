@@ -1,6 +1,6 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
 //
-// [shader](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/shaders/tools/VolumeNoise.glsl)
+// [shader](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/shaders/tools/VolumeNoise.glsl)
 //
 // functions:
 //	void  AddNoise (float params [14]);

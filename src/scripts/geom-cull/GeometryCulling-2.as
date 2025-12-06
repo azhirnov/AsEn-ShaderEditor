@@ -1,6 +1,6 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
 /*
-	results in [GeometryCulling paper](https://github.com/azhirnov/as-en/blob/dev/AE/docs/papers/GeometryCulling-ru.md)
+	results in [GeometryCulling paper](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/GeometryCulling-ru.md)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>
@@ -209,7 +209,7 @@
 		// without depth test
 		{
 			RC<SceneGraphicsPass>	pass = scene_direct_draw.AddGraphicsPass( "no depth" );
-			pass.AddPipeline( "perf/Culling/2-NoDepthTest.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-NoDepthTest.as)
+			pass.AddPipeline( "perf/Culling/2-NoDepthTest.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-NoDepthTest.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Constant( "iLight",	light_dir );
 			pass.EnableIfEqual( mode, mode_id );
@@ -220,7 +220,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene_direct_draw.AddGraphicsPass( "late ZS" );
-			pass.AddPipeline( "perf/Culling/2-DepthLateTest.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthLateTest.as)
+			pass.AddPipeline( "perf/Culling/2-DepthLateTest.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthLateTest.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iLight",	light_dir );
@@ -232,7 +232,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene_direct_draw.AddGraphicsPass( "early ZS" );
-			pass.AddPipeline( "perf/Culling/2-DepthTest.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthTest.as)
+			pass.AddPipeline( "perf/Culling/2-DepthTest.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthTest.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iLight",	light_dir );
@@ -244,13 +244,13 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene_direct_draw.AddGraphicsPass( "depth pre-pass" );
-			pass.AddPipeline( "perf/Culling/2-DepthPrePass.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthPrePass.as)
+			pass.AddPipeline( "perf/Culling/2-DepthPrePass.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthPrePass.as)
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.EnableIfEqual( mode, mode_id );
 			pass.Repeat( repeat );
 		}{
 			RC<SceneGraphicsPass>	pass = scene_direct_draw.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/Culling/2-DepthEqual.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthEqual.as)
+			pass.AddPipeline( "perf/Culling/2-DepthEqual.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthEqual.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0) );
 			pass.Output(				ds );
 			pass.Constant( "iLight",	light_dir );
@@ -265,12 +265,12 @@
 			pass.EnableIfEqual( mode, mode_id );
 			pass.Repeat( repeat );
 			{
-				pass.AddPipeline( "perf/Culling/2-DepthPrePass-p0.as" );// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthPrePass-p0.as)
+				pass.AddPipeline( "perf/Culling/2-DepthPrePass-p0.as" );// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthPrePass-p0.as)
 				pass.Output(				ds,		DepthStencil(1.0, 0) );
 			}
 			pass.NextSubpass( "draw" );
 			{
-				pass.AddPipeline( "perf/Culling/2-DepthEqual-p1.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthEqual-p1.as)
+				pass.AddPipeline( "perf/Culling/2-DepthEqual-p1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthEqual-p1.as)
 				pass.Output( "out_Color",	rt,		RGBA32f(1.0) );
 				pass.Output(				ds );
 				pass.Constant( "iLight",	light_dir );
@@ -281,14 +281,14 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene_direct_draw.AddGraphicsPass( "VisBuf1-build" );
-			pass.AddPipeline( "perf/Culling/2-VisBuf1-build.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-VisBuf1-build.as)
+			pass.AddPipeline( "perf/Culling/2-VisBuf1-build.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-VisBuf1-build.as)
 			pass.Output( "out_VisBuf",	vis,	RGBA32u(~0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.EnableIfEqual( mode, mode_id );
 			pass.Repeat( repeat );
 		}{
 			RC<SceneGraphicsPass>	pass = scene_direct_draw.AddGraphicsPass( "VisBuf1-resolve" );
-			pass.AddPipeline( "perf/Culling/2-VisBuf1-resolve.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-VisBuf1-resolve.as)
+			pass.AddPipeline( "perf/Culling/2-VisBuf1-resolve.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-VisBuf1-resolve.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.ArgIn(  "un_VisBuf",	vis,	Sampler_NearestClamp );
 			pass.Constant( "iLight",	light_dir );
@@ -304,13 +304,13 @@
 			pass.EnableIfEqual( mode, mode_id );
 			pass.Repeat( repeat );
 			{
-				pass.AddPipeline( "perf/Culling/2-VisBuf1-p0.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-VisBuf1-p0.as)
+				pass.AddPipeline( "perf/Culling/2-VisBuf1-p0.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-VisBuf1-p0.as)
 				pass.Output( "out_VisBuf",	vis,	RGBA32u(~0) );
 				pass.Output(				ds,		DepthStencil(1.0, 0) );
 			}
 			pass.NextSubpass( "resolve" );
 			{
-				pass.AddPipeline( "perf/Culling/2-VisBuf1-p1.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-VisBuf1-p1.as)
+				pass.AddPipeline( "perf/Culling/2-VisBuf1-p1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-VisBuf1-p1.as)
 				pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 				pass.Input(  "in_VisBuf",	vis,	"out_VisBuf" );
 				pass.Constant( "iLight",	light_dir );
@@ -326,14 +326,14 @@
 			pass.EnableIfEqual( mode, mode_id );
 			pass.Repeat( repeat );
 			{
-				pass.AddPipeline( "perf/Culling/2-VisBuf2-p0.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-VisBuf2-p0.as)
+				pass.AddPipeline( "perf/Culling/2-VisBuf2-p0.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-VisBuf2-p0.as)
 				pass.Output( "out_VisBuf",	vis,	RGBA32u(~0) );
 				pass.Output( "out_VisBuf2",	vis2,	RGBA32f(0.0) );
 				pass.Output(				ds,		DepthStencil(1.0, 0) );
 			}
 			pass.NextSubpass( "resolve" );
 			{
-				pass.AddPipeline( "perf/Culling/2-VisBuf2-p1.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-VisBuf2-p1.as)
+				pass.AddPipeline( "perf/Culling/2-VisBuf2-p1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-VisBuf2-p1.as)
 				pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 				pass.Input(  "in_VisBuf",	vis,	"out_VisBuf" );
 				pass.Input(  "in_VisBuf2",	vis2,	"out_VisBuf2" );
@@ -356,7 +356,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene_aabb.AddGraphicsPass( "raster cull" );
-			pass.AddPipeline( "perf/Culling/RasterCull.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/RasterCull.as)
+			pass.AddPipeline( "perf/Culling/RasterCull.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/RasterCull.as)
 			pass.OutputLS(					ds,		EAttachmentLoadOp::Load,	EAttachmentStoreOp::None );
 			pass.ArgInOut( "un_VisFlags",	vis_flags );
 			pass.EnableIfEqual( mode, mode_id );
@@ -371,7 +371,7 @@
 			pass.EnableIfEqual( mode, mode_id );
 		}{
 			RC<SceneGraphicsPass>	pass = scene_indirect_draw.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/Culling/2-DepthTest.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthTest.as)
+			pass.AddPipeline( "perf/Culling/2-DepthTest.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthTest.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.ArgIn(  "un_RemapIdx",	remap_idx );
@@ -401,7 +401,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene_indirect_draw.AddGraphicsPass( "HiZ" );
-			pass.AddPipeline( "perf/Culling/2-DepthTest.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthTest.as)
+			pass.AddPipeline( "perf/Culling/2-DepthTest.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthTest.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.ArgIn(  "un_RemapIdx",	remap_idx );
@@ -415,7 +415,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene_indirect_draw.AddGraphicsPass( "DPP" );
-			pass.AddPipeline( "perf/Culling/2-DepthPrePass.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthPrePass.as)
+			pass.AddPipeline( "perf/Culling/2-DepthPrePass.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthPrePass.as)
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.ArgIn(  "un_RemapIdx",	remap_idx );
 			pass.Constant( "iRemapIdx",	1 );
@@ -423,7 +423,7 @@
 			pass.Repeat( repeat );
 		}{
 			RC<SceneGraphicsPass>	pass = scene_indirect_draw.AddGraphicsPass( "HiZ draw" );
-			pass.AddPipeline( "perf/Culling/2-DepthEqual.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthEqual.as)
+			pass.AddPipeline( "perf/Culling/2-DepthEqual.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthEqual.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds );
 			pass.ArgIn(  "un_RemapIdx",	remap_idx );
@@ -440,14 +440,14 @@
 			pass.EnableIfEqual( mode, mode_id );
 			pass.Repeat( repeat );
 			{
-				pass.AddPipeline( "perf/Culling/2-DepthPrePass-p0.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthPrePass-p0.as)
+				pass.AddPipeline( "perf/Culling/2-DepthPrePass-p0.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthPrePass-p0.as)
 				pass.Output(				ds,		DepthStencil(1.0, 0) );
 				pass.ArgIn(  "un_RemapIdx",	remap_idx );
 				pass.Constant( "iRemapIdx",	1 );
 			}
 			pass.NextSubpass( "HiZ draw" );
 			{
-				pass.AddPipeline( "perf/Culling/2-DepthEqual-p1.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/2-DepthEqual-p1.as)
+				pass.AddPipeline( "perf/Culling/2-DepthEqual-p1.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/2-DepthEqual-p1.as)
 				pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 				pass.Output(				ds );
 				pass.ArgIn(  "un_RemapIdx",	remap_idx );
@@ -458,7 +458,7 @@
 
 		// calculate HiZ
 		{
-			// see [GenHiZ-1](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/perf/GenHiZ-1.as) and [GenHiZ-2](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/perf/GenHiZ-2.as)
+			// see [GenHiZ-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/GenHiZ-1.as) and [GenHiZ-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/GenHiZ-2.as)
 			// for simplification reprojection from previous frame is not used
 
 			RC<Postprocess>		pass = Postprocess( "", "MIPMAP_0" );	// non-POT to POT image
@@ -597,15 +597,15 @@
 		if ( iCullMode == 1 )
 			return true;
 
-		// see [ProjectSphere test](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/tests/ProjectSphere.as)
-		// and [Quad shader](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/ProjectSphere.as)
+		// see [ProjectSphere test](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/tests/ProjectSphere.as)
+		// and [Quad shader](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ProjectSphere.as)
 		if ( sphere_center.z - sphere_radius < znear )
 			return true;  // too close to camera
 
 		float4	aabb = Sphere_FastProject( Sphere_Create( sphere_center, sphere_radius ), un_PerPass.camera.proj[0][0], un_PerPass.camera.proj[1][1] );
 				aabb = ToUNorm( aabb );	// to uv space
 
-		// see [DepthPyramidCulling test](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/tests/DepthPyramidCulling.as)
+		// see [DepthPyramidCulling test](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/tests/DepthPyramidCulling.as)
 		float2	size		= float2( aabb.z - aabb.x, aabb.w - aabb.y ) * iPyramidDim;
 		float2	center		= (aabb.xy + aabb.zw) * 0.5;
 		float	level		= Ceil( Log2( MaxOf( size )));

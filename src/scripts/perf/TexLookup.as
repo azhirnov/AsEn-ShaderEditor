@@ -84,7 +84,7 @@
 
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "sequential lookup" );
-			pass.AddPipeline( "perf/TexLookup-1a.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/TexLookup-1a.as)
+			pass.AddPipeline( "perf/TexLookup-1a.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TexLookup-1a.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.Slider( "iScale",	0.25f,	2.f,	1.f );
 			pass.Slider( "iBias",	0.f,	1.f,	0.f );
@@ -92,7 +92,7 @@
 			pass.Repeat( count );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "UV noise" );
-			pass.AddPipeline( "perf/TexLookup-1b.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/TexLookup-1b.as)
+			pass.AddPipeline( "perf/TexLookup-1b.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TexLookup-1b.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.Slider( "iStep",	0,	4,	4 );
 			pass.Slider( "iOffset",	0,	1,	0 );

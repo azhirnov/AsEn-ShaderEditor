@@ -56,7 +56,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "tests/Triangulation.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/Triangulation.as)
+			draw.AddPipeline( "tests/Triangulation.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/Triangulation.as)
 			draw.Output( "out_Color", rt, RGBA32f( 0.3, 0.5, 1.0, 1.0 ));
 			draw.Output( ds, DepthStencil( 1.f, 0 ));
 			draw.Slider( "iDbgNormals",	0, 1 );

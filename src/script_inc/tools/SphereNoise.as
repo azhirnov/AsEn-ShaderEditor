@@ -1,6 +1,6 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
 //
-// [shader](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/shaders/tools/SphereNoise.glsl)
+// [shader](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/shaders/tools/SphereNoise.glsl)
 //
 // functions:
 //	void  AddNoise (float params [14]);
@@ -204,7 +204,7 @@ void  SetupSphereNoise (SetupPasses_t @setupPasses)
 		pass.EnableIfEqual( view_mode,	1 );
 	}{
 		RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "parallax" );
-		draw.AddPipeline( "tools/SphereNoise-Parlx.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tools/SphereNoise-Parlx.as)
+		draw.AddPipeline( "tools/SphereNoise-Parlx.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tools/SphereNoise-Parlx.as)
 		draw.Output(	"out_Color",	rt,		RGBA32f(0.0) );
 		draw.Output(					ds,		DepthStencil(1.f, 0) );
 		draw.Constant(	"iHeight",		dyn_height );
@@ -214,7 +214,7 @@ void  SetupSphereNoise (SetupPasses_t @setupPasses)
 	if ( Supports_TessellationShader() )
 	{
 		RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "tessellation" );
-		draw.AddPipeline( "tools/SphereNoise-Tess.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tools/SphereNoise-Tess.as)
+		draw.AddPipeline( "tools/SphereNoise-Tess.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tools/SphereNoise-Tess.as)
 		draw.Output(	"out_Color",	rt,		RGBA32f(0.0) );
 		draw.Output(					ds,		DepthStencil(1.f, 0) );
 		draw.Slider(	"iTessLevel",	1.f,	64.f,	16.f );

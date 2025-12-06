@@ -1,7 +1,7 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
 /*
 	related:
-	* [project lights to clusters](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/light-cull/test-LightVolToClusters.as)
+	* [project lights to clusters](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/light-cull/test-LightVolToClusters.as)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>

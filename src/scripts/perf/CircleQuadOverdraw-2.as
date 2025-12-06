@@ -176,7 +176,7 @@
 		for (uint i = 0; i < scenes.size(); ++i)
 		{
 			RC<SceneGraphicsPass>	pass = scenes[i].AddGraphicsPass( "v"+i );
-			pass.AddPipeline( "perf/CircleQuadOverdraw-2.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/CircleQuadOverdraw-2.as)
+			pass.AddPipeline( "perf/CircleQuadOverdraw-2.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/CircleQuadOverdraw-2.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.Constant( "iMaxInstancePow2", po2_count );
 			pass.EnableIfEqual( shape, i );

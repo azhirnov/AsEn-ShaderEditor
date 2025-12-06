@@ -58,7 +58,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "barycentrics" );
-			pass.AddPipeline( "tests/TriangleBarycentrics.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/TriangleBarycentrics.as)
+			pass.AddPipeline( "tests/TriangleBarycentrics.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/TriangleBarycentrics.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.Slider( "iMode",		0,		3 );
 			pass.Slider( "iCmp",		0,		2 );
@@ -69,7 +69,7 @@
 			pass.EnableIfEqual( mode, 0 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "derivatives" );
-			pass.AddPipeline( "tests/UVDerivatives.as" );			// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/UVDerivatives.as)
+			pass.AddPipeline( "tests/UVDerivatives.as" );			// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/UVDerivatives.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.Slider( "iMode",		0,		5 );
 			pass.Slider( "iCmp",		0,		3 );

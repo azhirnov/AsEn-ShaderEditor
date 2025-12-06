@@ -100,13 +100,13 @@
 			pass.DispatchThreads( global_size );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "spheres" );
-			pass.AddPipeline( "tests/ProjectSphere.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/ProjectSphere.as)
+			pass.AddPipeline( "tests/ProjectSphere.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ProjectSphere.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iLight",	light_dir );
 		}{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "quads" );
-			pass.AddPipeline( "tests/ProjectSphere.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/ProjectSphere.as)
+			pass.AddPipeline( "tests/ProjectSphere.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ProjectSphere.as)
 			pass.Output( "out_Color",	rt );
 			pass.Output(				ds );
 			pass.Constant( "iLight",	light_dir );

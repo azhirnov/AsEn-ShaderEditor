@@ -2,7 +2,7 @@
 /*
 	Find difference between texture array and array of texture.
 
-	results in [Bindless paper](https://github.com/azhirnov/as-en/blob/dev/AE/docs/papers/Bindless-ru.md)
+	results in [Bindless paper](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/Bindless-ru.md)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>
@@ -68,7 +68,7 @@
 			args.Add( "array",	images );
 			args.Add( "layers",	img_arr );
 
-			RunScript( "NonUniform-GenImages.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/callable/NonUniform-GenImages.as)
+			RunScript( "NonUniform-GenImages.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/callable/NonUniform-GenImages.as)
 		}
 
 		obj_buf.ArrayLayout(
@@ -166,7 +166,7 @@
 		uint	mode_id = 0;
 		{
 			RC<SceneGraphicsPass>	pass = scene0.AddGraphicsPass( "tex array" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex1.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Tex1.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex1.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex1.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -176,7 +176,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene1.AddGraphicsPass( "tex bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex2.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Tex2.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex2.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex2.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -186,7 +186,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "sampler bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Samp.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Samp.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Samp.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Samp.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -196,7 +196,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene0.AddGraphicsPass( "per warp tex array" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerWarp.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Tex1-PerWarp.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerWarp.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex1-PerWarp.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -206,7 +206,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene1.AddGraphicsPass( "per warp tex bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerWarp.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Tex2-PerWarp.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerWarp.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex2-PerWarp.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -216,7 +216,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "per warp sampler bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerWarp.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Samp-PerWarp.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerWarp.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Samp-PerWarp.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -226,7 +226,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene0.AddGraphicsPass( "per quad tex array" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerQuad.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Tex1-PerQuad.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerQuad.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex1-PerQuad.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -236,7 +236,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene1.AddGraphicsPass( "per quad tex bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerQuad.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Tex2-PerQuad.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerQuad.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex2-PerQuad.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -246,7 +246,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "per quad sampler bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerQuad.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Samp-PerQuad.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerQuad.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Samp-PerQuad.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -256,7 +256,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene0.AddGraphicsPass( "per pixel tex array" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerPix.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Tex1-PerPix.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerPix.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex1-PerPix.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -266,7 +266,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene1.AddGraphicsPass( "per pixel tex bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerPix.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Tex2-PerPix.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerPix.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex2-PerPix.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -276,7 +276,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "per pixel sampler bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerPix.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/NonUniform-Stress/Samp-PerPix.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerPix.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Samp-PerPix.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );

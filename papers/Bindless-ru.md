@@ -246,7 +246,7 @@ Bindless техники позволяют перенести больше ло�
 ## Prefix Scan
 
 Один из этапов GPU Driven подхода - проверка видимости объектов и их удаление из очереди рисования.
-Проверка видимости выполняется через frustum culling, [HiZ](https://github.com/azhirnov/as-en/blob/AE/docs/papers/GeometryCulling-ru.md#hierarchy-z-buffer-hzb-hiz), [Raster occlusion](https://github.com/azhirnov/as-en/blob/AE/docs/papers/GeometryCulling-ru.md#raster-occlusion) и тд.
+Проверка видимости выполняется через frustum culling, [HiZ](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/GeometryCulling-ru.md#hierarchy-z-buffer-hzb-hiz), [Raster occlusion](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/GeometryCulling-ru.md#raster-occlusion) и тд.
 После проверки видимости получаем массив из ID объектов и пустые элементы, чтобы сгруппировать ID используется prefix scan / prefix sum алгоритм.
 Примеры: [PrefixScan-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-1.as), [PrefixScan-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-2.as).
 

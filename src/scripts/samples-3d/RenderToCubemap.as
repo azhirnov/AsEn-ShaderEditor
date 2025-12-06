@@ -65,7 +65,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "opaque" );
-			draw.AddPipeline( "samples/Model-Cubemap.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/Model-Cubemap.as)
+			draw.AddPipeline( "samples/Model-Cubemap.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Model-Cubemap.as)
 			draw.Output( "out_Color", cubemap_rt, RGBA32f(0.0f, 1.f, 1.f, 1.f) );
 			draw.Output( cubemap_ds, DepthStencil(1.f, 0) );
 			draw.ArgIn( "un_CBuf",	cbuf );

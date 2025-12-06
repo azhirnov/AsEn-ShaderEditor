@@ -1,6 +1,6 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
 //
-// [shader](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/shaders/tools/TerrainNoise.glsl)
+// [shader](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/shaders/tools/TerrainNoise.glsl)
 //
 // functions:
 //	void  AddNoise (float params [14]);
@@ -207,7 +207,7 @@ void  SetupTerrainNoise (SetupPasses_t @setupPasses)
 		pass.EnableIfEqual( view_mode, 1 );
 	}{
 		RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "terrain" );
-		pass.AddPipeline( "tools/Terrain.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tools/Terrain.as)
+		pass.AddPipeline( "tools/Terrain.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tools/Terrain.as)
 		pass.Output(	"out_Color",	rt,		RGBA32f(0.3, 0.5, 1.0, 1.0) );
 		pass.Output(					ds,		DepthStencil(1.f, 0) );
 		pass.Constant(	"iSize",		dyn_ter_size );

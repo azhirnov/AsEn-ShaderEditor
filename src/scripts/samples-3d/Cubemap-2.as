@@ -68,7 +68,7 @@
 			GenMipmaps( cubemap_view );
 		}{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/Cubemap.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/Cubemap.as)
+			draw.AddPipeline( "samples/Cubemap.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Cubemap.as)
 			draw.Output( "out_Color", rt, RGBA32f(0.0) );
 		}
 		Present( rt );

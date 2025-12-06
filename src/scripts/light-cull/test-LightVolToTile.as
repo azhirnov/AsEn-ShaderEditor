@@ -4,7 +4,7 @@
 	Used in tiled deferred shading.
 
 	related:
-	* [frustum culling](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/scripts/geom-cull/FrustumCulling.as)
+	* [frustum culling](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/FrustumCulling.as)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>

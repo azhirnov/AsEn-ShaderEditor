@@ -139,7 +139,7 @@
 
 		{
 			RC<SceneGraphicsPass>	pass = scene_aabb.AddGraphicsPass( "raster cull" );
-			pass.AddPipeline( "perf/Culling/RasterCull.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/RasterCull.as)
+			pass.AddPipeline( "perf/Culling/RasterCull.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/RasterCull.as)
 			pass.OutputLS(					ds,		EAttachmentLoadOp::Load,	EAttachmentStoreOp::None );
 			pass.ArgInOut( "un_VisFlags",	vis_flags );
 		}{
@@ -151,7 +151,7 @@
 			pass.DispatchThreads( count3d );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/Culling/1-DepthTest.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Culling/1-DepthTest.as)
+			pass.AddPipeline( "perf/Culling/1-DepthTest.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Culling/1-DepthTest.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.ArgIn(  "un_RemapIdx",	remap_idx );

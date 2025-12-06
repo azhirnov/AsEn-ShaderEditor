@@ -30,7 +30,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "grid" );
-			pass.AddPipeline( "tests/NanVertex.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/NanVertex.as)
+			pass.AddPipeline( "tests/NanVertex.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/NanVertex.as)
 			pass.Output( "out_Color",		rt,		RGBA32f(0.3, 0.5, 1.0, 1.0) );
 		}
 

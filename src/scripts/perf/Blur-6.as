@@ -110,7 +110,7 @@
 			// Downscale
 			{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/2 horizontal" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt1h );
 				pass.ArgIn(  "un_Texture",		emission_hdr,	Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(1.0, 0.0) );
@@ -118,7 +118,7 @@
 				pass.SetDebugLabel( "downsample 1/2 horizontal", RGBA32f(1.0, 0.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/2 vertical" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt1v );
 				pass.ArgIn(  "un_Texture",		down_rt1h,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(0.0, 0.5) );
@@ -126,7 +126,7 @@
 				pass.SetDebugLabel( "downsample 1/2 vertical", RGBA32f(1.0, 0.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/4 horizontal" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt2h );
 				pass.ArgIn(  "un_Texture",		down_rt1v,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(1.0, 0.0) );
@@ -134,7 +134,7 @@
 				pass.SetDebugLabel( "downsample 1/4 horizontal", RGBA32f(0.5, 1.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/4 vertical" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt2v );
 				pass.ArgIn(  "un_Texture",		down_rt2h,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(0.0, 0.5) );
@@ -142,7 +142,7 @@
 				pass.SetDebugLabel( "downsample 1/4 vertical", RGBA32f(0.5, 1.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/8 horizontal" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt3h );
 				pass.ArgIn(  "un_Texture",		down_rt2v,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(1.0, 0.0) );
@@ -150,7 +150,7 @@
 				pass.SetDebugLabel( "downsample 1/8 horizontal", RGBA32f(0.5, 1.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/8 vertical" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt3v );
 				pass.ArgIn(  "un_Texture",		down_rt3h,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(0.0, 0.5) );
@@ -158,7 +158,7 @@
 				pass.SetDebugLabel( "downsample 1/8 vertical", RGBA32f(0.5, 1.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/16 horizontal" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt4h );
 				pass.ArgIn(  "un_Texture",		down_rt3v,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(1.0, 0.0) );
@@ -166,7 +166,7 @@
 				pass.SetDebugLabel( "downsample 1/16 horizontal", RGBA32f(0.5, 1.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/16 vertical" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt4v );
 				pass.ArgIn(  "un_Texture",		down_rt4h,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(0.0, 0.5) );
@@ -174,7 +174,7 @@
 				pass.SetDebugLabel( "downsample 1/16 vertical", RGBA32f(0.5, 1.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/32 horizontal" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt5h );
 				pass.ArgIn(  "un_Texture",		down_rt4v,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(1.0, 0.0) );
@@ -182,7 +182,7 @@
 				pass.SetDebugLabel( "downsample 1/32 horizontal", RGBA32f(0.5, 1.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/32 vertical" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt5v );
 				pass.ArgIn(  "un_Texture",		down_rt5h,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(0.0, 0.5) );
@@ -190,7 +190,7 @@
 				pass.SetDebugLabel( "downsample 1/32 vertical", RGBA32f(0.5, 1.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/64 horizontal" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt6h );
 				pass.ArgIn(  "un_Texture",		down_rt5v,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(1.0, 0.0) );
@@ -198,7 +198,7 @@
 				pass.SetDebugLabel( "downsample 1/64 horizontal", RGBA32f(0.5, 1.0, 0.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "downsample 1/64 vertical" );
-				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-down.as)
+				pass.AddPipeline( "perf/Blur-6-down.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-down.as)
 				pass.Output( "out_Color",		down_rt6v );
 				pass.ArgIn(  "un_Texture",		down_rt6h,		Sampler_LinearClamp );
 				pass.Constant( "iDirection",	float2(0.0, 0.5) );
@@ -209,7 +209,7 @@
 			// Upscale
 			{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "upsample 1/32" );
-				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-up.as)
+				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-up.as)
 				pass.Output( "out_Color",		up_rt5 );
 				pass.ArgIn( "un_HalfSize",		down_rt6v,		Sampler_LinearClamp );
 				pass.ArgIn( "un_FullSize",		down_rt5v,		Sampler_NearestClamp );		// TODO: blending
@@ -218,7 +218,7 @@
 				pass.SetDebugLabel( "upsample 1/32", RGBA32f(0.0, 0.5, 1.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "upsample 1/16" );
-				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-up.as)
+				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-up.as)
 				pass.Output( "out_Color",		up_rt4 );
 				pass.ArgIn( "un_HalfSize",		up_rt5,			Sampler_LinearClamp );
 				pass.ArgIn( "un_FullSize",		down_rt4v,		Sampler_NearestClamp );
@@ -227,7 +227,7 @@
 				pass.SetDebugLabel( "upsample 1/16", RGBA32f(0.0, 0.5, 1.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "upsample 1/8" );
-				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-up.as)
+				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-up.as)
 				pass.Output( "out_Color",		up_rt3 );
 				pass.ArgIn( "un_HalfSize",		up_rt4,			Sampler_LinearClamp );
 				pass.ArgIn( "un_FullSize",		down_rt3v,		Sampler_NearestClamp );
@@ -236,7 +236,7 @@
 				pass.SetDebugLabel( "upsample 1/8", RGBA32f(0.0, 0.5, 1.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "upsample 1/4" );
-				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-up.as)
+				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-up.as)
 				pass.Output( "out_Color",		up_rt2 );
 				pass.ArgIn( "un_HalfSize",		up_rt3,			Sampler_LinearClamp );
 				pass.ArgIn( "un_FullSize",		down_rt2v,		Sampler_NearestClamp );
@@ -245,7 +245,7 @@
 				pass.SetDebugLabel( "upsample 1/4", RGBA32f(0.0, 0.5, 1.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "upsample 1/2" );
-				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-up.as)
+				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-up.as)
 				pass.Output( "out_Color",		up_rt1 );
 				pass.ArgIn( "un_HalfSize",		up_rt2,			Sampler_LinearClamp );
 				pass.ArgIn( "un_FullSize",		down_rt1v,		Sampler_NearestClamp );
@@ -254,7 +254,7 @@
 				pass.SetDebugLabel( "upsample 1/2", RGBA32f(0.0, 0.5, 1.0, 1.0) );
 			}{
 				RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "upsample 1/1" );
-				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Blur-6-up.as)
+				pass.AddPipeline( "perf/Blur-6-up.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Blur-6-up.as)
 				pass.Output( "out_Color",		up_rt0 );
 				pass.ArgIn( "un_HalfSize",		up_rt1,			Sampler_LinearClamp );
 				pass.ArgIn( "un_FullSize",		emission_hdr,	Sampler_NearestClamp );

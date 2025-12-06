@@ -131,7 +131,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/Subgroups-2a.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Subgroups-2a.as)
+			pass.AddPipeline( "perf/Subgroups-2a.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Subgroups-2a.as)
 			pass.Output(   "out_Color",		rt,		RGBA32f(0.0) );
 			pass.Constant( "iMode",			mode );
 			pass.Constant( "iWithOffset",	with_offset );
@@ -140,7 +140,7 @@
 			pass.EnableIfEqual( draw_mode, 0 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/Subgroups-2b.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Subgroups-2b.as)
+			pass.AddPipeline( "perf/Subgroups-2b.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Subgroups-2b.as)
 			pass.Output(   "out_Color",		rt,		RGBA32f(0.0) );
 			pass.Constant( "iMode",			mode );
 			pass.Constant( "iWithOffset",	with_offset );
@@ -150,7 +150,7 @@
 			pass.EnableIfEqual( draw_mode, 1 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/Subgroups-2c.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/perf/Subgroups-2c.as)
+			pass.AddPipeline( "perf/Subgroups-2c.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/Subgroups-2c.as)
 			pass.Output(   "out_Color",		rt,		RGBA32f(0.0) );
 			pass.Constant( "iMode",			mode );
 			pass.Constant( "iScale",		scale );

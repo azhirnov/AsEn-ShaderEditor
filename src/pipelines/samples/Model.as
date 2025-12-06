@@ -22,7 +22,7 @@
 		}
 		{
 			RC<GraphicsPipeline>	ppln = GraphicsPipeline( prefix+"t" );
-			ppln.SetLayout( "model.pl" );	// [InitPipelineLayout()](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipeline_inc/ModelTypes.as)
+			ppln.SetLayout( "model.pl" );	// [InitPipelineLayout()](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipeline_inc/ModelTypes.as)
 
 			if ( withUV and withNorm )	ppln.SetVertexInput( "VB{Posf3, Normf3, UVf2}" );	else
 			if ( withNorm )				ppln.SetVertexInput( "VB{Posf3, Normf3}" );			else

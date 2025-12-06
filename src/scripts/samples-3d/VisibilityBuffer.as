@@ -46,13 +46,13 @@
 		// render loop
 		{
 			RC<SceneRayTracingPass>	pass = scene.AddRayTracingPass( "fill VisBuffer" );
-			pass.SetPipeline( "samples/VisibilityBuffer-pass1.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/VisibilityBuffer-pass1.as)
+			pass.SetPipeline( "samples/VisibilityBuffer-pass1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/VisibilityBuffer-pass1.as)
 			pass.ArgOut( "un_IDBuffer",		idbuf );
 			pass.ArgOut( "un_Depth",		ds );
 			pass.Dispatch( rt.Dimension() );
 		}{
 			RC<SceneRayTracingPass>	pass = scene.AddRayTracingPass( "resolve VisBuffer" );
-			pass.SetPipeline( "samples/VisibilityBuffer-pass2.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/VisibilityBuffer-pass2.as)
+			pass.SetPipeline( "samples/VisibilityBuffer-pass2.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/VisibilityBuffer-pass2.as)
 			pass.ArgOut( "un_ColorBuf",		rt );
 			pass.ArgIn(  "un_IDBuffer",		idbuf );
 			pass.ArgIn(  "un_Depth",		ds );

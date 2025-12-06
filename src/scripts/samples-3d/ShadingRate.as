@@ -50,7 +50,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/ShadingRate.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/ShadingRate.as)
+			draw.AddPipeline( "samples/ShadingRate.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/ShadingRate.as)
 			draw.Output( "out_Color", rt, RGBA32f(0.0) );
 			draw.Output( ds, DepthStencil(1.f, 0) );
 
@@ -65,7 +65,7 @@
 			pass.EnableIfGreater( mode, 0 );
 		}{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/ShadingRate.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/ShadingRate.as)
+			draw.AddPipeline( "samples/ShadingRate.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/ShadingRate.as)
 			draw.Output( "out_Color", rt, RGBA32f(0.0) );
 			draw.Output( ds, DepthStencil(1.f, 0) );
 
@@ -75,7 +75,7 @@
 			draw.EnableIfEqual( mode, 1 );
 		}{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/ShadingRate.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/ShadingRate.as)
+			draw.AddPipeline( "samples/ShadingRate.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/ShadingRate.as)
 			draw.Output( "out_Color", rt, RGBA32f(0.0) );
 			draw.Output( ds, DepthStencil(1.f, 0) );
 

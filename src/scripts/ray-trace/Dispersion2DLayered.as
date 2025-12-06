@@ -171,7 +171,7 @@
 			pass.EnableIfEqual( dbg_mode, 1 );
 		}{
 			RC<SceneGraphicsPass>	draw = raster_scene.AddGraphicsPass( "draw area" );
-			draw.AddPipeline( "samples/Dispersion2D-area.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/Dispersion2D-area.as)
+			draw.AddPipeline( "samples/Dispersion2D-area.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Dispersion2D-area.as)
 			draw.Output( "out_Color", hdr, RGBA32f().OpaqueBlack() );
 			draw.EnableIfEqual( dbg_mode, 0 );
 		}{
@@ -183,7 +183,7 @@
 			pass.EnableIfEqual( dbg_mode, 0 );
 		}{
 			RC<SceneGraphicsPass>	draw = raster_scene.AddGraphicsPass( "draw rays" );
-			draw.AddPipeline( "samples/Dispersion2D-rays.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/Dispersion2D-rays.as)
+			draw.AddPipeline( "samples/Dispersion2D-rays.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Dispersion2D-rays.as)
 			draw.Output( "out_Color", rt );
 			draw.EnableIfEqual( dbg_mode, 1 );
 		}

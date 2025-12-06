@@ -118,7 +118,7 @@
 		// render loop //
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw scene" );
-			pass.AddPipeline( "samples/SS-Particles-Scene.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/SS-Particles-Scene.as)
+			pass.AddPipeline( "samples/SS-Particles-Scene.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/SS-Particles-Scene.as)
 			pass.Output(	"out_Color",		rt,			RGBA32f(0.0) );
 			pass.Output(	"out_Normals",		norm,		RGBA32f(0.0) );
 			pass.Output(						ds,			DepthStencil(1.0, 0) );
@@ -141,7 +141,7 @@
 			pass.DispatchGroups( p_count );
 		}{
 			RC<SceneGraphicsPass>	pass = scene_vfx.AddGraphicsPass( "particles" );
-			pass.AddPipeline( "particles/Rays-i.as" );		// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/particles/Rays-i.as)
+			pass.AddPipeline( "particles/Rays-i.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/particles/Rays-i.as)
 			pass.Output(	"out_Color",		rt );
 			pass.Output(						ds );
 			pass.Slider(	"iSize",			0.5,		4.0,		1.0 );

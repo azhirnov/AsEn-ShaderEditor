@@ -28,20 +28,20 @@
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "subpass-1" );
 			{
-				draw.AddPipeline( "tests/Subpass1.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/Subpass1.as)
+				draw.AddPipeline( "tests/Subpass1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/Subpass1.as)
 				draw.Output( "out_Color1",	rt1,	RGBA32f(0.f) );
 				draw.Output( "Depth1",		ds1,	DepthStencil(1.f, 0) );
 			}
 			draw.NextSubpass( "subpass-2" );
 			{
-				draw.AddPipeline( "tests/Subpass1.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/Subpass1.as)
+				draw.AddPipeline( "tests/Subpass1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/Subpass1.as)
 				draw.Output( "Depth2",		ds2,	DepthStencil(1.f, 0) );
 				draw.Output( "out_Color2",	rt2,	RGBA32f(0.f) );
 				draw.Constant( "iSubpass1",	1 );
 			}
 			draw.NextSubpass( "subpass-3" );
 			{
-				draw.AddPipeline( "tests/Subpass2.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/Subpass2.as)
+				draw.AddPipeline( "tests/Subpass2.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/Subpass2.as)
 				draw.Input( "in_Color2",	rt2,			"out_Color2" );
 				draw.Input( "in_Depth1",	ds1,			"Depth1" );
 				draw.Input( "in_Depth2",	ds2,			"Depth2" );

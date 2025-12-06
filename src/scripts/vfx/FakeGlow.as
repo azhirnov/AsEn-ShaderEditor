@@ -71,7 +71,7 @@
 			pass.AddFlag( EPassFlags::Enable_ShaderTrace );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "samples/FakeGlow.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/samples/FakeGlow.as)
+			pass.AddPipeline( "samples/FakeGlow.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/FakeGlow.as)
 			pass.ArgIn(  "un_VBuffer",	vbuf );
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.Slider( "iIsolines",	0,		1 );

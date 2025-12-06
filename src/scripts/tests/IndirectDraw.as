@@ -85,7 +85,7 @@
 			pass.DispatchThreads( 1 );
 		}{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "tests/IndirectDraw.as" );	// [src](https://github.com/azhirnov/as-en/blob/dev/AE/samples/res_editor/_data/pipelines/tests/IndirectDraw.as)
+			draw.AddPipeline( "tests/IndirectDraw.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/IndirectDraw.as)
 			draw.Output( "out_Color",	rt, RGBA32f(0.f) );
 			draw.Output(				ds, DepthStencil(1.f, 0) );
 		}

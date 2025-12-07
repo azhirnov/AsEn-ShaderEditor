@@ -149,7 +149,7 @@
 > То же самое со вторым мипом: 12 при уменьшении это 6 что за пределами третьего мипа.
 
 Здесь один мип-уровень сравнивается с более высоким. Красным обозначены места, где сместились координаты и максимальные значения не совпадают.
-![](img/Cull_NonPOT_MipError.png)
+![](img/other/Cull_NonPOT_MipError.png)
 
 Есть 2 варианта решения проблемы:
 * Сначала уменьшить до степени 2, затем расчитывать мип-уровни. [Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-1.as).
@@ -158,7 +158,7 @@
 * Для каждого мип уровня выбирать какие пиксели из верхнего уровня влияют на него. [Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-2.as).
 
 [Пример HiZ с визуализацией для отладки](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-HiZ-DebugVis.as)<br/>
-![](img/Cull_HiZ-DebugVis.png)
+![](img/other/Cull_HiZ-DebugVis.png)
 
 </details>
 

@@ -13,9 +13,9 @@
 * Чем больше FOV тем больше искажения по краям, так как часть сферы проецируется на плоскость.
 * Из-за искажений плотность пикселей в центре меньше, чем по краям. Это создает проблемы при изменении проекции пост-процессом.
 
-![](img/Proj_Rectilinear-1.jpg)
-![](img/Proj_Rectilinear-2.jpg)
-![](img/Proj_Rectilinear-3.jpg)
+![](img/projections/Proj_Rectilinear-1.jpg)
+![](img/projections/Proj_Rectilinear-2.jpg)
+![](img/projections/Proj_Rectilinear-3.jpg)
 
 ## Стереографическая проекция (Stereographical)
 
@@ -31,9 +31,9 @@
 * Некомфортно смотреть в динамике.
 * При fovY>120° начинаются искажения на полюсах, но для ультраширокого монитора fov={360°, 101°}.
 
-![](img/Proj_Stereographical-1.jpg)
-![](img/Proj_Stereographical-2.jpg)
-![](img/Proj_Stereographical-3.jpg)
+![](img/projections/Proj_Stereographical-1.jpg)
+![](img/projections/Proj_Stereographical-2.jpg)
+![](img/projections/Proj_Stereographical-3.jpg)
 
 ## Panini
 
@@ -49,9 +49,9 @@
 * Горизонтальные линии немного искажаются.
 * Максимальный угол 180°.
 
-![](img/Proj_Panini-1.jpg)
-![](img/Proj_Panini-2.jpg)
-![](img/Proj_Panini-3.jpg)
+![](img/projections/Proj_Panini-1.jpg)
+![](img/projections/Proj_Panini-2.jpg)
+![](img/projections/Proj_Panini-3.jpg)
 
 
 ## Особенности проекций на 180°
@@ -76,4 +76,3 @@
 * [RayTracingGems2: Essential Ray Generation Shaders](https://www.researchgate.net/publication/354065227_Essential_Ray_Generation_Shaders) - сравнивают разные проекции, есть код для рейтрейса.
 * [Reducing stretch in high-FOV games using barrel distortion](https://www.decarpentier.nl/lens-distortion) - другой способ компенсации искажений через пост-процесс.
 * [Lens Matched Shading](https://developer.nvidia.com/lens-matched-shading-and-unreal-engine-4-integration-part-1) - компенсация искажения для VR через multiview - рисование в 4 текстуры.
-

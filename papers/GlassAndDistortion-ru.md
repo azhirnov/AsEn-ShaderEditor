@@ -10,13 +10,13 @@
 * smoothness > 0.25, блендится мип 1/8 и 1/16
 * в остальных случаях - блендится мип 1/16 и 1/32
 
-![](img/Effect_Glass.jpg)
+![](img/doom/Glass.jpg)
 
 Детали перед стеклом также размываются, что некорректно. В Doom Eternal это исправили закрасив черным все что перед стеклом.<br/>
-![](img/Effect_GlassBug.jpg)
+![](img/doom/GlassBug.jpg)
 
 В Cyberpunk не делают размытие из-за чего видна ступенчатость.<br/>
-![](img/Effect_Glass2.jpg)
+![](img/cp/Glass.jpg)
 
 В статье [Refracting Pixels](https://www.froyok.fr/blog/2024-12-refraction/) разбираются подходы из разных игр, все используют аналогичный подход, отличаются только детали.
 
@@ -28,7 +28,7 @@
 
 Эффект описан еще в [GPU Gems 2: Generic Refraction Simulation](https://developer.nvidia.com/gpugems/gpugems2/part-ii-shading-lighting-and-shadows/chapter-19-generic-refraction-simulation).
 
-![](img/Effect_Distortion.jpg)
+![](img/doom/Distortion.jpg)
 
 [Пример DistortionMap](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/posteffects/DistortionMap.as).
 

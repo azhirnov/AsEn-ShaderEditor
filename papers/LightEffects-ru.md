@@ -30,26 +30,26 @@
 
 В Doom 2016 как и в Doom 3 объемный свет рисуется через геометрию.
 
-![](img/Effect_VolumeLight.jpg)
+![](img/doom/VolumeLight.jpg)
 
 Также в Doom 2016 есть имитация освещения дыма. Сделано также через геометрию, сбоку смотрится хорошо, но при взгляде прямо на источник света геометрия нереалистично уходит вбок.
 
-![](img/Effect_VolumetricFog.jpg)
+![](img/doom/VolumetricLight2.jpg)
 
 
-![](img/Effect_VolumetricFog2.jpg)
+![](img/doom/VolumetricLight3.jpg)
 
 Эффект разобран в видео [A Game Engine Built For Optimisation](https://www.youtube.com/watch?v=i6VVegoRuy0).<br/>
 Здесь лучи солнца пробивающиеся через крону деревьев заданы вытянутыми спрайтами.
 Для леса спрайты раскиданы случайным образом, плотность зависит от прозрачности кроны деревьев.
 
-![](img/Effect_LightShaftSprite.jpg)
+![](img/other/LightShaftSprite.jpg)
 
 
 В Cyberpunk 2077 эффект сделали маршингом объема и добавили темпоральные техники и DLSS для оптимизации.
 В результате при первом появлении эффекта на экране рисуется только один пиксель из квадрата 2х2 или 4х4, и только после 8/16 кадров эффект полностью отрисуется, но за это время камера сдвинется и появятся ошибки репроекции.
 
-![](img/Effect_VolumeLightDLSS.jpg)
+![](img/cp/VolumeLightDLSS.jpg)
 
 Подробный разбор как создать эффект на спрайтах: [Light beam shader in godot](https://passivestar.xyz/posts/light-beam-shader-in-godot/)
 ![](https://passivestar.xyz/posts/light-beam-shader-in-godot/cover_hu_a49b8b2f6c12256e.jpg)
@@ -57,7 +57,7 @@
 
 ## Light Bulbs
 
-![](img/Effect_LightBulbs.jpg)
+![](img/grw/LightBulbs.jpg)
 
 В GTA V и Ghost Recon Wildlands спрайтами рисуют источники света вдали.
 
@@ -84,7 +84,7 @@
 * После размытия цвет вблизи солнца остается очень ярким и при сложении яркость солнца удваивается и небо поблизости пересвечивается, что плохо смотрится.
   При наложении эффекта нужно корректировать яркость, учитывая что это имитация рассеивания света частицами пыли и туманом/дымкой, поэтому испускаемый свет от угла между светом и камерой, от плотности дымки.
 
-![](img/Effect_LightShafts.jpg)
+![](img/hzd/LightShafts.jpg)
 
 [Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/vfx/LightShafts.as)
 

@@ -419,7 +419,7 @@
 		const float3	line_begin	= line_pos - un_Params.cameraPos - dir * scale;
 		const float3	line_end	= line_pos - un_Params.cameraPos + dir * scale;
 		const Frustum	frustum		= Frustum_Create( un_Params.frustum );
-		bool			is_visible	= Frustum_IsVisible(	frustum, line_begin, line_end );
+		bool			is_visible	= Frustum_IsVisible( frustum, line_begin, line_end );
 
 		un_DrawTasks.params[ idx ]		= float4( dir, 0.0 );
 		un_DrawTasks.isVisible[ idx ]	= is_visible ? 1 : 0;

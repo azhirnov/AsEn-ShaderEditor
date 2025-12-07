@@ -65,9 +65,14 @@ ND_ Frustum		Frustum_ToTile (const Frustum mainFrustum, const int2 tileIdx, cons
 // visibility test is conservative so may have false positive results.
 ND_ bool		Frustum_IsVisible (const Frustum fr, const Sphere sp);
 ND_ bool		Frustum_IsVisible (const Frustum fr, const AABB box);
-ND_ bool		Frustum_IsVisible (const Frustum fr, const float3 begin, const float3 end);
+ND_ bool		Frustum_IsVisible (const Frustum fr, const float3 lineBegin, const float3 lineEnd);
 ND_ bool		Frustum_IsVisible (const Frustum fr, const float3 point);
 ND_ bool		Frustum_IsVisible (const Frustum fr, const Cone c);
+
+// helper
+ND_ bool		Frustum_IsSphereVisible (const float4 frustumPlanes[6], const float3 sphereCenter, const float radius);
+ND_ bool		Frustum_IsAABBVisible (const float4 frustumPlanes[6], const float3 min, const float3 max);
+ND_ bool		Frustum_IsLineVisible (const float4 frustumPlanes[6], const float3 lineBegin, const float3 lineEnd);
 //-----------------------------------------------------------------------------
 
 
@@ -138,6 +143,16 @@ bool  Frustum_IsVisible (const Frustum fr, const Sphere sp)
 	return invisible < 0.f;
 }
 
+bool  Frustum_IsVisible (const float4 frustumPlanes[6], const Sphere sp)
+{
+	return Frustum_IsVisible( Frustum_Create( frustumPlanes ), sp );
+}
+
+bool  Frustum_IsSphereVisible (const float4 frustumPlanes[6], const float3 sphereCenter, const float radius)
+{
+	return Frustum_IsVisible( Frustum_Create( frustumPlanes ), Sphere_Create( sphereCenter, radius ));
+}
+
 /*
 =================================================
 	Frustum_IsVisible (AABB)
@@ -167,6 +182,16 @@ bool  Frustum_IsVisible (const Frustum fr, const AABB box)
 	return Frustum_TestAABB_v1( fr, box );
 }
 
+bool  Frustum_IsVisible (const float4 frustumPlanes[6], const AABB box)
+{
+	return Frustum_IsVisible( Frustum_Create( frustumPlanes ), box );
+}
+
+bool  Frustum_IsAABBVisible (const float4 frustumPlanes[6], const float3 min, const float3 max)
+{
+	return Frustum_IsVisible( Frustum_Create( frustumPlanes ), AABB_Create( min, max ));
+}
+
 /*
 =================================================
 	Frustum_IsVisible (Line)
@@ -188,6 +213,11 @@ bool  Frustum_IsVisible (const Frustum fr, const float3 begin, const float3 end)
 	return Frustum_TestLine_v1( fr, begin, end );
 }
 
+bool  Frustum_IsLineVisible (const float4 frustumPlanes[6], const float3 lineBegin, const float3 lineEnd)
+{
+	return Frustum_IsVisible( Frustum_Create( frustumPlanes ), lineBegin, lineEnd );
+}
+
 /*
 =================================================
 	Frustum_IsVisible (Point)
@@ -201,6 +231,11 @@ bool  Frustum_IsVisible (const Frustum fr, const float3 point)
 		invisible += LessF( Plane_Distance( fr.planes[i], point ), 0.0 );
 	}
 	return invisible < 0.f;
+}
+
+bool  Frustum_IsVisible (const float4 frustumPlanes[6], const float3 point)
+{
+	return Frustum_IsVisible( Frustum_Create( frustumPlanes ), point );
 }
 
 /*
@@ -267,6 +302,11 @@ bool  Frustum_TestCone_v3 (const Frustum fr, const Cone c)
 bool  Frustum_IsVisible (const Frustum fr, const Cone c)
 {
 	return Frustum_TestCone_v3( fr, c );
+}
+
+bool  Frustum_IsVisible (const float4 frustumPlanes[6], const Cone c)
+{
+	return Frustum_IsVisible( Frustum_Create( frustumPlanes ), c );
 }
 
 /*

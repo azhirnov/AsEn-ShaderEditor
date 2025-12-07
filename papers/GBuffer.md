@@ -1,3 +1,4 @@
+Size and content of GBuffer in games.
 
 
 # Horizon Forbidden West (PC)
@@ -5,6 +6,8 @@
 
 
 # Ghost Recon Wildlands
+
+## GBuffer pass
 
 * Color0 - sRGB8_A8 - diffuse from texture
 * Color1 - RGBA8_UNorm - normals
@@ -20,10 +23,14 @@ Total:
 * depth-stencil: 4 bytes + 1 byte
 * sum: 29 bytes
 
+## After GBuffer pass
+
 HDR color target: RGBA16F - after GBuffer pass
 
 
 # Cyberpunk 2077
+
+## GBuffer pass
 
 * Color0 - RGB10A2_UNorm - diffure
 * Color1 - RGBA10A2_UNorm - normals
@@ -35,6 +42,8 @@ Total:
 * color: 12 bytes
 * depth-stencil: 4 bytes + 1 byte
 * sum: 17 bytes
+
+## After GBuffer pass
 
 Velocity: RGBA16F - separate GBuffer pass (4RT + DS)
 

@@ -556,7 +556,7 @@
 		const float			znear			= un_PerPass.camera.clipPlanes.x;
 
 		// frustum culling
-		if ( ! Frustum_IsVisible( un_PerPass.camera.frustum, obj.position - un_PerPass.camera.pos, sphere_radius ))
+		if ( ! Frustum_IsVisible( un_PerPass.camera.frustum, Sphere_Create( obj.position - un_PerPass.camera.pos, sphere_radius )))
 			return false;
 
 		if ( iCullMode == 1 )

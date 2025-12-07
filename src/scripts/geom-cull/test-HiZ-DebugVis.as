@@ -242,7 +242,7 @@
 		const float			znear			= un_PerPass.camera.clipPlanes.x;
 
 		// frustum culling
-		if ( ! Frustum_IsVisible( un_PerPass.camera.frustum, obj.position - un_PerPass.camera.pos, sphere_radius ))
+		if ( ! Frustum_IsVisible( un_PerPass.camera.frustum, Sphere_Create( obj.position - un_PerPass.camera.pos, sphere_radius )))
 			return false;
 
 		// see [ProjectSphere test](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-ProjectSphere.as)

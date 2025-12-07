@@ -224,10 +224,6 @@ Cluster Culling описан в [Optimizing the Graphics Pipeline with Compute](
 * [Improving Geometry Culling for 'Deus Ex: Mankind Divided'](https://www.gdcvault.com/play/1023678/)
 * [Solving Visibility and Streaming in the The Witcher 3: Wild Hunt with Umbra 3](https://gdcvault.com/play/1020231/Solving-Visibility-and-Streaming-in)
 
-TODO:
-https://medium.com/@Umbra3D
-https://medium.com/@Umbra3D/introduction-to-occlusion-culling-3d6cfb195c79
-
 ## Специфичные оптимизации
 
 Для кубического мира можно сгруппировать все грани с одинаковой нормалью и отсекать их целыми группами, что аналогично PVS, но строится бесплатно.
@@ -423,7 +419,7 @@ AMD 780M и NV RTX2080 отличаются в 2 раза по TFLOPS и в 6 р
 
 ### Мобилки
 
-Старые ГП типа Adreno 505 и Mali T830 долго строят пирамиду глубины (10-20мс). TODO (Проверить D16 и генерацию в FS ?)
+Старые ГП типа Adreno 505 и Mali T830 долго строят пирамиду глубины (10-20мс).
 Adreno 505 плохо справляется со случайным чтением из буфера, что плохо влияет на отсечение на стороне ГП.
 
 Более свежие мобилки уже имеют встроенную оптимизацию, поэтому depth pre-pass и visibility buffer слабо влияют на производительность.

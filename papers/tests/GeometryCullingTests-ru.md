@@ -45,6 +45,7 @@ HiZ и RasterCulling показывают насколько отсечение 
 * [Apple M1](#Apple-M1)
 * [Intel UHD 620](#Intel-UHD-620)
 * [Intel N150](#Intel-N150)
+* [Intel Arc140T](#Intel-Arc140T)
 * [Lavapipe](#Lavapipe)
 * [Mali T830](#ARM-Mali-T830)
 * [Mali G57](#ARM-Mali-G57)
@@ -1679,6 +1680,132 @@ PERF_LEVEL = 2
 | raster culling            |
 | HiZ + pyramid             |
 | HiZ + dpp + pyramid       |
+
+</details>
+
+
+## Intel Arc140T
+
+Количество объектов: 11K<br/>
+Всего треугольников: 33M<br/>
+Осталось объектов после HiZ: 3.2K<br/>
+Осталось объектов после Raster culling: 1.2K<br/>
+
+### VS/Raster/ZS bound
+
+Производительность упирается в растеризатор поэтому raster culling дает наилучшее отсечение чем HiZ.
+
+| technique | 1K | 2K | 4K |
+|---|---|---|---|
+| without ZS                | 1.02   | 1.39   | 2.06   |
+| late ZS, front to back    | 1.22   | 1.81   | 2.41   |
+| early ZS, back to front   | 1.0    | 1.06   | 1.29   |
+| early ZS, discard         | 1.0    | 0.99   | 1.02   |
+|**early ZS, front to back**| 1.0    | 1.0    | 1.0    |
+| depth pre-pass            | 1.97   | 1.97   | 1.81   |
+| vis buf                   | 1.29   | 1.31   | 1.31   |
+| raster culling            |**0.15**|**0.23**|**0.53**|
+| HiZ + pyramid             | 0.33   | 0.46   | 0.66   |
+| HiZ + dpp + pyramid       | 0.63   | 0.74   | 1.0    |
+
+### ALU bound
+
+В 4К производительность упирается в фрагментный шейдер, поэтому эффективнее работает отложенное текстурирование за счет одного прохода растеризации и уменьшения quad overdraw.
+
+| technique | 1K | 2K | 4K |
+|---|---|---|---|
+| without ZS                | 5.6    | 7.22   | 10.0   |
+| late ZS, front to back    | 6.21   | 7.6    | 9.9    |
+| early ZS, back to front   | 2.25   | 2.64   | 3.33   |
+|**early ZS, front to back**| 1.0    | 1.0    | 1.0    |
+| depth pre-pass            | 1.47   | 1.22   | 0.95   |
+| defer texturing           | 0.72   | 0.62   |**0.55**|
+| vis buf                   | 0.89   | 0.76   | 0.63   |
+| raster culling            |**0.36**|**0.51**| 0.71   |
+| HiZ + pyramid             | 0.67   | 0.83   | 1.1    |
+| HiZ + dpp + pyramid       | 0.57   | 0.57   | 0.63   |
+
+### Memory bound
+
+В данном тесте растеризация стоит дороже чтения текстур поэтому выигрывают raster cull и HiZ.
+
+| technique | 1K | 2K | 4K |
+|---|---|---|---|
+| without ZS                | 1.16   | 2.4    | 5.34   |
+| late ZS, front to back    | 1.42   | 2.76   | 5.5    |
+| early ZS, back to front   | 1.03   | 1.28   | 2.22   |
+|**early ZS, front to back**| 1.0    | 1.0    | 1.0    |
+| depth pre-pass            | 1.98   | 1.9    | 1.56   |
+| defer texturing           | 1.04   | 1.06   | 1.03   |
+| vis buf                   | 1.31   | 1.27   | 1.19   |
+| raster culling            |**0.15**|**0.41**|**0.54**|
+| HiZ + pyramid             | 0.34   | 0.54   | 0.86   |
+| HiZ + dpp + pyramid       | 0.63   | 0.72   | 0.93   |
+
+### Генерация HZB
+
+За счет более быстой DDR5 эта встройка уже справляется с 4К разрешением.
+Разница между двумя вариантами генерации минимальна и при необходимоти можно использовать не степень двойки для чуть лучшей точности.
+Как и на поколении gen9 выигрышь от min/max sampler на уровне погрешности.
+
+| technique                                    |  4K (ms)  |  8K (ms)  |
+|----------------------------------------------|-----------|-----------|
+| non power of 2, cs                           | 2.29      | 9.33      |
+| non power of 2, gfx                          | 0.93      | 3.49      |
+| to power of 2, cs                            | 1.18      | 4.49      |
+| to power of 2, gfx                           | 0.92      | 3.14      |
+| to power of 2, reduction, cs                 | 1.17      | 4.45      |
+| to power of 2, reduction, gfx                |**0.91**   |**3.13**   |
+| to power of 2, skip high mip, reduction, gfx | 1.01      | 3.31      |
+
+<details><summary><b>Подробные результаты</b></summary>
+
+**VS/Raster/ZS bound**
+
+| technique | 1K (ms) | 2K (ms) | 4K (ms) |
+|---|---|---|---|
+| without ZS                | 7.41        | 10.32       | 18.24       |
+| late ZS, front to back    | 8.79        | 13.42       | 21.36       |
+| early ZS, back to front   | 7.26        | 7.90        | 11.46       |
+| early ZS, discard         | 7.23        | 7.39        | 8.99        |
+|**early ZS, front to back**| 7.23        | 7.43        | 8.85        |
+| depth pre-pass            | 14.28       | 14.65       | 15.99       |
+| vis buf                   | 9.33        | 9.7         | 11.63       |
+| raster culling            | 0.17 + 0.91 | 0.47 + 1.14 | 1.29 + 2.41 |
+| HiZ + pyramid             | 0.16 + 2.2  | 0.44 + 2.92 | 0.95 + 4.87 |
+| HiZ + dpp + pyramid       | 0.16 + 4.4  | 0.44 + 5.0  | 0.95 + 7.9  |
+
+**ALU bound**<br/>
+PERF_LEVEL = 2
+
+| technique | 1K (ms) | 2K (ms) | 4K (ms) |
+|---|---|---|---|
+| without ZS                | 60.22       | 104.5       | 258.8       |
+| late ZS, front to back    | 66.95       | 109.8       | 257         |
+| early ZS, back to front   | 24.3        | 38.2        | 86.7        |
+|**early ZS, front to back**| 10.77       | 14.46       | 26.03       |
+| depth pre-pass            | 15.86       | 17.6        | 24.8        |
+| defer texturing           | 7.75        | 8.94        | 14.22       |
+| vis buf                   | 9.62        | 10.93       | 16.45       |
+| raster culling            | 0.17 + 3.73 | 0.47 + 6.84 | 1.29 + 17.1 |
+| HiZ + pyramid             | 0.16 + 6.99 | 0.44 + 11.6 | 0.95 + 27.6 |
+| HiZ + dpp + pyramid       | 0.16 + 5.9  | 0.44 + 7.83 | 0.95 + 15.3 |
+
+**Memory bound**<br/>
+PERF_LEVEL = 2
+
+| technique | 1K (ms) | 2K (ms) | 4K (ms) |
+|---|---|---|---|
+| without ZS                | 8.43        | 19.1       | 61.7        |
+| late ZS, front to back    | 10.3        | 22.0       | 63.5        |
+| early ZS, back to front   | 7.45        | 10.2       | 25.6        |
+|**early ZS, front to back**| 7.25        | 7.96       | 11.54       |
+| depth pre-pass            | 7.21 + 7.19 | 7.4 + 7.72 | 8.3 + 9.7   |
+| defer texturing           | 7.26 + 0.29 | 7.7 + 0.72 | 9.42 + 2.44 |
+| vis buf                   | 9.21 + 0.29 | 9.3 + 0.78 | 11.2 + 2.5  |
+| raster culling            | 0.17 + 0.94 | 0.47 + 2.8 | 1.29 + 4.97 |
+| HiZ + pyramid             | 0.16 + 2.31 | 0.44 + 3.9 | 1.08 + 8.8  |
+| HiZ + dpp + pyramid       | 0.16 + 4.4  | 0.44 + 5.3 | 1.08 + 9.6 |
 
 </details>
 

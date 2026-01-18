@@ -129,7 +129,6 @@
 			if ( I == 0 )
 				s_TaskCount = 0;
 
-			gl.memoryBarrier.Shared();
 			gl.WorkgroupBarrier();
 		}
 
@@ -154,7 +153,6 @@
 		}
 
 		gl.WorkgroupBarrier();
-		gl.memoryBarrier.Shared();
 
 		if ( I == 0 )
 			gl.EmitMeshTasks( s_TaskCount, 1, 1 );

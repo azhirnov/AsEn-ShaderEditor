@@ -50,7 +50,8 @@
 
 ## Bindless в Vulkan
 
-`shaderStorageBufferArrayDynamicIndexing` и другие доступны в ядре Vulkan 1.0, определяет разрешена ли динамическая индексация массива ресурсов. Но все индексы в пределах варпа должны совпадать (uniform), иначе это неопределенное поведение. Если не поддерживается, то доступ к массиву разрешен только по константным значениям.<br/>
+`shaderStorageBufferArrayDynamicIndexing` и другие доступны в ядре Vulkan 1.0, определяет разрешена ли динамическая индексация массива ресурсов.
+Но все индексы в пределах варпа должны совпадать (uniform), иначе это неопределенное поведение. Если не поддерживается, то доступ к массиву разрешен только по константным значениям.<br/>
 Кроме этого можно по-старинке выбирать слой из текстурного массива (sampler2DArray) и слой может быть неоднородным.
 
 <details><summary>Опции shaderSampledImageArrayDynamicIndexing и shaderStorageBufferArrayDynamicIndexing поддерживаются начиная с:</summary>
@@ -71,7 +72,7 @@
 
 `shaderSampledImageArrayNonUniformIndexing` и другие определяет разрешена ли динамическая индексация массива ресурсов, когда индекс в вределах варпа не совпадает (non-uniform).
 В шейдере обязательно помечать индекс как [nonuniformEXT](https://github.com/KhronosGroup/GLSL/blob/master/extensions/ext/GL_EXT_nonuniform_qualifier.txt): `resource[ nonuniformEXT(index) ]`.
-Минимальный набор опций, который доступен на большинстве ГП можно посмотреть в [min_nonuniform_desc_idx](https://github.com/azhirnov/as-en/blob/AE/engine/shared_data/feature_set/parts/min_nonuniform_desc_idx.as).
+Минимальный набор опций, который доступен на большинстве ГП можно посмотреть в [min_nonuniform_desc_idx](https://github.com/azhirnov/as-en/blob/dev/AE/engine/shared_data/feature_set/parts/min_nonuniform_desc_idx.as).
 Старые ГП поддерживают только `shaderSampledImageArrayNonUniformIndexing`, поэтому для буферов придется использовать RGBA32F текстуры, этот формат поддерживается у большинства ГП, хоть и без линейной фильтрации.
 
 В Vulkan 1.4 расширение `VK_EXT_descriptor_indexing` сделали обязательным в ядре, до этого с 1.2 оно было опционально. Минимально должны поддерживаться `shaderUniformTexelBufferArrayDynamicIndexing` и `shaderStorageTexelBufferArrayDynamicIndexing`.
@@ -120,8 +121,9 @@
 Неоднородные данные:
 * `gl_VertexIndex`, `gl_PrimitiveID`, вершинные аттрибуты и тд.
 * `gl_LocalInvocationID` и `gl_GlobalInvocationID`.
-* `gl_InstanceIndex` на TBDR архитектуре, так как фрагментные шейдеры примитивов из разных инстансов могут попасть в один варп.
-* `gl_BaseInstance`, `gl_BaseVertex`, `gl_ViewIndex` ???
+* `gl_InstanceIndex` на TBR и TBDR архитектурах вершинные и фрагментные шейдеры могут содержать разные инстансы. ([тест](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/TrisPerSubgroup.as))
+* `gl_BaseInstance` и `gl_BaseVertex` могут быть однородными по аналогии с `gl_DrawID`, если не используется multi draw.
+* `gl_ViewIndex` ???
 
 При использовании `nonuniform()` компилятор может добавить дополнительные инструкции, но если компилятор знает, что переменная только `uniform`, то проигнорирует `nonuniform()` и лишних инструкций не будет.<br/>
 Пример [UniqueIDs](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/UniqueIDs-1.as) показывает как компилятор превращает неоднородный доступ к ресурсам в однородный.
@@ -235,6 +237,7 @@ dstAccess = VK_ACCESS_2_DESCRIPTOR_BUFFER_READ_BIT_EXT
 
 ## Bindless в Metal
 
+TODO
 
 # GPU Driven Rendering
 
@@ -248,6 +251,7 @@ Bindless техники позволяют перенести больше ло�
 Один из этапов GPU Driven подхода - проверка видимости объектов и их удаление из очереди рисования.
 Проверка видимости выполняется через frustum culling, [HiZ](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/GeometryCulling-ru.md#hierarchy-z-buffer-hzb-hiz), [Raster occlusion](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/GeometryCulling-ru.md#raster-occlusion) и тд.
 После проверки видимости получаем массив из ID объектов и пустые элементы, чтобы сгруппировать ID используется prefix scan / prefix sum алгоритм.
+
 Примеры: [PrefixScan-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-1.as), [PrefixScan-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-2.as).
 
 Если порядок ID не важен, то используется более простой алгоритм с атомиком.
@@ -264,12 +268,12 @@ Bindless техники позволяют перенести больше ло�
 
 Для сортировки лучше всего нарезать экран на тайлы и произвести сортировку мешлетов внутри тайла.
 
-Примеры: ...
+Примеры сортировки: [RadixSort-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/RadixSort-1.as), [RadixSort-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/RadixSort-2.as).
 
 
 ## Multi Draw Indirect
 
-Расширение `VK_KHR_draw_indirect_count` (добавлено в ядро 1.2) не так распространено и код получается не универсальным, поэтому лучше не использовать.<br/>
+Расширение `VK_KHR_draw_indirect_count` (добавлено в ядро 1.2) не так распространено и код получается не универсальным, поэтому лучше не использовать.
 
 <details><summary>Доступно начиная с:</summary>
 
@@ -285,7 +289,7 @@ Bindless техники позволяют перенести больше ло�
 
 </details>
 
-В ядре Vulkan 1.0 достпна опция `drawIndirectFirstInstance`, которая позволяет использовать поле `firstInstance` структуры `VkDrawIndexedIndirectCommand`.<br/>
+В ядре Vulkan 1.0 достпна опция `drawIndirectFirstInstance`, которая позволяет использовать поле `firstInstance` структуры `VkDrawIndexedIndirectCommand`.
 
 <details><summary>Опция не поддерживается на небольшом количестве устройств:</summary>
 
@@ -307,6 +311,9 @@ Bindless техники позволяют перенести больше ло�
 
 Когда `maxDrawIndirectCount=1`, то остается вариант использовать инстансинг с фиксированным количеством индексов.
 Так геометрия разбивается на мешлеты одинакового размера, если нужно меньше вершин, то лишние вершины пишут NaN в позицию.
+
+Такой подход описан в презентации [Siggraph2015: GPU-Driven Rendering Pipelines](https://advances.realtimerendering.com/s2015/aaltonenhaar_siggraph2015_combined_final_footer_220dpi.pdf).
+Используется triangle strip на 64 вершины.
 
 
 ## Per Instance Vertex Rate

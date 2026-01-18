@@ -294,7 +294,7 @@
 		{
 			dst_idx = gl.AtomicAdd( INOUT un_IndirectCmd.instanceCount, visible_count );
 		}
-		gl.subgroup.ExecutionBarrier();
+		gl.subgroup.Barrier();
 
 		dst_idx = gl.subgroup.Broadcast( dst_idx, 0 );
 		dst_idx += gl.subgroup.BallotExclusiveBitCount( visible_mask );

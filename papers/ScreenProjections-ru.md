@@ -11,7 +11,7 @@
 
 Минусы:
 * Чем больше FOV тем больше искажения по краям, так как часть сферы проецируется на плоскость.
-* Из-за искажений плотность пикселей в центре меньше, чем по краям. Это создает проблемы при изменении проекции пост-процессом.
+* Из-за искажений плотность пикселей в центре больше, чем по краям. Это создает проблемы при изменении проекции пост-процессом.
 
 ![](img/projections/Proj_Rectilinear-1.jpg)
 ![](img/projections/Proj_Rectilinear-2.jpg)
@@ -29,7 +29,7 @@
 Минусы:
 * Прямые линии искривляются, из-за чего тяжело смотреть на прямоугольные формы.
 * Некомфортно смотреть в динамике.
-* При fovY>120° начинаются искажения на полюсах, но для ультраширокого монитора fov={360°, 101°}.
+* При fovY>120° начинаются искажения на полюсах, но для ультраширокого монитора максимальный fov={360°, 101°}.
 
 ![](img/projections/Proj_Stereographical-1.jpg)
 ![](img/projections/Proj_Stereographical-2.jpg)
@@ -37,7 +37,7 @@
 
 ## Panini
 
-Стереографическая проекция, где камера смещена назад. Смещение задается от 0 до 1.0, для больших углов можно зафиксировать 1.0, смещение 0 совпадает с перспективной проекцией.
+Стереографическая проекция, где камера смещена назад. Смещение задается от 0 до 1, для больших углов можно зафиксировать 1, смещение 0 совпадает с перспективной проекцией.
 
 Плюсы:
 * Наиболее комфортно воспринимается в динамике.
@@ -71,7 +71,7 @@
 ## Ссылки
 
 * [Comparing Graphical Projection Methods at High Degrees of Field of View](https://www.diva-portal.org/smash/get/diva2:1229190/FULLTEXT02.pdf) - сравнивают какая проекция наиболее комфортно воспринимается.
-* [Panini Projection in UE](https://dev.epicgames.com/documentation/en-us/unreal-engine/panini-projection-in-unreal-engine) - Panini как пост-процесс, работает на углах до примерно 120, после плотность пикселей в центре слишком мала.
+* [Panini Projection in UE](https://dev.epicgames.com/documentation/en-us/unreal-engine/panini-projection-in-unreal-engine) - Panini как пост-процесс, работает на углах до примерно 120°, после плотность пикселей в центре слишком мала.
 * [Pannini: A New Projection for Rendering Wide Angle Perspective Images](http://tksharpless.net/vedutismo/Pannini/panini.pdf) - оригинальная статься про Panini проекцию.
 * [RayTracingGems2: Essential Ray Generation Shaders](https://www.researchgate.net/publication/354065227_Essential_Ray_Generation_Shaders) - сравнивают разные проекции, есть код для рейтрейса.
 * [Reducing stretch in high-FOV games using barrel distortion](https://www.decarpentier.nl/lens-distortion) - другой способ компенсации искажений через пост-процесс.

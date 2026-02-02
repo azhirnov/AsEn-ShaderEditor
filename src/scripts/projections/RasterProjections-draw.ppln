@@ -5,11 +5,12 @@
 #	define FS_TEXTURING
 #	define FS_FLAT_SHADING
 //#	define GEN_NORMALS
+//#	define TRANSLUCENT
 #endif
 //-----------------------------------------------------------------------------
 #ifdef SCRIPT
 
-	void CreatePipelines (string prefix, bool withUV, bool withNorm)
+	void CreatePipelines (string prefix, bool withUV, bool withNorm, bool translucent)
 	{
 		{
 			RC<ShaderStructType>	st = ShaderStructType( prefix+"io.vs-fs" );
@@ -21,7 +22,7 @@
 		}
 		{
 			RC<GraphicsPipeline>	ppln = GraphicsPipeline( prefix+"t" );
-			ppln.SetLayout( "model.pl" );
+			ppln.SetLayout( "model.pl" );	// [InitPipelineLayout()](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipeline_inc/ModelTypes.as)
 
 			if ( withUV and withNorm )	ppln.SetVertexInput( "VB{Posf3, Normf3, UVf2}" );	else
 			if ( withNorm )				ppln.SetVertexInput( "VB{Posf3, Normf3}" );			else
@@ -42,12 +43,22 @@
 				fs.LoadSelf();
 				fs.Define( withUV ? "FS_TEXTURING" : "FS_FLAT_SHADING" );
 				if ( not withNorm ) fs.Define( "GEN_NORMALS" );
+				if ( translucent ) fs.Define( "TRANSLUCENT" );
 				ppln.SetFragmentShader( fs );
 			}
 
 			// base render state
 			RenderState	rs;
 			{
+				if ( translucent )
+				{
+					RenderState_ColorBuffer		cb;
+					cb.SrcBlendFactor( EBlendFactor::SrcAlpha,			EBlendFactor::One				);
+					cb.DstBlendFactor( EBlendFactor::OneMinusSrcAlpha,	EBlendFactor::OneMinusSrcAlpha	);
+					cb.BlendOp( EBlendOp::Add );
+					rs.color.SetColorBuffer( 0, cb );
+				}
+
 				rs.depth.test					= true;
 				rs.depth.write					= true;
 
@@ -63,7 +74,10 @@
 
 				rs.rasterization.cullMode	= ECullMode::None;
 				spec.SetRenderState( rs );
-			}{
+			}
+
+			if ( not translucent )
+			{
 				RC<GraphicsPipelineSpec>	spec = ppln.AddSpecialization( prefix+"cullback" );
 				spec.AddToRenderTech( "rtech", "main" );  // in ScriptSceneGraphicsPass
 
@@ -76,40 +90,65 @@
 
 	void ASmain ()
 	{
-		CreatePipelines( "opaque-uv-norm.",	true,	true  );
-		CreatePipelines( "opaque-norm.",	false,	true  );
-		CreatePipelines( "opaque.",			false,	false );
+		CreatePipelines( "opaque-uv-norm.",	true,	true,	false );
+		CreatePipelines( "opaque-norm.",	false,	true,	false );
+		CreatePipelines( "opaque.",			false,	false,	false );
 	}
 
 #endif
 //-----------------------------------------------------------------------------
 #ifdef SH_VERT
 	#include "Transform.glsl"
-	#include "CubeMap.glsl"
 
 	void Main ()
 	{
-		const uint	idx			= gl.InstanceIndex / un_Nodes.instanceCount;
-		const int	face		= int(gl.InstanceIndex - idx * un_Nodes.instanceCount);
+		ModelNode	node		= un_Nodes.elements[ gl.InstanceIndex ];	// only 'firstInstance'
+		float4		world_pos	= LocalPosToWorldSpace( node.transform * float4( in_Position, 1.0f ));
+		float4		view_pos	= un_CBuf.viewMat * world_pos;
 
-		ModelNode	node		= un_Nodes.elements[idx];
-		float4		world_pos	= node.transform * float4( in_Position, 1.0f );
-
-		if ( iUseCameraPos == 1 )
-			world_pos.xyz -= un_PerPass.camera.pos;
-
-		gl.Position		= un_CBuf.cubemapViewProj[face] * world_pos;
 		Out.worldPos	= world_pos.xyz;
 		Out.materialIdx	= node.materialIdx;	// uniform per draw call
 
 	  #ifdef VS_NORMALS
-		Out.worldNormal	= float3x3(node.transform) * in_Normal;
+		Out.worldNormal	= Normalize( float3x3(node.transform) * in_Normal );
 	  #endif
 	  #ifdef VS_TEXCOORD
 		Out.texcoord	= in_Texcoord;
 	  #endif
 
-		gl.Layer = face;
+		const float	z_near	= un_PerPass.camera.clipPlanes.x;
+		const float	z_far	= un_PerPass.camera.clipPlanes.y;
+
+		switch ( iProjection )
+		{
+			case 0 :	// paraboloid
+			{
+				// see 'RayInverse_Paraboloid'
+				float	t		= ToUNorm( view_pos.y );		// [0, 1]
+				float	r2		= (1.0 - t) / (1.0 + t);
+				float2	uv		= view_pos.xz * ToUNorm( r2 );	// [-1, +1]
+				float	d		= Length( view_pos.xyz );
+						d		= Saturate( (d / z_near) / (z_far - z_near) );
+
+				gl.Position		= float4( uv, d, 1.0 );
+				break;
+			}
+			case 1 :	// dual paraboloid
+			{
+				// see RayInverse_DualParaboloid
+				if ( iPassIdx == 1 )
+					view_pos = float4( -view_pos.x, view_pos.y, -view_pos.z, 1.0 );
+
+				float	denom	= view_pos.z + 1.0;
+				float2	uv		= view_pos.xy / denom;
+				float	d		= Length( view_pos.xyz );
+						d		= Saturate( (d / z_near) / (z_far - z_near) );
+
+				gl.Position		= float4( uv, d, 1.0 );
+				gl.Layer		= iPassIdx;
+				break;
+			}
+		}
 	}
 
 #endif
@@ -120,10 +159,11 @@
 
 	void Main ()
 	{
+		// world-space normal
 	  #ifdef GEN_NORMALS
 		const float3	normal	= ComputeNormalInWS_dxdy( In.worldPos );
 	  #else
-		const float3	normal	= Normalize( In.worldNormal );
+		const float3	normal	= Normalize( In.worldNormal ) * (gl.FrontFacing ? 1.0 : -1.0);
 	  #endif
 
 		ModelMaterial	mtr		= un_Materials.elements[ In.materialIdx ];	// uniform per draw call
@@ -131,7 +171,7 @@
 
 		if ( HasBit( mtr.flags, MtrFlag_AlphaTest ))	// uniform control flow
 		{
-			if ( albedo.a < 0.5 )
+			if ( albedo.a < 0.25 )
 			{
 			  #ifdef AE_demote_to_helper_invocation
 				gl.Demote;
@@ -144,9 +184,7 @@
 	  #ifdef TRANSLUCENT
 		out_Color = albedo;
 	  #else
-		float3	cam_pos = iUseCameraPos == 1 ? un_PerPass.camera.pos : float3(0.0);
-
-		out_Color = albedo * CalcLighting( In.worldPos, normal, un_PerPass.camera.pos );
+		out_Color = albedo * CalcLighting( In.worldPos, normal );
 	  #endif
 	}
 
@@ -170,9 +208,7 @@
 	  #ifdef TRANSLUCENT
 		out_Color = albedo;
 	  #else
-		float3	cam_pos = iUseCameraPos == 1 ? un_PerPass.camera.pos : float3(0.0);
-
-		out_Color = albedo * CalcLighting( In.worldPos, normal, cam_pos );
+		out_Color = albedo * CalcLighting( In.worldPos, normal );
 	  #endif
 	}
 

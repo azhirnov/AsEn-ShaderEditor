@@ -314,6 +314,7 @@ Bindless техники позволяют перенести больше ло�
 
 Такой подход описан в презентации [Siggraph2015: GPU-Driven Rendering Pipelines](https://advances.realtimerendering.com/s2015/aaltonenhaar_siggraph2015_combined_final_footer_220dpi.pdf).
 Используется triangle strip на 64 вершины.
+И дополнительный этап отсечения по треугольникам с объединением индексов, но сохраняя кратность 64 и с NaN для неиспользуемых вершин.
 
 
 ## Per Instance Vertex Rate

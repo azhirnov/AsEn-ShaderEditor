@@ -1610,13 +1610,13 @@ PERF_LEVEL = 3
 
 | technique                                    |  2K (ms)  |  4K (ms)  |
 |----------------------------------------------|-----------|-----------|
-| non power of 2, cs                           |
-| non power of 2, gfx                          |
-| to power of 2, cs                            |
-| to power of 2, gfx                           |
-| to power of 2, reduction, cs                 |
-| to power of 2, reduction, gfx                |
-| to power of 2, skip high mip, reduction, gfx |
+| non power of 2, cs                           | 4.48      | 18.7      |
+| non power of 2, gfx                          | 1.51      | 5.44      |
+| to power of 2, cs                            | 2.18      | 8.72      |
+| to power of 2, gfx                           | **1.35**  | **4.82**  |
+| to power of 2, reduction, cs                 | 2.06      | 8.37      |
+| to power of 2, reduction, gfx                | **1.34**  | **4.8**   |
+| to power of 2, skip high mip, reduction, gfx | 1.44      | 5.39      |
 
 <details><summary><b>Подробные результаты</b></summary>
 

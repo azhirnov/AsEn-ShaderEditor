@@ -66,7 +66,7 @@
 ## Примеры
 
 * [Panini](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/posteffects/Panini.as) - сцена рисуется с перспективной проекцией, затем применяется пост-процесс с Panini проекцией.
-* [RenderToCubemap](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/samples-3d/RenderToCubemap.as) - сцена рисуется в кубическую карту, затем нужный тексель выбирается по 3D координатам, аналогично трассировке лучей.
+* [RenderToCubemap](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/projections/RenderToCubemap.as) - сцена рисуется в кубическую карту, затем нужный тексель выбирается по 3D координатам, аналогично трассировке лучей.
 
 ## Ссылки
 

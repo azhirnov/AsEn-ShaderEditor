@@ -5,8 +5,8 @@ Size and content of GBuffer in games.
 
 ### GBuffer pass
 
-* RG16 - UV in virtual texture
-* R32 - tangent frame as quaternion
+* RG16_UNorm - UV in virtual texture
+* R32U - tangent frame as quaternion
 * Depth - TODO ?
 
 **Total:**
@@ -103,7 +103,7 @@ HDR color target: RGBA16F - after GBuffer pass
 ### GBuffer pass
 
 * Color0 - RGB10A2_UNorm - diffuse
-* Color1 - RGBA10A2_UNorm - normals
+* Color1 - RGB10A2_UNorm - normals
 * Color2 - RGBA8_UNorm - material params ?
 * Depth - D32F - reverseZ
 * Stencil - I8 - ?

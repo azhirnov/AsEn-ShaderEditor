@@ -1,13 +1,13 @@
 ## Editor for shaders and procedural content
 
-This is copy of [as-en/res-editor](https://github.com/azhirnov/as-en/tree/dev/AE/samples/res_editor) without C++ sources.
-
 Content:
 * [Features](#features)
 * [Controls](#controls)
 * [Editor UI](docs/EditorUI.md)
 * [Samples](docs/Samples.md)
 * [Scripts](docs/Scripts.md)
+* [Remote](docs/Remote.md)
+* [Download binaries](docs/DownloadBinaries.md)
 
 
 ## Features

@@ -63,7 +63,7 @@ Cons:
 ## Examples
 
 * [Panini](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/posteffects/Panini.as) - the scene is rendered with perspective projection, then a post-process with Panini projection is applied.
-* [RenderToCubemap](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/samples-3d/RenderToCubemap.as) - the scene is rendered into a cubic map, then the required texel is selected based on 3D coordinates, similar to ray tracing.
+* [RenderToCubemap](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/projections/RenderToCubemap.as) - the scene is rendered into a cubic map, then the required texel is selected based on 3D coordinates, similar to ray tracing.
 
 ## References
 

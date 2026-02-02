@@ -68,7 +68,6 @@
 			pass.Slider(	"iDir",			float3(-1.0),	float3(1.0),	float3(0.0, 1.0, 1.0) );
 			pass.LocalSize( 1 );
 			pass.DispatchGroups( 1 );
-			pass.AddFlag( EPassFlags::Enable_ShaderTrace );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
 			pass.AddPipeline( "samples/FakeGlow.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/FakeGlow.as)

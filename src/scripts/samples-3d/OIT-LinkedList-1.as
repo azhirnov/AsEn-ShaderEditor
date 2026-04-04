@@ -52,8 +52,8 @@
 		{
 			storage.ArrayLayout(
 				"IntrsPoint",
-				"	float	depth;" +
-				"	uint	objId;" +
+				"	float	depth;"
+				"	uint	objId;"
 				"	uint	next;",
 				64 << 20 );
 
@@ -63,22 +63,19 @@
 
 		// create sphere
 		{
-			RC<Buffer>				sphere		= Buffer();
-			RC<UnifiedGeometry>		geometry	= UnifiedGeometry();
+			RC<Mesh>	mesh = Mesh();
+			mesh.SetAttributes( EAttribute::Position );
+			mesh.AddSphere( 3 );
 
-			array<float3>	positions;
-			array<uint>		indices;
-			GetSphere( 3, OUT positions, OUT indices );
-
-			sphere.FloatArray( "positions",	positions );
-			sphere.UIntArray(  "indices",	indices );
+			RC<Buffer>	sphere = mesh.ToBuffer();
 			sphere.LayoutName( "GeometrySBlock" );
 
 			UnifiedGeometry_DrawIndexed	cmd;
-			cmd.indexCount		= indices.size();
+			cmd.indexCount		= mesh.IndexCount();
 			cmd.instanceCount	= instance_count;
 			cmd.IndexBuffer( sphere, "indices" );
 
+			RC<UnifiedGeometry>		geometry = UnifiedGeometry();
 			geometry.Draw( cmd );
 			geometry.ArgIn(		"un_Geometry",	sphere );
 			geometry.ArgIn(		"un_DrawTasks",	drawtasks );
@@ -95,7 +92,7 @@
 			ClearBuffer( count_buf, 0 );
 
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/OIT-LinkedList1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/OIT-LinkedList1.as)
+			draw.AddPipeline( "samples/OIT-LinkedList1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/OIT-LinkedList1.as)
 			draw.Output( ds, DepthStencil( 1.f, 0 ));
 		}
 		{

@@ -45,23 +45,20 @@
 
 		// create geometry
 		{
-			RC<UnifiedGeometry>		geometry	= UnifiedGeometry();
-			RC<Buffer>				geom_data	= Buffer();
+			RC<Mesh>	mesh = Mesh();
+			mesh.SetAttributes( EAttribute::Position );
+			mesh.AddSphere( 4 );
 
-			array<float3>	positions;
-			array<uint>		indices;
-			GetSphere( 3, OUT positions, OUT indices );
-
-			geom_data.FloatArray( "positions",	positions );
-			geom_data.UIntArray(  "indices",	indices );
+			RC<Buffer>	geom_data = mesh.ToBuffer();
 			geom_data.LayoutName( "GeometrySBlock" );
 
 			UnifiedGeometry_DrawIndexed	cmd;
-			cmd.indexCount		= indices.size();
+			cmd.indexCount		= mesh.IndexCount();
 			cmd.IndexBuffer(	geom_data,	"indices" );
 			cmd.instanceCount	= 2;
-			geometry.Draw( cmd );
 
+			RC<UnifiedGeometry>		geometry = UnifiedGeometry();
+			geometry.Draw( cmd );
 			geometry.ArgIn(	"un_Geometry",	geom_data );
 
 			scene.Add( geometry );
@@ -70,7 +67,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "tests/DebugPipe.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/DebugPipe.as)
+			draw.AddPipeline( "tests/DebugPipe.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/DebugPipe.as)
 			draw.Output( "out_Color",	rt, RGBA32f(0.f) );
 			draw.Output(				ds, DepthStencil(1.f, 0) );
 		}

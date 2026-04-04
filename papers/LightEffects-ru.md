@@ -71,7 +71,7 @@
 
 ![](img/hzd/LightShafts.jpg)
 
-[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/vfx/LightShafts.as)
+[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/vfx/LightShafts.as)
 
 
 [GDC2014: Adding High-End Graphical Effects to GT Racing 2 on Android x86 (слайды 15-21)](https://gdcvault.com/play/1020220/Adding-High-End-Graphical-Effects) - другая версия эффекта.

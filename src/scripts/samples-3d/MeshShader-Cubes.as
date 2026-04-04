@@ -32,7 +32,7 @@
 
 		RC<Scene>		scene		= Scene();
 		RC<Buffer>		drawtasks	= Buffer();
-		RC<Buffer>		cube		= Buffer();
+		RC<Buffer>		cube;
 		uint			task_count	= 1;
 
 		// setup camera
@@ -76,18 +76,12 @@
 
 		// create cube
 		{
-			array<float3>	positions;
-			array<float3>	normals;
-			array<uint>		indices;
-			GetCube( OUT positions, OUT normals, OUT indices );
+			RC<Mesh>	mesh = Mesh();
+			mesh.SetAttributes( EAttribute::Position | EAttribute::Normal | EAttribute::TriangleIndices );
+			mesh.AddCube();
 
-			array<uint3>	primitives;
-			IndicesToPrimitives( indices, OUT primitives );
-
-			cube.FloatArray( "positions",		positions );
-			cube.FloatArray( "normals",			normals );
-			cube.UIntArray(	 "indices",			primitives );
-			cube.Float(		 "sphereRadius",	2.0f * Sqrt(3.f) * 0.5f );	// cube_size * sqrt(3)/2
+			@cube = mesh.ToBuffer();
+			cube.Float( "sphereRadius",		2.0f * Sqrt(3.f) * 0.5f );	// cube_size * sqrt(3)/2
 			cube.LayoutName( "CubeSBlock" );
 		}
 
@@ -108,7 +102,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "draw cubes" );
-			draw.AddPipeline( "samples/MeshShader-Cubes.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/MeshShader-Cubes.as)
+			draw.AddPipeline( "samples/MeshShader-Cubes.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/MeshShader-Cubes.as)
 			draw.Output( "out_Color", rt, RGBA32f(0.f) );
 			draw.Output( ds, DepthStencil(1.f, 0) );
 			draw.Slider( "iDbgCulling",		0, 2,	0 );

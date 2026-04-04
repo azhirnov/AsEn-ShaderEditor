@@ -18,11 +18,8 @@
 		RC<DynamicDim>		dim				= rt_size.Dimension2();
 		RC<Image>			rt				= Image( EPixelFormat::RGBA8_UNorm, SurfaceSize() );
 		RC<Scene>			scene			= Scene();
-		RC<Scene>			scene_inst		= Scene();
 		RC<DynamicUInt>		grid_size		= DynamicUInt();
-		RC<DynamicUInt>		draw_tile		= DynamicUInt();
 		RC<DynamicUInt>		draw_mode		= DynamicUInt();
-		RC<DynamicUInt>		instancing		= DynamicUInt();
 		RC<DynamicUInt>		tile_size_pot	= DynamicUInt();
 		RC<DynamicUInt>		tile_size		= tile_size_pot.Exp2();
 		RC<DynamicUInt>		tile_bits		= DynamicUInt();
@@ -79,7 +76,7 @@
 
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TileSize.as)
+			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/TileSize.as)
 			pass.Output(	"out_Color",	low_res1,	RGBA32f(0.0) );		// - 16 bytes/pix
 			pass.Constant(	"iOutput_0",	0 );		// used as macros
 			pass.Constant(	"iGridSize",	grid_size );
@@ -88,7 +85,7 @@
 			pass.EnableIfEqual( tile_bits, 0 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TileSize.as)
+			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/TileSize.as)
 			pass.Output(	"out_Color",	low_res1,	RGBA32f(0.0) );		// \_ 32 bytes/pix
 			pass.Output(	"out_Color2",	low_res2,	RGBA32f(0.0) );		// /
 			pass.Constant(	"iOutput_1",	0 );
@@ -98,7 +95,7 @@
 			pass.EnableIfEqual( tile_bits, 1 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TileSize.as)
+			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/TileSize.as)
 			pass.Output(	"out_Color",	low_res1,	RGBA32f(0.0) );	// \ 
 			pass.Output(	"out_Color2",	low_res2,	RGBA32f(0.0) );	//  |- 48 bytes/pix
 			pass.Output(	"out_Color3",	low_res3,	RGBA32f(0.0) );	// /
@@ -109,7 +106,7 @@
 			pass.EnableIfEqual( tile_bits, 2 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TileSize.as)
+			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/TileSize.as)
 			pass.Output(	"out_Color",	low_res1,	RGBA32f(0.0) );	// \ 
 			pass.Output(	"out_Color2",	low_res2,	RGBA32f(0.0) );	//  |
 			pass.Output(	"out_Color3",	low_res3,	RGBA32f(0.0) );	//  |- 64 bytes/pix
@@ -121,7 +118,7 @@
 			pass.EnableIfEqual( tile_bits, 3 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TileSize.as)
+			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/TileSize.as)
 			pass.Output(	"out_Color",	low_res1,	RGBA32f(0.0) );	// \ 
 			pass.Output(	"out_Color2",	low_res2,	RGBA32f(0.0) );	//  |
 			pass.Output(	"out_Color3",	low_res3,	RGBA32f(0.0) );	//  |- 80 bytes/pix
@@ -134,7 +131,7 @@
 			pass.EnableIfEqual( tile_bits, 4 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TileSize.as)
+			pass.AddPipeline( "perf/TileSize.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/TileSize.as)
 			pass.Output(	"out_Color",	low_res1,	RGBA32f(0.0) );	// \ 
 			pass.Output(	"out_Color2",	low_res2,	RGBA32f(0.0) );	//  |
 			pass.Output(	"out_Color3",	low_res3,	RGBA32f(0.0) );	//  |

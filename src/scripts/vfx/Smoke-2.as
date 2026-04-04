@@ -19,9 +19,9 @@
 			const uint	inst_count = 38;
 			inst_buf.ArrayLayout(
 				"InstanceData",
-				"float3x2	m1;" +
-				"float		r;" +
-				"float		t;" +
+				"float3x2	m1;"
+				"float		r;"
+				"float		t;"
 				"float		f;",
 				inst_count
 			);
@@ -48,7 +48,7 @@
 		}{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "draw" );
 			draw.SetDebugLabel( "draw", RGBA32f(1.f, 0.f, 0.f, 1.f) );
-			draw.AddPipeline( "samples/Smoke-2.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Smoke-2.as)
+			draw.AddPipeline( "samples/Smoke-2.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/Smoke-2.as)
 			draw.Output( "out_Color",	rt, RGBA32f(0.2f, 0.3f, 0.7f, 1.f) );
 		//	draw.Output( "out_Color",	rt, RGBA32f(0.f) );
 			draw.ColorSelector( "iColor" );

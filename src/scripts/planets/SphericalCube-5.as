@@ -31,28 +31,25 @@
 
 		// setup sphere
 		{
-			RC<Buffer>				geom_data	= Buffer();
-			RC<UnifiedGeometry>		geometry	= UnifiedGeometry();
-			RC<UnifiedGeometry>		geometry2	= UnifiedGeometry();
+			RC<Mesh>	mesh = Mesh();
+			mesh.SetAttributes( EAttribute::Position );
+			mesh.AddSphericalCube( 6 );
 
-			array<float3>	positions;
-			array<uint>		indices;
-			GetSphericalCube( 6, OUT positions, OUT indices );
-
-			geom_data.FloatArray(	"positions",	positions );
-			geom_data.UIntArray(	"indices",		indices );
+			RC<Buffer>	geom_data = mesh.ToBuffer();
 			geom_data.LayoutName( "GeometrySBlock" );
 
 			UnifiedGeometry_DrawIndexed	cmd;
-			cmd.indexCount = indices.size();
+			cmd.indexCount = mesh.IndexCount();
 			cmd.IndexBuffer( geom_data, "indices" );
 
+			RC<UnifiedGeometry>		geometry = UnifiedGeometry();
 			geometry.Draw( cmd );
 			geometry.ArgIn(	"un_Geometry",	geom_data );
 			geometry.ArgIn( "un_CubeMap",	cubemap_view, Sampler_LinearMipmapClamp );
 
 			scene.Add( geometry );
 
+			RC<UnifiedGeometry>		geometry2 = UnifiedGeometry();
 			geometry2.Draw( cmd );
 			geometry2.ArgIn( "un_Geometry",	geom_data );
 
@@ -65,7 +62,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene_to_cm.AddGraphicsPass( "draw to cubemap" );
-			draw.AddPipeline( "sphere/SphericalCube-5a.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/sphere/SphericalCube-5a.as)
+			draw.AddPipeline( "sphere/SphericalCube-5a.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/sphere/SphericalCube-5a.as)
 			draw.Output(	"out_Color",	cubemap, RGBA32f(0.2) );
 			draw.Constant(	"iProj",		proj_type );
 			draw.Slider(	"iProjInFS",	0, 1 );
@@ -74,7 +71,7 @@
 		}
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "draw sphere" );
-			draw.AddPipeline( "sphere/SphericalCube-5b.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/sphere/SphericalCube-5b.as)
+			draw.AddPipeline( "sphere/SphericalCube-5b.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/sphere/SphericalCube-5b.as)
 			draw.Output(	"out_Color", rt, RGBA32f(0.2) );
 			draw.Output(	ds,			DepthStencil(1.f, 0) );
 			draw.Constant(	"iProj",	proj_type );

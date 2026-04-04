@@ -13,7 +13,7 @@
 		RC<Image>		ds				= Image( EPixelFormat::Depth32F, SurfaceSize() );		ds.Name( "RT-Depth" );
 		RC<Scene>		scene			= Scene();
 		RC<Buffer>		indirect_buf	= Buffer();
-		RC<Buffer>		geom_data		= Buffer();
+		RC<Buffer>		geom_data;
 
 		// setup camera
 		{
@@ -39,21 +39,20 @@
 
 			indirect_buf.UseLayout(
 				"IndirectCmd",
-				"	uint						count;" +
+				"	uint						count;"
 				"	DrawIndexedIndirectCommand	commands [" + max_commands + "];"
 			);
 
-			array<float3>	positions;
-			array<uint>		indices;
-			GetSphere( 3, OUT positions, OUT indices );
+			RC<Mesh>	mesh = Mesh();
+			mesh.SetAttributes( EAttribute::Position );
+			mesh.AddSphere( 3 );
 
-			geom_data.FloatArray( "positions",	positions );
-			geom_data.UIntArray(  "indices",	indices );
+			@geom_data = mesh.ToBuffer();
 			geom_data.LayoutName( "GeometrySBlock" );
 
 			#if 0
 				UnifiedGeometry_DrawIndexed	cmd;
-				cmd.indexCount		= indices.size();
+				cmd.indexCount		= mesh.IndexCount();
 				cmd.IndexBuffer(	geom_data,	"indices" );
 			#endif
 			#if 0
@@ -85,7 +84,7 @@
 			pass.DispatchThreads( 1 );
 		}{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "tests/IndirectDraw.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/IndirectDraw.as)
+			draw.AddPipeline( "tests/IndirectDraw.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/IndirectDraw.as)
 			draw.Output( "out_Color",	rt, RGBA32f(0.f) );
 			draw.Output(				ds, DepthStencil(1.f, 0) );
 		}

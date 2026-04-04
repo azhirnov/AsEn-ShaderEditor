@@ -2,7 +2,7 @@
 /*
 	Find difference between texture array and array of texture.
 
-	results in [Bindless paper](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/Bindless-ru.md)
+	results in [Bindless paper](https://github.com/azhirnov/as-en/blob/dev/AE/papers/graphics/Bindless-ru.md)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>
@@ -68,14 +68,14 @@
 			args.Add( "array",	images );
 			args.Add( "layers",	img_arr );
 
-			RunScript( "NonUniform-GenImages.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/callable/NonUniform-GenImages.as)
+			RunScript( "NonUniform-GenImages.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/callable/NonUniform-GenImages.as)
 		}
 
 		obj_buf.ArrayLayout(
 			"ObjectTransform",
-			"	float3	position;" +
-			"	float	scale;" +
-			"	uint	color;" +
+			"	float3	position;"
+			"	float	scale;"
+			"	uint	color;"
 			"	uint	texId;",
 			count );
 
@@ -97,17 +97,13 @@
 
 		// create geometry
 		{
-			array<float3>	positions;
-			array<float2>	uvs;
-			array<uint>		indices;
-			GetSphere( (low_detail ? 3 : 6), OUT positions, OUT uvs, OUT indices );
+			RC<Mesh>	mesh = Mesh();
+			mesh.SetAttributes( EAttribute::Position | EAttribute::Texcoord2D );
+			mesh.AddSphere( low_detail ? 3 : 6 );
 
-			@tris_count = count.Mul( indices.size()/3 );
+			@tris_count = count.Mul( mesh.PrimitiveCount() );
 
-			RC<Buffer>		geom_data = Buffer();
-			geom_data.FloatArray( "positions",	positions );
-			geom_data.FloatArray( "uvs",		uvs );
-			geom_data.UIntArray(  "indices",	indices );
+			RC<Buffer>	geom_data = mesh.ToBuffer();
 			geom_data.LayoutName( "GeometryData" );
 
 			{
@@ -117,7 +113,7 @@
 				geometry.ArgIn( "un_TextureArr",	img_arr,	Sampler_LinearRepeat );
 
 				UnifiedGeometry_DrawIndexed	cmd;
-				cmd.indexCount	= indices.size();
+				cmd.indexCount	= mesh.IndexCount();
 				cmd.IndexBuffer( geom_data, "indices" );
 				cmd.InstanceCount( count );
 				geometry.Draw( cmd );
@@ -130,7 +126,7 @@
 				geometry.ArgIn( "un_Textures",		images,		Sampler_LinearRepeat );
 
 				UnifiedGeometry_DrawIndexed	cmd;
-				cmd.indexCount	= indices.size();
+				cmd.indexCount	= mesh.IndexCount();
 				cmd.IndexBuffer( geom_data, "indices" );
 				cmd.InstanceCount( count );
 				geometry.Draw( cmd );
@@ -143,7 +139,7 @@
 				geometry.ArgTex( "un_Textures",		images );
 
 				UnifiedGeometry_DrawIndexed	cmd;
-				cmd.indexCount	= indices.size();
+				cmd.indexCount	= mesh.IndexCount();
 				cmd.IndexBuffer( geom_data, "indices" );
 				cmd.InstanceCount( count );
 				geometry.Draw( cmd );
@@ -166,7 +162,7 @@
 		uint	mode_id = 0;
 		{
 			RC<SceneGraphicsPass>	pass = scene0.AddGraphicsPass( "tex array" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex1.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex1.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex1.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Tex1.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -176,7 +172,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene1.AddGraphicsPass( "tex bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex2.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex2.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex2.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Tex2.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -186,7 +182,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "sampler bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Samp.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Samp.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Samp.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Samp.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -196,7 +192,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene0.AddGraphicsPass( "per warp tex array" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerWarp.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex1-PerWarp.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerWarp.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Tex1-PerWarp.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -206,7 +202,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene1.AddGraphicsPass( "per warp tex bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerWarp.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex2-PerWarp.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerWarp.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Tex2-PerWarp.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -216,7 +212,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "per warp sampler bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerWarp.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Samp-PerWarp.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerWarp.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Samp-PerWarp.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -226,7 +222,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene0.AddGraphicsPass( "per quad tex array" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerQuad.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex1-PerQuad.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerQuad.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Tex1-PerQuad.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -236,7 +232,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene1.AddGraphicsPass( "per quad tex bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerQuad.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex2-PerQuad.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerQuad.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Tex2-PerQuad.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -246,7 +242,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "per quad sampler bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerQuad.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Samp-PerQuad.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerQuad.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Samp-PerQuad.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -256,7 +252,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene0.AddGraphicsPass( "per pixel tex array" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerPix.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex1-PerPix.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex1-PerPix.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Tex1-PerPix.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -266,7 +262,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene1.AddGraphicsPass( "per pixel tex bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerPix.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Tex2-PerPix.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Tex2-PerPix.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Tex2-PerPix.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );
@@ -276,7 +272,7 @@
 		++mode_id;
 		{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "per pixel sampler bindless" );
-			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerPix.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/NonUniform-Stress/Samp-PerPix.as)
+			pass.AddPipeline( "perf/NonUniform-Stress/Samp-PerPix.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/NonUniform-Stress/Samp-PerPix.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(1.0, 0.0, 0.0, 0.0) );
 			pass.Output(				ds,		DepthStencil(1.0, 0) );
 			pass.Constant( "iTexBias",	tex_bias );

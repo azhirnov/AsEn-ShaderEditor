@@ -50,7 +50,7 @@
 | texture index           | 1.007      | 1.007    | 1.02     | 1.43      |
 | texture & sampler index | 1.007      | 1.007    | 1.03     | 1.41      |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/NVidia_RTX2080.md#Nonuniform)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/NVidia_RTX2080.md#Nonuniform)
 
 
 ## AMD RX570
@@ -75,7 +75,7 @@
 | texture index           | 1.017      | 1.013    | 1.21     | 1.79      |
 | texture & sampler index | 1.026      | 1.022    | 1.21     | 1.8       |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/AMD_RX570.md#Nonuniform)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/AMD_RX570.md#Nonuniform)
 
 
 ## AMD Radeon 780M, AMDPRO
@@ -98,7 +98,7 @@
 | texture index           |
 | texture & sampler index |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/AMD_780M.md#Nonuniform-AMDPRO)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/AMD_780M.md#Nonuniform-AMDPRO)
 
 
 ## AMD Radeon 780M, AMDVLK
@@ -119,7 +119,7 @@
 | texture index           |
 | texture & sampler index |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/AMD_780M.md#Nonuniform-AMDVLK)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/AMD_780M.md#Nonuniform-AMDVLK)
 
 
 ## AMD Radeon 780M, RADV
@@ -142,7 +142,7 @@ RADV драйвер оказался быстрее других, но bindless 
 | texture index           |
 | texture & sampler index |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/AMD_780M.md#Nonuniform-RADV)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/AMD_780M.md#Nonuniform-RADV)
 
 
 ## ARM Mali G57
@@ -155,7 +155,7 @@ RADV драйвер оказался быстрее других, но bindless 
 | texture index           | 1.034      | 0.94     | 1.35     | 2.68      |
 | texture & sampler index | 1.034      | 0.92     | 1.39     | 2.6       |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/ARM_Mali_G57.md#Nonuniform)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/ARM_Mali_G57.md#Nonuniform)
 
 
 ## ARM Mali G610
@@ -179,7 +179,7 @@ Valhall gen3 архитектура уже лучше справляется с 
 | texture & sampler index |
 
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/ARM_Mali_G610.md#Nonuniform)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/ARM_Mali_G610.md#Nonuniform)
 
 
 ## Adreno 660
@@ -200,7 +200,7 @@ Valhall gen3 архитектура уже лучше справляется с 
 | texture index           |
 | texture & sampler index |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/Adreno_660.md#Nonuniform)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/Adreno_660.md#Nonuniform)
 
 
 ## Apple M1
@@ -221,7 +221,7 @@ Valhall gen3 архитектура уже лучше справляется с 
 | texture index           | 1.06       | 0.99     | 1.005    | 1.07      |
 | texture & sampler index | 1.09       | 1.005    | 1.016    | 1.07      |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/Apple_M1.md#Nonuniform)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/Apple_M1.md#Nonuniform)
 
 
 ## PowerVR BXM-8-256
@@ -242,7 +242,7 @@ Valhall gen3 архитектура уже лучше справляется с 
 | texture index           |
 | texture & sampler index |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/PowerVR_BXM.md#Nonuniform)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/PowerVR_BXM.md#Nonuniform)
 
 
 ## Intel UHD 620
@@ -265,7 +265,7 @@ Valhall gen3 архитектура уже лучше справляется с 
 | texture index           | 1.14       | 1.08     | 3.7      | 8.7       |
 | texture & sampler index | 1.14       | 1.04     | 1.57     | 2.6       |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/Intel_UHD620.md#Nonuniform)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/Intel_UHD620.md#Nonuniform)
 
 
 ## Intel N150
@@ -286,6 +286,6 @@ Valhall gen3 архитектура уже лучше справляется с 
 | texture index           | 1.17       | 1.02     | 1.56     | 2.4       |
 | texture & sampler index | 1.15       | 1.02     | 1.56     | 2.4       |
 
-[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/bench-gpu/Intel_N150.md#Nonuniform)
+[Подробные результаты](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/bench-gpu/Intel_N150.md#Nonuniform)
 
 

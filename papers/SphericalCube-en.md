@@ -13,13 +13,13 @@ The article [Cube-to-sphere Projections for Procedural Texturing and Beyond](htt
 ![](img/spherical_cube/SC_Proj.png)
 
 The colored area represents the triangle's surface, and identical colors indicate equal surface areas on the sphere.<br/>
-[Code](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/SphericalCube-1.as).
+[Code](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/SphericalCube-1.as).
 
 ## Performance and Accuracy
 
 The highest accuracy is achieved by the Tangential, Everitt, and Arvo methods.<br/>
 In the test, the sphere's unwrap is applied along with inverse and forward projections, vectors are compared, and error is output.<br/>
-[Code](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/screenshot-test/CubeMapTest-1.as)
+[Code](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/screenshot-test/CubeMapTest-1.as)
 
 The highest performance is achieved by Everitt, which uses a single Sqrt operation, allowing for fast execution on GPUs. Next is 5thPoly, which uses only FMA operations.<br/>
 Tangential and Arvo are 30% slower due to the use of Atan and other trigonometric functions, which are very slow on GPUs.<br/>
@@ -33,7 +33,7 @@ In the end, Everitt proved to be the best in terms of both accuracy and performa
 
 The correct combination is using Tangential projection for vertices and Identity projection for texture coordinates. This results in vertices being evenly distributed across the sphere, while the texture is applied with minimal distortion and, consequently, the best detail.
 
-[Code](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/SphericalCube-2.as).
+[Code](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/SphericalCube-2.as).
 
 ## Topology
 
@@ -50,7 +50,7 @@ The image shows incorrect triangle matching at the cube's face edges, leading to
 
 Example of projecting a circle onto a spherical cube. Minor distortions begin near the cube's face, which is not critical for a circle.<br/>
 Projecting a square onto a spherical cube has no distortion only at the center of the face, but begins at the edges. However, the radius of the inscribed circle remains unchanged. Below is a method for distortion correction.<br/>
-[Code](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/SphericalCube-3.as).
+[Code](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/SphericalCube-3.as).
 
 ### Interpolation Error
 
@@ -61,8 +61,8 @@ The test shows error when projection is applied to vertices, with linear interpo
 Accuracy can be improved by repeating the linear interpolation between control points. The right option is shown on the image.
 
 Code:<br/>
-[Error correction in the computational shader](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/SphericalCube-4.as).<br/>
-[Error correction in the fragment shader](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/SphericalCube-5.as).
+[Error correction in the computational shader](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/SphericalCube-4.as).<br/>
+[Error correction in the fragment shader](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/SphericalCube-5.as).
 
 ## Projection from 2D
 
@@ -89,7 +89,7 @@ The problem can be solved in several ways:
 * Add additional points at the face boundaries.
 * Calculate UV in the fragment shader using tangent, bitangent vectors, and 3D coordinates of the sphere center.
 
-[Code](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/UVSphere-2.as).
+[Code](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/UVSphere-2.as).
 
 ## Sphere without Geometry
 
@@ -109,7 +109,7 @@ Advantages:
 * At high detail, geometry uses significantly more fragment shader streams due to auxiliary streams being called on triangle edges (quad overdraw). A procedural sphere with hexagon geometry uses significantly fewer streams.
 * As a result, performance is twice as high, even on mobile devices.
 
-[Code](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/UVSphere-1.as).
+[Code](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/UVSphere-1.as).
 
 ## Procedural Planet Generation
 
@@ -142,10 +142,10 @@ The main disadvantage is the full iteration of all craters for each vertex, requ
 Distribute points on the sphere and render squares in the texture to fill only selected areas. Crater overlapping is done using blending.<br/>
 The disadvantage of this approach is the problem of projecting geometry onto the cube map.
 
-[Example](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/UVSphere-2.as)
+[Example](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/UVSphere-2.as)
 
 **2nd Option**<br/>
-Modify [one of the examples](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/UVSphere-1.as). Voronoi diagrams are not required; randomly distribute circles without overlapping within a single layer. Multiple layers will be used, simulating meteor impacts in older craters.<br/>
+Modify [one of the examples](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/UVSphere-1.as). Voronoi diagrams are not required; randomly distribute circles without overlapping within a single layer. Multiple layers will be used, simulating meteor impacts in older craters.<br/>
 Algorithm:
 1. A point in 2D on the cube face is projected into 3D sphere normal and rotated.
 2. The normal is projected back into 2D and the nearest grid cell center is found.
@@ -155,8 +155,8 @@ Algorithm:
 	![](img/spherical_cube/SC_UVCorrection.jpg)
 
 Code:
-* [UV calculation and correction](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/UVSphere-3.as)<br/>
-* [Random circle distribution on the sphere](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/UVSphere-4.as)<br/>
+* [UV calculation and correction](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/UVSphere-3.as)<br/>
+* [Random circle distribution on the sphere](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/UVSphere-4.as)<br/>
 
 <details><summary><b>Details on Crater Overlapping</b></summary>
 
@@ -167,9 +167,9 @@ In the video [Coding Adventure: Procedural Moons and Planets](https://youtu.be/l
 Another option is to store a history of craters contributing to height for each pixel and use this for proper mixing.
 To prevent memory overflow, craters can be divided into several layers with noise and erosion added between them. The latest layer would represent fresh impacts, while earlier layers represent older craters.
 In terms of performance, 4 crater layers on Mali G57 take 9.7ns per pixel, while Perlin noise takes 3.4ns.
-![](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/docs/img/CraterMerge.jpg)
+![](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/docs/img/CraterMerge.jpg)
 
-[Code](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/samples-2d/CraterOverlaping.as)
+[Code](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/samples-2d/CraterOverlaping.as)
 
 </details>
 
@@ -184,4 +184,4 @@ Distance to the sphere and plane intersection can be added with 3D noise to get 
 A broken line can be obtained by combining multiple planes.<br/>
 Multiple lines are created through random plane generation and by rotating the layer with lines, similar to how it's done for craters.
 
-[Code](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/planets/UVSphere-5.as)
+[Code](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/planets/UVSphere-5.as)

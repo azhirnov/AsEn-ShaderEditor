@@ -39,29 +39,24 @@
 			RC<Collection>	args = Collection();
 			args.Add( "height_norm",	height_view );
 			args.Add( "color",			color_view );
-			RunScript( "GenParallaxCubemap.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/callable/GenParallaxCubemap.as)
+			RunScript( "GenParallaxCubemap.as", ScriptFlags::RunOnce, args );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/callable/GenParallaxCubemap.as)
 		}
 
 		// create cube
 		{
-			RC<Buffer>				geom_data	= Buffer();
-			RC<UnifiedGeometry>		geometry	= UnifiedGeometry();
+			RC<Mesh>	mesh = Mesh();
+			mesh.SetAttributes( EAttribute::Position | EAttribute::Texcoord3D );
+			mesh.AddSphere( 4 );
 
-			array<float3>	positions;
-			array<float3>	texcoords;
-			array<uint>		indices;
-			GetSphere( 4, OUT positions, OUT texcoords, OUT indices );
-
-			geom_data.FloatArray(	"positions",	positions );
-			geom_data.FloatArray(	"texcoords",	texcoords );
-			geom_data.UIntArray(	"indices",		indices );
-			geom_data.Float(		"lightDir",		Normalize(float3( 0.f, -1.f, 0.f )) );
+			RC<Buffer>	geom_data = mesh.ToBuffer();
+			geom_data.Float( "lightDir",	Normalize(float3( 0.f, -1.f, 0.f )) );
 			geom_data.LayoutName( "GeometrySBlock" );
 
 			UnifiedGeometry_DrawIndexed	cmd;
-			cmd.indexCount = indices.size();
+			cmd.indexCount = mesh.IndexCount();
 			cmd.IndexBuffer( geom_data, "indices" );
 
+			RC<UnifiedGeometry>		geometry = UnifiedGeometry();
 			geometry.Draw( cmd );
 			geometry.ArgIn(	"un_Geometry",			geom_data );
 			geometry.ArgIn(	"un_ColorMap",			color_view,		Sampler_LinearMipmapRepeat );
@@ -73,7 +68,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/Parallax-Sphere2.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Parallax-Sphere2.as)
+			draw.AddPipeline( "samples/Parallax-Sphere2.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/Parallax-Sphere2.as)
 			draw.Output( "out_Color", rt, RGBA32f( 0.3, 0.5, 1.0, 1.0 ));
 			draw.Output( ds, DepthStencil( 1.f, 0 ));
 			draw.Slider( "iHeightScale",	0.f,	0.2f,	0.1f );

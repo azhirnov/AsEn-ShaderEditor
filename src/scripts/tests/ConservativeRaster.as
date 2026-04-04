@@ -50,7 +50,7 @@
 		// render loop //
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "low res 1" );
-			pass.AddPipeline( "tests/ConservativeRaster-v1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ConservativeRaster-v1.as)
+			pass.AddPipeline( "tests/ConservativeRaster-v1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/ConservativeRaster-v1.as)
 			pass.Output(	"out_Color",	low_res,	RGBA32f(0.f) );
 			pass.Constant(	"iP0",			tri_p0 );
 			pass.Constant(	"iP1",			tri_p1 );
@@ -62,7 +62,7 @@
 		if ( GetFeatureSet().hasConservativeRasterization() )
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "low res 2" );
-			pass.AddPipeline( "tests/ConservativeRaster-v2.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ConservativeRaster-v2.as)
+			pass.AddPipeline( "tests/ConservativeRaster-v2.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/ConservativeRaster-v2.as)
 			pass.Output(	"out_Color",	low_res,	RGBA32f(0.f) );
 			pass.Constant(	"iP0",			tri_p0 );
 			pass.Constant(	"iP1",			tri_p1 );
@@ -71,7 +71,7 @@
 		}
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "low res 2" );
-			pass.AddPipeline( "tests/ConservativeRaster-v1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ConservativeRaster-v1.as)
+			pass.AddPipeline( "tests/ConservativeRaster-v1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/ConservativeRaster-v1.as)
 			pass.Output(	"out_Color",	low_res_up,	RGBA32f(0.f) );
 			pass.Constant(	"iP0",			tri_p0 );
 			pass.Constant(	"iP1",			tri_p1 );
@@ -88,14 +88,14 @@
 		// reference
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "high res" );
-			pass.AddPipeline( "tests/ConservativeRaster-v1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ConservativeRaster-v1.as)
+			pass.AddPipeline( "tests/ConservativeRaster-v1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/ConservativeRaster-v1.as)
 			pass.Output(	"out_Color",	high_res1,	RGBA32f(0.f) );
 			pass.Constant(	"iP0",			tri_p0 );
 			pass.Constant(	"iP1",			tri_p1 );
 			pass.Constant(	"iP2",			tri_p2 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "high res" );
-			pass.AddPipeline( "tests/ConservativeRaster-v1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ConservativeRaster-v1.as)
+			pass.AddPipeline( "tests/ConservativeRaster-v1.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/ConservativeRaster-v1.as)
 			pass.Output(	"out_Color",	high_res2,	RGBA32f(0.f) );
 			pass.Constant(	"iP0",			tri_p0 );
 			pass.Constant(	"iP1",			tri_p1 );
@@ -132,7 +132,7 @@
 		if ( iMode != 0 )
 			covered3 = 0.0;
 
-		out_Color = float4(0.0);
+		out_Color = float4(0.0, 0.0, 0.0, 1.0);
 
 		switch ( iDrawOrder )
 		{

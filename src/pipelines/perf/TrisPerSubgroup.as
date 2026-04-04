@@ -71,7 +71,7 @@
 
 	uint  InstancesPerSubgroup ()
 	{
-		// same as [Histogram](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/Histogram-2.as)
+		// same as [Histogram](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/Histogram-2.as)
 
 		uint	count = 0;
 		for (; count < gl.subgroup.Size; ++count)
@@ -203,7 +203,7 @@
 
 	float4  TrisPerSubgroup ()
 	{
-		// same as [Histogram](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/Histogram-2.as)
+		// same as [Histogram](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/Histogram-2.as)
 
 		uint	count = 0;
 		for (; count < gl.subgroup.Size; ++count)
@@ -228,7 +228,7 @@
 	// green - instances merged in VS too
 	float4  InstancesPerSubgroup ()
 	{
-		// same as [Histogram](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/Histogram-2.as)
+		// same as [Histogram](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/Histogram-2.as)
 
 		uint	count = 0;
 		for (; count < gl.subgroup.Size; ++count)

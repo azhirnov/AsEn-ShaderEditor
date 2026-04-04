@@ -32,9 +32,9 @@
 
 		particles.ArrayLayout(
 			"Particle",
-			"	float4	position_size;" +
-			"	float4	velocity_color;" +
-			"	float	startTime;" +
+			"	float4	position_size;"
+			"	float4	velocity_color;"
+			"	float	startTime;"
 			"	uint	numCollisions;",
 			max_particle_count * local_size );
 
@@ -93,13 +93,11 @@
 
 		// create scene with AABBs
 		{
-			array<float3>	positions, normals;
-			array<uint>		indices;
-			GetCube( OUT positions, OUT normals, OUT indices );
+			RC<Mesh>	mesh = Mesh();
+			mesh.SetAttributes( EAttribute::Position );
+			mesh.AddCube();
 
-			RC<Buffer>		geom_data = Buffer();
-			geom_data.FloatArray( "positions",	positions );
-			geom_data.UIntArray(  "indices",	indices );
+			RC<Buffer>		geom_data = mesh.ToBuffer();
 			geom_data.LayoutName( "GeometryData" );
 
 			RC<UnifiedGeometry>		geometry = UnifiedGeometry();
@@ -107,7 +105,7 @@
 			geometry.ArgIn( "un_Transform",	obj_buf );
 
 			UnifiedGeometry_DrawIndexed	cmd;
-			cmd.indexCount	= indices.size();
+			cmd.indexCount	= mesh.IndexCount();
 			cmd.IndexBuffer( geom_data, "indices" );
 			cmd.instanceCount = inst_count;
 			geometry.Draw( cmd );
@@ -118,7 +116,7 @@
 		// render loop //
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw scene" );
-			pass.AddPipeline( "samples/SS-Particles-Scene.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/SS-Particles-Scene.as)
+			pass.AddPipeline( "samples/SS-Particles-Scene.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/SS-Particles-Scene.as)
 			pass.Output(	"out_Color",		rt,			RGBA32f(0.0) );
 			pass.Output(	"out_Normals",		norm,		RGBA32f(0.0) );
 			pass.Output(						ds,			DepthStencil(1.0, 0) );
@@ -141,7 +139,7 @@
 			pass.DispatchGroups( p_count );
 		}{
 			RC<SceneGraphicsPass>	pass = scene_vfx.AddGraphicsPass( "particles" );
-			pass.AddPipeline( "particles/Rays-i.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/particles/Rays-i.as)
+			pass.AddPipeline( "particles/Rays-i.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/particles/Rays-i.as)
 			pass.Output(	"out_Color",		rt );
 			pass.Output(						ds );
 			pass.Slider(	"iSize",			0.5,		4.0,		1.0 );

@@ -7,7 +7,7 @@
 	 * tiled with z-test, zbins
 
 	related:
-	* [project lights to clusters](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/light-cull/test-LightVolToClusters.as)
+	* [project lights to clusters](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/light-cull/test-LightVolToClusters.as)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>
@@ -191,7 +191,7 @@
 			pass.DispatchThreads( light_count );
 		}{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "opaque" );
-			pass.AddPipeline( "samples/StreetLights-Opaque.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/StreetLights-Opaque.as)
+			pass.AddPipeline( "samples/StreetLights-Opaque.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/StreetLights-Opaque.as)
 			pass.Output( "out_Color",		rt_col,		RGBA32f(0.0) );
 			pass.Output( "out_Normal",		rt_norm,	RGBA32f(0.0) );
 			pass.Output(					ds,			DepthStencil(0.0, 0) );
@@ -201,7 +201,7 @@
 		{
 			// not handled case when camera is inside light volume
 			RC<SceneGraphicsPass>	pass = scene_defer_lights1.AddGraphicsPass( "light volumes" );
-			pass.AddPipeline( "samples/DeferredShading-Volume.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/DeferredShading-Volume.as)
+			pass.AddPipeline( "samples/DeferredShading-Volume.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/DeferredShading-Volume.as)
 			pass.Output( "out_Color",		rt_light,	RGBA32f(0.0) );
 			pass.Output(					ds );
 			pass.ArgIn( "un_Albedo",		rt_col,		Sampler_NearestClamp );
@@ -210,7 +210,7 @@
 			pass.EnableIfEqual( mode, 0 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene_defer_lights2.AddGraphicsPass( "light quads" );
-			pass.AddPipeline( "samples/DeferredShading-Billboard.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/DeferredShading-Billboard.as)
+			pass.AddPipeline( "samples/DeferredShading-Billboard.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/DeferredShading-Billboard.as)
 			pass.Output( "out_Color",		rt_light,	RGBA32f(0.0) );
 			pass.Output(					ds );
 			pass.ArgIn( "un_Albedo",		rt_col,		Sampler_NearestClamp );
@@ -229,8 +229,8 @@
 			pass.ColorSelector( "iAmbient",	RGBA8u(54, 61, 75, 255) );
 		}{
 			RC<SceneGraphicsPass>	pass = scene_lights.AddGraphicsPass( "translucent" );
-			pass.AddPipeline( "samples/StreetLights-LightBulb.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/StreetLights-LightBulb.as)
-			pass.AddPipeline( "samples/StreetLights-LightCone.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/StreetLights-LightCone.as)
+			pass.AddPipeline( "samples/StreetLights-LightBulb.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/StreetLights-LightBulb.as)
+			pass.AddPipeline( "samples/StreetLights-LightCone.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/StreetLights-LightCone.as)
 			pass.Output( "out_Color",		rt );
 			pass.OutputLS(					ds,			EAttachmentLoadOp::Load, EAttachmentStoreOp::None );
 			pass.Slider( "iLightSize",		0.01,	1.0,	1.0 );

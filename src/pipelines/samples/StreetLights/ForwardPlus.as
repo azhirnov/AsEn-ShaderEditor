@@ -13,8 +13,8 @@
 		{
 			RC<ShaderStructType>	st = ShaderStructType( prefix+".io" );
 			st.Set( EStructLayout::InternalIO,
-					"mediump float3		color;"s +
-					"float3				worldPos;" +
+					"mediump float3		color;"
+					"float3				worldPos;"
 					"flat uint			objectId;" );
 		}{
 			RC<DescriptorSetLayout>	ds = DescriptorSetLayout( prefix+".mtr.ds" );
@@ -40,34 +40,6 @@
 			RC<Shader>	fs = Shader();
 			fs.LoadSelf();
 			ppln.SetFragmentShader( fs );
-		}
-
-		// specialization
-		{
-			RC<GraphicsPipelineSpec>	spec = ppln.AddSpecialization( prefix+".GEqual|Stencil" );
-			spec.AddToRenderTech( "rtech", "main" );  // in ScriptSceneGraphicsPass
-
-			RenderState	rs;
-
-			rs.depth.test					= true;
-			rs.depth.write					= true;
-			rs.depth.compareOp				= ECompareOp::GEqual;
-
-			rs.stencil.enabled				= true;
-			rs.stencil.CompareOp( ECompareOp::Always );
-			rs.stencil.Reference( 0xFF );
-			rs.stencil.WriteMask( 0xFF );
-
-			rs.stencil.StencilFailOp( EStencilOp::Keep );
-			rs.stencil.DepthFailOp	( EStencilOp::Keep );
-			rs.stencil.PassOp		( EStencilOp::Replace );
-
-			rs.inputAssembly.topology		= EPrimitive::TriangleList;
-
-			rs.rasterization.frontFaceCCW	= true;
-			rs.rasterization.cullMode		= ECullMode::Back;
-
-			spec.SetRenderState( rs );
 		}
 
 		// specialization
@@ -98,7 +70,7 @@
 	void Main ()
 	{
 		ObjectTransform	obj	= un_Transform.elements[ gl.InstanceIndex ];
-		float3			pos = un_Geometry.positions[ gl.VertexIndex ];
+		float3			pos = un_Geometry.position[ gl.VertexIndex ];
 
 		pos *= obj.scale;
 		pos += obj.position;

@@ -27,7 +27,7 @@ The effect is described in [GPU Gems 2: Generic Refraction Simulation](https://d
 
 ![](img/doom/Distortion.jpg)
 
-[Example DistortionMap](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/posteffects/DistortionMap.as).
+[Example DistortionMap](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/posteffects/DistortionMap.as).
 
 The article [Refracting Pixels](https://www.froyok.fr/blog/2024-12-refraction/) also considers refraction. In Half-Life 2 and F.E.A.R., each transparent object with refraction copies the render target and then reads from it with refraction applied. Since all opaque objects are rendered before transparent ones, when applying refraction, objects in front of the transparent one are also copied and used for refraction, which is incorrect.
 

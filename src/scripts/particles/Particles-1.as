@@ -58,9 +58,9 @@
 		{
 			particles.ArrayLayout(
 				"Particle",
-				"	float4	position_size;" +
-				"	float4	velocity_color;" +
-				"	float2	fParams;" +
+				"	float4	position_size;"
+				"	float4	velocity_color;"
+				"	float2	fParams;"
 				"	uint2	iParams;",
 				max_particle_count );
 
@@ -142,32 +142,32 @@
 			{
 				case Mode_GS :
 					pass.SetDebugLabel( "Rays, GS", RGBA8u(200, 200, 0, 255) );
-					pass.AddPipeline( "particles/Rays-gs.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/particles/Rays-gs.as)
+					pass.AddPipeline( "particles/Rays-gs.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/particles/Rays-gs.as)
 					break;
 
 				case Mode_GS + Mode_Count :
 					pass.SetDebugLabel( "Dots, GS", RGBA8u(200, 200, 0, 255) );
-					pass.AddPipeline( "particles/Dots-gs.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/particles/Dots-gs.as)
+					pass.AddPipeline( "particles/Dots-gs.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/particles/Dots-gs.as)
 					break;
 
 				case Mode_Instancing :
 					pass.SetDebugLabel( "Rays, instancing", RGBA8u(200, 200, 0, 255) );
-					pass.AddPipeline( "particles/Rays-i.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/particles/Rays-i.as)
+					pass.AddPipeline( "particles/Rays-i.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/particles/Rays-i.as)
 					break;
 
 				case Mode_Instancing + Mode_Count :
 					pass.SetDebugLabel( "Dots, instancing", RGBA8u(200, 200, 0, 255) );
-					pass.AddPipeline( "particles/Dots-i.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/particles/Dots-i.as)
+					pass.AddPipeline( "particles/Dots-i.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/particles/Dots-i.as)
 					break;
 
 				case Mode_TriList :
 					pass.SetDebugLabel( "Rays, trilist", RGBA8u(200, 200, 0, 255) );
-					pass.AddPipeline( "particles/Rays-tl.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/particles/Rays-tl.as)
+					pass.AddPipeline( "particles/Rays-tl.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/particles/Rays-tl.as)
 					break;
 
 				case Mode_TriList + Mode_Count :
 					pass.SetDebugLabel( "Dots, trilist", RGBA8u(200, 200, 0, 255) );
-					pass.AddPipeline( "particles/Dots-tl.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/particles/Dots-tl.as)
+					pass.AddPipeline( "particles/Dots-tl.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/particles/Dots-tl.as)
 					break;
 			}
 			pass.Output( "out_Color", rt, RGBA32f(0.0) );

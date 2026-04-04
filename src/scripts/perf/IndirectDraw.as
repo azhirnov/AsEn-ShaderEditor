@@ -63,7 +63,7 @@
 			}
 
 			vbuf.UIntArray(	 "indices",		indices );
-			vbuf.FloatArray( "positions",	positions );
+			vbuf.FloatArray( "position",	positions );
 			vbuf.LayoutName( "VertexBuffer" );
 
 			idx_count = indices.size();
@@ -145,19 +145,19 @@
 
 		{
 			RC<SceneGraphicsPass>	pass = scene0.AddGraphicsPass( "draw-0" );
-			pass.AddPipeline( "perf/IndirectDraw.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/IndirectDraw.as)
+			pass.AddPipeline( "perf/IndirectDraw.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/IndirectDraw.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.EnableIfEqual( mode, 0 );
 			pass.Repeat( repeat );
 		}{
 			RC<SceneGraphicsPass>	pass = scene1.AddGraphicsPass( "draw-1" );
-			pass.AddPipeline( "perf/IndirectDraw.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/IndirectDraw.as)
+			pass.AddPipeline( "perf/IndirectDraw.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/IndirectDraw.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.EnableIfEqual( mode, 1 );
 			pass.Repeat( repeat );
 		}{
 			RC<SceneGraphicsPass>	pass = scene2.AddGraphicsPass( "draw-2" );
-			pass.AddPipeline( "perf/IndirectDraw.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/IndirectDraw.as)
+			pass.AddPipeline( "perf/IndirectDraw.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/IndirectDraw.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.0) );
 			pass.EnableIfEqual( mode, 2 );
 			pass.Repeat( repeat );

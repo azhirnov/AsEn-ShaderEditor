@@ -8,18 +8,18 @@
 
 	void  ASmain ()
 	{
-		const string prefix = "sm";
+		const string prefix = "light_cone";
 
 		{
 			RC<ShaderStructType>	st = ShaderStructType( prefix+".io" );
 			st.Set( EStructLayout::InternalIO,
-					"mediump float3		color;" );
+					"mediump float4		color;"
+					"mediump float2		uv;"
+					"flat uint			lightId;" );
 		}{
 			RC<DescriptorSetLayout>	ds = DescriptorSetLayout( prefix+".mtr.ds" );
 			ds.UniformBuffer( EShaderStages::Vertex, "un_PerObject", "UnifiedGeometryMaterialUB" );
-			ds.StorageBuffer( EShaderStages::Vertex, "un_Geometry",  "GeometryData",			EResourceState::ShaderStorage_Read );	// external
-			ds.StorageBuffer( EShaderStages::Vertex, "un_Transform", "ObjectTransform_Array",	EResourceState::ShaderStorage_Read );	// external
-			ds.StorageBuffer( EShaderStages::Vertex, "un_Params",	 "ParamsBuffer",			EResourceState::ShaderStorage_Read );	// external
+			ds.StorageBuffer( EShaderStages::Vertex, "un_LightObjs", "LightObject_Array", EResourceState::ShaderStorage_Read );	// external
 		}{
 			RC<PipelineLayout>		pl = PipelineLayout( prefix+".pl" );
 			pl.DSLayout( "pass",	 0, "pass.ds" );
@@ -47,21 +47,21 @@
 			spec.AddToRenderTech( "rtech", "main" );  // in ScriptSceneGraphicsPass
 
 			RenderState	rs;
-
+			{
+				RenderState_ColorBuffer		cb;
+				cb.SrcBlendFactor( EBlendFactor::One );
+				cb.DstBlendFactor( EBlendFactor::One );
+				cb.BlendOp( EBlendOp::Add );
+				rs.color.SetColorBuffer( 0, cb );
+			}
 			rs.depth.test					= true;
-			rs.depth.write					= true;
-			rs.depth.compareOp				= ECompareOp::LEqual;
+			rs.depth.write					= false;
+			rs.depth.compareOp				= ECompareOp::GEqual;
 
-			rs.inputAssembly.topology		= EPrimitive::TriangleList;
+			rs.inputAssembly.topology		= EPrimitive::TriangleStrip;
 
 			rs.rasterization.frontFaceCCW	= true;
-			rs.rasterization.cullMode		= ECullMode::Front;
-
-			rs.rasterization.depthBias		= true;
-		//	rs.rasterization.depthClamp		= true;		// require 'depthClamp' feature
-
-			rs.rasterization.depthBiasConstFactor	= 1000.0f;
-			rs.rasterization.depthBiasSlopeFactor	= 2.f;
+			rs.rasterization.cullMode		= ECullMode::None;
 
 			spec.SetRenderState( rs );
 		}
@@ -70,46 +70,49 @@
 #endif
 //-----------------------------------------------------------------------------
 #ifdef SH_VERT
+	#include "Cone.glsl"
 	#include "Transform.glsl"
+
+	const float2	c_UV [] = {
+		float2(0.0, 1.0),
+		float2(0.0, 0.0),
+		float2(0.5, 1.0),
+		float2(1.0, 0.0),
+		float2(1.0, 1.0)
+	};
 
 	void Main ()
 	{
-		const int		obj_id	= gl.InstanceIndex;
-		ObjectTransform	obj		= un_Transform.elements[ obj_id ];
-		float3			pos		= un_Geometry.positions[ gl.VertexIndex ];
+		LightObject		obj			= un_LightObjs.elements[ gl.InstanceIndex ];
+		Cone			cone		= Cone_Create( obj.position, obj.dir, obj.angle, obj.height );
 
-		pos *= obj.scale;
-		pos += obj.position;
+		float4			apex_pos	= LocalPosToViewSpace( cone.origin );
+		float4			base_pos	= LocalPosToViewSpace( Cone_BaseCenter( cone ));
+		float			top_size	= 0.025;
+		float			bottom_size	= 0.3;
+		float2			uv			= c_UV[gl.VertexIndex];
 
-		gl.Position		= un_Params.shadowVP * float4( pos, 1.0 );
-		Out.color		= unpackUnorm4x8( obj.color ).rgb;
+		float4			view_pos	= Lerp( apex_pos, base_pos, uv.y );
+						view_pos.x	+= Lerp( top_size, bottom_size, uv.y ) * ToSNorm( uv.x );
+
+		float			atten		= Saturate( 4.0 / view_pos.z );
+
+		gl.Position		= un_PerPass.camera.proj * view_pos;
+		Out.uv			= float2( ToSNorm( uv.x ), uv.y );
+		Out.color		= unpackUnorm4x8( obj.color ) * obj.brightness * atten;
+		Out.lightId		= gl.InstanceIndex;
 	}
 
 #endif
 //-----------------------------------------------------------------------------
 #ifdef SH_FRAG
-	#include "Math.glsl"
+	#include "Hash.glsl"
+	#include "Color.glsl"
+	#include "Normal.glsl"
 
 	void Main ()
 	{
-		// TODO: alpha test if needed
-
-		out_Color = float4( In.color, 1.0 );
-
-		// software depth bias
-	#if 0
-		float	z		= gl_FragCoord.z;	// [0..1]
-
-		float	dzdx	= gl.dFdxCoarse( z );
-		float	dzdy	= gl.dFdyCoarse( z );
-		float	slope	= Max( Abs(dzdx), Abs(dzdy) );
-		float	bias	= iConstBias * 0.001 + iSlopeBias * slope;
-
-		if ( iBiasClamp > 0.0 )
-			bias = Clamp( bias, -iBiasClamp, iBiasClamp );
-
-		gl_FragDepth = Saturate( z + bias );
-	#endif
+		out_Color = In.color * Max( 0.0, 1.0 - Square(In.uv.x) * 2.0 );
 	}
 
 #endif

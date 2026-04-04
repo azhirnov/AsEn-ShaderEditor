@@ -13,11 +13,11 @@
 * Перед тонемапингом верхний размытый мип прибавляется к цвету сцены.
 
 Примеры:
-* [Gaussian blur, без оптимизаций](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/Blur-1.as)
-* [Gaussian blur в 2 прохода](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/Blur-2.as)
-* [Dual filter blur, быстрее на мобилках](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/Blur-3.as)
-* [Kawase blur, похож на Dual filter](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/Blur-4.as)
-* [Bloom](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/samples-2d/Bloom.as)
+* [Gaussian blur, без оптимизаций](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/perf/Blur-1.as)
+* [Gaussian blur в 2 прохода](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/perf/Blur-2.as)
+* [Dual filter blur, быстрее на мобилках](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/perf/Blur-3.as)
+* [Kawase blur, похож на Dual filter](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/perf/Blur-4.as)
+* [Bloom](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/samples-2d/Bloom.as)
 
 
 ## Glow
@@ -41,7 +41,7 @@
 
 ![](img/hzd/LensFlares.jpg)
 
-В новой игре эффект улучшили {glare](#Glare) эффектом с лучами.
+В новой игре эффект улучшили [glare](#Glare) эффектом с лучами.
 
 ![](img/hfw/Flares.jpg)
 
@@ -57,9 +57,9 @@
 
 Если доработать построение геометрии, то получится имитировать и объемный свет.
 
-![](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/docs/img/FakeGlow.jpg)
+![](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/docs/img/FakeGlow.jpg)
 
-[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/vfx/FakeGlow.as)
+[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/vfx/FakeGlow.as)
 
 
 ## Блики на линзах
@@ -122,6 +122,10 @@
 
 ![](img/hfw/Corona.jpg) ![](img/hfw/Flares2.jpg)
 
+**Ghost Recon: Wildlands**
+
+![](img/grw/Glare.jpg)
+
 
 ## Dirt Lens
 
@@ -131,7 +135,7 @@
 
 ![](img/other/DirtLens.jpg)
 
-[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/vfx/DirtLens.as).
+[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/vfx/DirtLens.as).
 
 
 ## Depth of Field (DOF)

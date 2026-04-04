@@ -69,7 +69,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "perf/TrisPerSubgroup.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TrisPerSubgroup.as)
+			pass.AddPipeline( "perf/TrisPerSubgroup.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/TrisPerSubgroup.as)
 			pass.Output(	"out_Color",	low_res,	RGBA32f(0.0) );
 			pass.Output(	"out_TriID",	low_res_id,	RGBA32u(0) );
 			pass.Constant(	"iGridSize",	grid_size );
@@ -78,7 +78,7 @@
 			pass.EnableIfEqual( instancing, 0 );
 		}{
 			RC<SceneGraphicsPass>	pass = scene_inst.AddGraphicsPass( "instanced" );
-			pass.AddPipeline( "perf/TrisPerSubgroup.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/perf/TrisPerSubgroup.as)
+			pass.AddPipeline( "perf/TrisPerSubgroup.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/perf/TrisPerSubgroup.as)
 			pass.Output(	"out_Color",	low_res,	RGBA32f(0.0) );
 			pass.Output(	"out_TriID",	low_res_id,	RGBA32u(0) );
 			pass.Constant(	"iGridSize",	grid_size );

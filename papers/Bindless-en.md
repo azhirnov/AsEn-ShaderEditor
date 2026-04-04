@@ -119,9 +119,9 @@ Non-uniform data includes:
 * `gl_BaseInstance`, `gl_BaseVertex`, `gl_ViewIndex` ???
 
 When using `nonuniform()`, the compiler may add extra instructions. If the compiler knows the variable is only `uniform`, it ignores `nonuniform()`, avoiding unnecessary instructions.
-The example [UniqueIDs](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/UniqueIDs-1.as) shows how the compiler converts non-uniform resource access into uniform.
+The example [UniqueIDs](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/UniqueIDs-1.as) shows how the compiler converts non-uniform resource access into uniform.
 
-The example [BrokenNonuniform](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/nonuniform/BrokenNonuniform.as) demonstrates what happens if `nonuniform()` isn't used.
+The example [BrokenNonuniform](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/nonuniform/BrokenNonuniform.as) demonstrates what happens if `nonuniform()` isn't used.
 On most tested GPUs, the driver detects non-uniformity, and `nonuniform()` has no effect, making such errors hard to catch. Only on AMD GCN does using `nonuniform()` immediately reveal issues.
 
 For more details, refer to [Vulkan Samples: descriptor indexing](https://github.com/KhronosGroup/Vulkan-Samples/tree/main/samples/extensions/descriptor_indexing#non-uniform-indexing-enabling-advanced-algorithms).
@@ -142,7 +142,7 @@ textureGrad(un_Textures[nonuniform(tex_id)], dx, dy);
 Support for `quadDivergentImplicitLod` depends on the GPU vendor, not the architecture version.
 It's supported by Adreno, Intel, NVidia, PowerVR, but not by AMD, Apple, Mali, VideoCore, or Maleoon.
 
-The example [QuadDivergentImplicitLod](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/nonuniform/QuadDivergentImplicitLod.as) demonstrates whether an error occurs if `textureGrad()` isn't used.
+The example [QuadDivergentImplicitLod](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/nonuniform/QuadDivergentImplicitLod.as) demonstrates whether an error occurs if `textureGrad()` isn't used.
 On AMD RX570, the difference is only in `textureQueryLod().x`.
 NVidia, Intel, and PowerVR show minimal differences between `texture()` and `textureGrad()`, possibly due to lower precision when derivatives are computed implicitly.
 
@@ -154,7 +154,7 @@ On Adreno 500, non-uniform texture access doesn't work at all - texture reads re
 ### Device Address
 
 The extension `VK_KHR_buffer_device_address` allows using pointers to buffer memory. The address is obtained from `ulong` or `uint2` types.
-[Example](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/BufferReference.as) with a binary tree.
+[Example](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/BufferReference.as) with a binary tree.
 
 <details><summary>Support starts with:</summary>
 
@@ -227,9 +227,9 @@ The main downside is difficulty in debugging. Out-of-bounds array accesses don't
 
 ## Prefix Scan
 
-One stage of GPU-Driven rendering involves checking object visibility and removing invisible objects from the rendering queue. Visibility checks are performed using frustum culling, [HiZ](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/GeometryCulling-ru.md#hierarchy-z-buffer-hzb-hiz), [Raster occlusion](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/GeometryCulling-ru.md#raster-occlusion), and others. After visibility checks, we get an array of object IDs and empty elements. To group IDs, a prefix scan/prefix sum algorithm is used. Examples: [PrefixScan-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-1.as), [PrefixScan-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-2.as).
+One stage of GPU-Driven rendering involves checking object visibility and removing invisible objects from the rendering queue. Visibility checks are performed using frustum culling, [HiZ](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/GeometryCulling-ru.md#hierarchy-z-buffer-hzb-hiz), [Raster occlusion](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/GeometryCulling-ru.md#raster-occlusion), and others. After visibility checks, we get an array of object IDs and empty elements. To group IDs, a prefix scan/prefix sum algorithm is used. Examples: [PrefixScan-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-1.as), [PrefixScan-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-2.as).
 
-If the order of IDs doesn't matter, a simpler algorithm with atomics can be used. Example: [PrefixScan-3](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-3.as), with flickering due to atomic operations.
+If the order of IDs doesn't matter, a simpler algorithm with atomics can be used. Example: [PrefixScan-3](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-3.as), with flickering due to atomic operations.
 
 ## Radix Sort
 

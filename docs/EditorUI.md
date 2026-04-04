@@ -35,7 +35,7 @@ When the shader debugger is set up, you can press `G` to record the shader trace
 To enable debugging for `Postprocess` or `ComputePass` add line `pass.AddFlag( EPassFlags::Enable_ShaderTrace );`.
 
 To enable debugging for `SceneGraphicsPass` you need to manually add debug pipelines.
-See [DebugPipe](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/tests/DebugPipe.as) sample for VS and FS debugging, or see [MeshShader](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/samples-3d/MeshShader-Cubes.as) sample for TS, MS and FS debugging.
+See [DebugPipe](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/tests/DebugPipe.as) sample for VS and FS debugging, or see [MeshShader](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/samples-3d/MeshShader-Cubes.as) sample for TS, MS and FS debugging.
 
 ### Capture
 

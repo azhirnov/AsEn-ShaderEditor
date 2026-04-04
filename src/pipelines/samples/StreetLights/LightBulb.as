@@ -13,8 +13,8 @@
 		{
 			RC<ShaderStructType>	st = ShaderStructType( prefix+".io" );
 			st.Set( EStructLayout::InternalIO,
-					"mediump float4		color;"s +
-					"mediump float2		uv;" +
+					"mediump float4		color;"
+					"mediump float2		uv;"
 					"flat uint			lightId;" );
 		}{
 			RC<DescriptorSetLayout>	ds = DescriptorSetLayout( prefix+".mtr.ds" );

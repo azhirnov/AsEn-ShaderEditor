@@ -1,7 +1,7 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
 /*
 	Used orthographic projection to build cubemap (front face is not used).
-		Based on [RenderToCubemap sample](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/projections/RenderToCubemap.as)
+		Based on [RenderToCubemap sample](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/projections/RenderToCubemap.as)
 	Used ray-box intersection to build fake room.
 */
 #ifdef __INTELLISENSE__
@@ -61,7 +61,7 @@
 		{
 			RC<Model>	model = Model( "res/models/Sponza/Sponza.gltf" );
 
-			model.InitialTransform( float3(0.f, -4.5f, 0.f), float3(0.f, ToRad(90.f), ToRad(180.f)), 100.f );
+			model.InitialTransform( Transform().Position( 0.f, 4.5f, 0.f ).Rotation( 0.f, ToRad(90.f), ToRad(180.f) ).Scale( 100.f ));
 			model.InstanceCount( 6 );
 
 			model.AddOmniLight( float3(0.f, -5.f, 0.f), float3(0.f, 0.f, 0.05f), RGBA32f(1.f) );
@@ -74,7 +74,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "to cubemap" );
-			pass.AddPipeline( "samples/Model-Cubemap.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Model-Cubemap.as)
+			pass.AddPipeline( "samples/Model-Cubemap.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/Model-Cubemap.as)
 			pass.Output( "out_Color",	cubemap_rt,		RGBA32f(0.0f, 1.f, 1.f, 1.f) );
 			pass.Output(				cubemap_ds,		DepthStencil(1.f, 0) );
 			pass.ArgIn(  "un_CBuf",		cbuf );

@@ -121,14 +121,14 @@
 Неоднородные данные:
 * `gl_VertexIndex`, `gl_PrimitiveID`, вершинные аттрибуты и тд.
 * `gl_LocalInvocationID` и `gl_GlobalInvocationID`.
-* `gl_InstanceIndex` на TBR и TBDR архитектурах вершинные и фрагментные шейдеры могут содержать разные инстансы. ([тест](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/TrisPerSubgroup.as))
+* `gl_InstanceIndex` на TBR и TBDR архитектурах вершинные и фрагментные шейдеры могут содержать разные инстансы. ([тест](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/perf/TrisPerSubgroup.as))
 * `gl_BaseInstance` и `gl_BaseVertex` могут быть однородными по аналогии с `gl_DrawID`, если не используется multi draw.
 * `gl_ViewIndex` ???
 
 При использовании `nonuniform()` компилятор может добавить дополнительные инструкции, но если компилятор знает, что переменная только `uniform`, то проигнорирует `nonuniform()` и лишних инструкций не будет.<br/>
-Пример [UniqueIDs](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/UniqueIDs-1.as) показывает как компилятор превращает неоднородный доступ к ресурсам в однородный.
+Пример [UniqueIDs](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/UniqueIDs-1.as) показывает как компилятор превращает неоднородный доступ к ресурсам в однородный.
 
-Пример [BrokenNonuniform](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/nonuniform/BrokenNonuniform.as) показывает, что будет если не использовать `nonuniform()`.
+Пример [BrokenNonuniform](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/nonuniform/BrokenNonuniform.as) показывает, что будет если не использовать `nonuniform()`.
 Почти на всех протестированных ГП драйвер сам обнаруживает неоднородность и `nonuniform()` ни на что не влияет, поэтому такие ошибки сложно отловить. Только на AMD GCN берется один индекс на варп и ошибки сразу проявляются.
 
 Подробнее можно почитать в [Vulkan Samples: descriptor indexing](https://github.com/KhronosGroup/Vulkan-Samples/tree/main/samples/extensions/descriptor_indexing#non-uniform-indexing-enabling-advanced-algorithms).
@@ -151,7 +151,7 @@ textureGrad( un_Textures[nonuniform(tex_id)], dx, dy );
 Поддержка `quadDivergentImplicitLod` зависит от производителя, а не версии архитектуры.
 Так параметр поддерживается на Adreno, Intel, NVidia, PowerVR и не поддерживается на AMD, Apple, Mali, VideoCore, Maleoon.
 
-Пример [QuadDivergentImplicitLod](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/nonuniform/QuadDivergentImplicitLod.as) покажет появляется ли ошибка, если не использовать `textureGrad()`.
+Пример [QuadDivergentImplicitLod](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/nonuniform/QuadDivergentImplicitLod.as) покажет появляется ли ошибка, если не использовать `textureGrad()`.
 На AMD RX570 разница только в `textureQueryLod().x`.
 NVidia, Intel и PowerVR показали небольшое отличие между `texture()` и `textureGrad()`, это может быть связано с меньшей точностью при неявном расчете дериватив.
 
@@ -164,7 +164,7 @@ NVidia, Intel и PowerVR показали небольшое отличие ме
 ### Device Address
 
 Расширение `VK_KHR_buffer_device_address` позволяет использовать указатели на память буфера. Адрес получается из `ulong` или `uint2` типа.<br/>
-[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/BufferReference.as) с бинарным деревом.
+[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/BufferReference.as) с бинарным деревом.
 
 <details><summary>Поддерживается начиная с:</summary>
 
@@ -249,13 +249,13 @@ Bindless техники позволяют перенести больше ло�
 ## Prefix Scan
 
 Один из этапов GPU Driven подхода - проверка видимости объектов и их удаление из очереди рисования.
-Проверка видимости выполняется через frustum culling, [HiZ](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/GeometryCulling-ru.md#hierarchy-z-buffer-hzb-hiz), [Raster occlusion](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/papers/GeometryCulling-ru.md#raster-occlusion) и тд.
+Проверка видимости выполняется через frustum culling, [HiZ](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/GeometryCulling-ru.md#hierarchy-z-buffer-hzb-hiz), [Raster occlusion](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/GeometryCulling-ru.md#raster-occlusion) и тд.
 После проверки видимости получаем массив из ID объектов и пустые элементы, чтобы сгруппировать ID используется prefix scan / prefix sum алгоритм.
 
-Примеры: [PrefixScan-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-1.as), [PrefixScan-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-2.as).
+Примеры: [PrefixScan-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-1.as), [PrefixScan-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-2.as).
 
 Если порядок ID не важен, то используется более простой алгоритм с атомиком.
-Пример: [PrefixScan-3](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/PrefixScan-3.as), мелькание возникает из-за перемешивания ID при использовании атомика.
+Пример: [PrefixScan-3](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-3.as), мелькание возникает из-за перемешивания ID при использовании атомика.
 
 
 ## Radix Sort
@@ -268,7 +268,7 @@ Bindless техники позволяют перенести больше ло�
 
 Для сортировки лучше всего нарезать экран на тайлы и произвести сортировку мешлетов внутри тайла.
 
-Примеры сортировки: [RadixSort-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/RadixSort-1.as), [RadixSort-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/compute/RadixSort-2.as).
+Примеры сортировки: [RadixSort-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/RadixSort-1.as), [RadixSort-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/RadixSort-2.as).
 
 
 ## Multi Draw Indirect

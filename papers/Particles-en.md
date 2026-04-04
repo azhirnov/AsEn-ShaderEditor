@@ -6,7 +6,7 @@ Sprites, shells, debris, and other short-lived particles are simulated in screen
 
 This effect first appeared in the Infiltrator Demo: [Infiltrator Breakdown: Visual Effects 01](https://youtu.be/-VANuJCM29E?t=243), [Infiltrator Breakdown: Visual Effects 02](https://www.youtube.com/watch?v=RURQSR788Dg).
 
-[Example](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/particles/ScreenSpace.as)
+[Example](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/particles/ScreenSpace.as)
 
 
 ### Explosion

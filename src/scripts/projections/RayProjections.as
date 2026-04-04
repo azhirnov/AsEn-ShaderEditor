@@ -1,6 +1,6 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
 /*
-	Also see tests [](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/screenshot-test/RayProjection.as)
+	Also see tests [](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/screenshot-test/RayProjection.as)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>

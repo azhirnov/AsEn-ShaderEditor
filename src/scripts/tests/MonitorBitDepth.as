@@ -4,7 +4,7 @@
 
 	bit depth = 1 / (iRange / iGridSize)
 
-	[Dithering](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/samples-2d/Dithering.as) sample shows how to hide this effect.
+	[Dithering](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/samples-2d/Dithering.as) sample shows how to hide this effect.
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>

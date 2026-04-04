@@ -76,12 +76,12 @@ HDR режим требует Windows версии 10 и выше.
 
 Большинство смартфонов используют 10-битную матрицу. На ноутбуках и мониторах ситуация хуже и для экономии используются 8-битные матрицы.
 
-Я сделал простой тест для определения битности выводимого изображения: [MonitorBitDepth](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/tests/MonitorBitDepth.as).<br/>
+Я сделал простой тест для определения битности выводимого изображения: [MonitorBitDepth](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/tests/MonitorBitDepth.as).<br/>
 Важно, чтобы свопчейн поддерживал `RGBA16F` формат иначе точность теряется еще до вывода на экран.
 Тест выводит градиент в небольшом диапазоне цветов, что приводит к видимым полосам на экране, измерив ширину полосы узнаем с каким шагом меняется цвет и соответственно сколько бит у матрицы.
 
 Чтобы замаскировать полосы на 8-битной матрице есть простой способ - дизеринг, когда поверх прибавляется небольшой шум, который скрывает шум, но невидим для глаза.
-Пример [Dithering](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/samples-2d/Dithering.as).
+Пример [Dithering](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/samples-2d/Dithering.as).
 
 
 ## Эмуляция HDR

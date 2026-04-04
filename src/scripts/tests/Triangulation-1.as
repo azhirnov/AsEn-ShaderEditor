@@ -39,7 +39,7 @@
 			array<uint>		indices;
 			Triangulate( contour_verts, contour_idcs, 0.f, OUT positions, OUT indices );
 
-			geom_data.FloatArray(	"positions",	positions );
+			geom_data.FloatArray(	"position",		positions );
 			geom_data.UIntArray(	"indices",		indices );
 			geom_data.LayoutName( "GeometrySBlock" );
 
@@ -56,7 +56,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "tests/Triangulation.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/Triangulation.as)
+			draw.AddPipeline( "tests/Triangulation.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/Triangulation.as)
 			draw.Output( "out_Color", rt, RGBA32f( 0.3, 0.5, 1.0, 1.0 ));
 			draw.Output( ds, DepthStencil( 1.f, 0 ));
 			draw.Slider( "iDbgNormals",	0, 1 );

@@ -7,7 +7,7 @@
 
 Эффект появился еще в Infiltrator Demo: [Infiltrator Breakdown: Visual Effects 01](https://youtu.be/-VANuJCM29E?t=243), [Infiltrator Breakdown: Visual Effects 02](https://www.youtube.com/watch?v=RURQSR788Dg).
 
-[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/particles/ScreenSpace.as)
+[Пример](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/particles/ScreenSpace.as)
 
 
 ### Explosion

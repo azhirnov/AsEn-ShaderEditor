@@ -75,13 +75,18 @@
 	- ID материала (16бит)
 	- UV (2х 16бит)
 	- UV деривативы или LOD (4х 16бит или 8бит)
-	- касательные (tangent, bitangent) для рельефного текстурирования
+	- касательные (tangent, bitangent - 4x 16бит) для рельефного текстурирования
 * Больше данных попадает в G-буфер, что не так страшно для TBDR архитектур пока умещается в 128 бит.
 	- Чем больше атрибутов у вершины, тем больше G-буфер.
 * При использовании виртуальных текстур возможны оптимизации:
 	- Один UV для всех текстур (2х 16бит)
 	- Всего 1-3 мипов упакованные в тот же атлас, читаются как UV/x.
+	- 32 битный кватернион для хранения TBN.
 * Новый подход со стохастической фильтрацией позволяет хранить только индекс мипа вместо дериватив, а фильтрация растянута во времени, то есть каждый кадр идет чтение с небольшим смещением UV, что улучшает качество.
+
+**Примеры**
+* [UV+LOD packing](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/DeferredTexturing.as)
+* [Parallax mapping with Deferred Texturing](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/DeferredParallax.as)
 
 **Ссылки**
 * [Nathan Reed: Deferred Texturing](https://www.reedbeta.com/blog/deferred-texturing/)
@@ -109,9 +114,8 @@
 	- Для мобилок может быть оптимальнее читать вершины из текстуры или текстурного буфера (TBO), тогда они попадут в L1 кэш.
 
 **Этап классификации**
-* Material Depth Buffer ([Dawn Engine (страница 16)](https://gitea.yiem.net/QianMo/Real-Time-Rendering-4th-Bibliography-Collection/raw/branch/main/Chapter%201-24/%5B0363%5D%20%5BGPU%20Zen%202017%5D%20Deferred+-%20Next-Gen%20Culling%20and%20Rendering%20for%20the%20Dawn%20Engine.pdf) и [Nanite (слайды 100-105)](https://advances.realtimerendering.com/s2021/Karis_Nanite_SIGGRAPH_Advances_2021_final.pdf), есть [тест производительности](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/gbuffer-classify/MaterialDepthBuffer.as)).<br/>
-  Идея в том, что после прохождения буфера глубины пиксели (на самом деле квадраты 2х2) группируются чтобы максимально заполнить варп, но не могут собирать пиксели за пределами тайла (на TBR и TBDR), поэтому эффективность снижается.
-  А размер тайла может зависить от количества регистров в фрагментном шейдере, то есть для тяжелого шейдера эффективность падает сильнее.
+* Material Depth Buffer ([Dawn Engine (страница 16)](https://gitea.yiem.net/QianMo/Real-Time-Rendering-4th-Bibliography-Collection/raw/branch/main/Chapter%201-24/%5B0363%5D%20%5BGPU%20Zen%202017%5D%20Deferred+-%20Next-Gen%20Culling%20and%20Rendering%20for%20the%20Dawn%20Engine.pdf) и [Nanite (слайды 100-105)](https://advances.realtimerendering.com/s2021/Karis_Nanite_SIGGRAPH_Advances_2021_final.pdf), есть [тест производительности](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/gbuffer-classify/MaterialDepthBuffer.as)).<br/>
+  Идея в том, что после прохождения буфера глубины пиксели (на самом деле квадраты 2х2) группируются чтобы максимально заполнить варп, но не могут собирать пиксели за пределами тайла (на Mali, NV, Apple), поэтому эффективность снижается.
 * Классификация в компьют шейдере как в [Horizon Forbidden West](https://www.gdcvault.com/play/1027553/Adventures-with-Deferred-Texturing-in).<br/>
   Размер тайла задается вручную, что позволяет лучше сгруппировать пиксели, также в компьют шейдере нет quad overdraw.
 * Классификация на воркграфах как в [Simple Classify demo](https://github.com/GPUOpen-LibrariesAndSDKs/WorkGraphsDirectX-Graphics-Samples/tree/main/Samples/Desktop/D3D12GPUWorkGraphs/SimpleClassify).
@@ -126,6 +130,7 @@
 * [The Visibility Buffer: A Cache-Friendly Approach to Deferred Shading (2013)](https://jcgt.org/published/0002/02/04/paper.pdf)
 * [Visibility Buffer (2016)](https://gdcvault.com/play/1023792/4K-Rendering-Breakthrough-The-Filtered)
 * [Visibility Buffer Rendering with Material Graphs](http://filmicworlds.com/blog/visibility-buffer-rendering-with-material-graphs/)
+* [Visibility Buffer and Deferred Rendering in DOOM: The Dark Ages](https://www.youtube.com/watch?v=fXakIV1OFes)
 
 
 ## Hierarchy Z-Buffer (HZB, HiZ)
@@ -161,12 +166,12 @@
 ![](img/other/Cull_NonPOT_MipError.png)
 
 Есть 2 варианта решения проблемы:
-* Сначала уменьшить до степени 2, затем расчитывать мип-уровни. [Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-1.as).
+* Сначала уменьшить до степени 2, затем расчитывать мип-уровни. [Пример](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-1.as).
 	- Для степени 2 мип-уровни расчитываются быстрее.
 	- Искажаются пропорции, квадраты становятся прямоугольниками и точность проверки видимости немного снижается.
-* Для каждого мип уровня выбирать какие пиксели из верхнего уровня влияют на него. [Пример](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-2.as).
+* Для каждого мип уровня выбирать какие пиксели из верхнего уровня влияют на него. [Пример](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-2.as).
 
-[Пример HiZ с визуализацией для отладки](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-HiZ-DebugVis.as)<br/>
+[Пример HiZ с визуализацией для отладки](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-HiZ-DebugVis.as)<br/>
 ![](img/other/Cull_HiZ-DebugVis.png)
 
 </details>
@@ -191,7 +196,7 @@
 * Для лучшей точности требуется нарезать геометрию на мелкие части (мешлеты).
 * Хорошо подходит для тонкой геометрии: растительность, столбы, провода.
 
-[Пример Raster Occlusion визуализацией для отладки](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-RasterCull-DebugVis.as)
+[Пример Raster Occlusion визуализацией для отладки](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-RasterCull-DebugVis.as)
 
 
 ## Cone/Cluster Culling
@@ -227,13 +232,15 @@ Cluster Culling описан в [Optimizing the Graphics Pipeline with Compute](
 * Плохо работает для динамических объектов.
 * Может не содержать данных для всех возможных положений камеры. Например, если обычное поведение - камера на земле и все предрасчитано, то в режиме полета уже не получится все расчитать.
 * В итоге от этого подхода стали отказываться в пользу HiZ или растеризации на ЦП.
+* В UE4 рекомендуют использовать предрасчет на мобилках, где нехватает производительности для других методов.
 
-**Umbra3D dPVS**<br/>
-Библиотека для расчета PVS в рантайме. Использует растеризацию упрощенной геометрии на ЦП.
+Сюда же относится и портальная система для помещений.
 
 Ссылки:
 * [Improving Geometry Culling for 'Deus Ex: Mankind Divided'](https://www.gdcvault.com/play/1023678/)
 * [Solving Visibility and Streaming in the The Witcher 3: Wild Hunt with Umbra 3](https://gdcvault.com/play/1020231/Solving-Visibility-and-Streaming-in)
+* [UE: Precomputed Visibility Volume](https://dev.epicgames.com/documentation/en-us/unreal-engine/precomputed-visibility-volumes-in-unreal-engine?application_version=5.5)
+* [Old school rendering rant - Tomb Raider](https://medium.com/@reinigdavid/old-school-rendering-rant-tomb-raider-913f7837de7e)
 
 
 ## Растеризация на стороне ЦП
@@ -265,9 +272,24 @@ Cluster Culling описан в [Optimizing the Graphics Pipeline with Compute](
 Во всех случаях приходится платить за вызов отрисовки и вершинный шейдер, а дальше влияет только эффективность реализации в железе.
 
 
+### Facing test, XY plane test, Z plane test, Sample test
+
+![](img/other/ARM-Mali-Geometry-culling.png)
+
+* Происходит на этапе нарезки на тайлы. Здесь платим только за вызов части вершинного шейдера, который отвечает за позицию.
+* При отсечении задних граней выкидывает треугольники, которые не прошли тест. Это около половины треугольников для моделей, но ноль для 2D.
+* Проверяется что треугольник виден на экране (XY plane test, Z plane test, он же frustum test), если нет - он отбрасывается.
+* Треугольник должен занимать хотя бы один пиксель, иначе отбрасывается (Sample test).
+* На TBDR это снижает нагрузку на память при выгрузке и загрузке нарезаной на тайлы геометрии.
+
+**Ссылки**
+* [Valhall Performance Counters Reference Guide](https://developer.arm.com/documentation/107775/0106)
+* [A trip through the Graphics Pipeline 2011, part 5](https://fgiesen.wordpress.com/2011/07/05/a-trip-through-the-graphics-pipeline-2011-part-5/)
+
+
 ### Early ZS, Hierarchy Z-Buffer
 
-* После растеризации идет тест глубины и только для квадратов (2х2 пикселя), которые прошли тест, будет запущен фрагментный шейдер.
+* После растеризации идет тест глубины и трафарета (Early ZS), и только для квадратов (2х2 пикселя), которые прошли тест, будет запущен фрагментный шейдер.
 * На этом этапе применяется встроенный иерархический буфер глубины (HiZ), который отсекает целые тайлы без необходимости тестировать каждый квадрат.
 * Квадраты, которые прошли тест, далее группируются в пределах тайла, чтобы занять все свободные потоки варпа.
 * Discard в шейдере и прозрачность не меняют глубину, поэтому также может отсекаться. Более эффективное отсечение на TBDR архитектуре.
@@ -275,19 +297,6 @@ Cluster Culling описан в [Optimizing the Graphics Pipeline with Compute](
 **Ссылки**
 * [To Early-Z, or Not To Early-Z](https://therealmjp.github.io/posts/to-earlyz-or-not-to-earlyz/)
 * [A trip through the Graphics Pipeline 2011, part 7](https://fgiesen.wordpress.com/2011/07/08/a-trip-through-the-graphics-pipeline-2011-part-7/)
-
-
-### Facing test, XY plane test, Z plane test, Sample test
-
-* Происходит на этапе нарезки на тайлы. Здесь платим только за вызов части вершинного шейдера, который отвечает за позицию.
-* При отсечении задних граней выкидывает треугольники, которые не прошли тест. Это около половины треугольников для моделей, но ноль для 2D.
-* Проверяется что треугольник виден на экране (XY plane test, Z plane test), если нет - он отбрасывается.
-* Треугольник должен занимать хотя бы один пиксель, иначе отбрасывается (Sample test).
-* На TBDR это снижает нагрузку на память при выгрузке и загрузке нарезаной на тайлы геометрии.
-
-**Ссылки**
-* [Valhall Performance Counters Reference Guide](https://developer.arm.com/documentation/107775/0106)
-* [A trip through the Graphics Pipeline 2011, part 5](https://fgiesen.wordpress.com/2011/07/05/a-trip-through-the-graphics-pipeline-2011-part-5/)
 
 
 ### AMD Vega Deferred pixel processing
@@ -427,10 +436,13 @@ Raster occlusion выигрывает, когда форма геометрии 
 На Adreno 600 и Intel gen9 производительность падает на 50-70% с легким FS, на Mali G57 на 40-70%, на PowerVR на 20-30%.
 Нет изменений в производительности у Intel N150, AMD 780M, AMD RX570, NV RTX, Mali G610 (в 2К), Apple.
 
+На TBDR архитектуре discard может выключать оптимизации типа LRZ, которые работают еще на этапе нарезания на тайлы, из-за чего больше треугольников идет на растеризацию, но отсекается на EarlyZ.
+На дискретных ГП есnm влияение на встроенный HiZ, что не позволяет заранее отбрасывать целые треугольники.
+
 
 ### Intel N150 vs UHD620 vs AMD RX570
 Похожее по производительности железо, но разное поколение.<br/>
-Большое отличие показал Raster occlusion: 2.1мс на N150 и 12.5мс на UHD620, а причина в больших задержках у DDR3 (LPDDR3 по другим спекм), хотя пропускная способность у двухканальной DDR3 и одноканальной DDR4 совпадают.
+Большое отличие показал Raster occlusion: 2.1мс на N150 и 12.5мс на UHD620, а причина в больших задержках у DDR3 (LPDDR3 по другим спекам), хотя пропускная способность у двухканальной DDR3 и одноканальной DDR4 совпадают.
 
 AMD RX570 имеет схожую производительность растеризатора, но вдвое быстрее в ALU и в 4 раза лучше пропускная способность памяти.
 
@@ -454,17 +466,18 @@ Adreno 505 плохо справляется со случайным чтени�
 
 # Исходники
 
-* [GeometryCulling-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/GeometryCulling-1.as) - тест производительности, нагрузка на VS и растеризатор.
-  Тут [VS и FS шейдеры](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipeline_inc/GeometryCulling-1-shared.as).
-* [GeometryCulling-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/GeometryCulling-2.as) - тест производительности, нагрузка на FS.
-  Тут [VS и FS шейдеры](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipeline_inc/GeometryCulling-2-shared.as).
-* [GenHiZ-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-1.as) - расчет мип-уровней HiZ, вариант со степенью 2.
-* [GenHiZ-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-2.as) - расчет мип-уровней HiZ, вариант с сохранением пропорций.
-* [DepthPyramidCulling](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-DepthPyramidCulling.as) - визуализация проверки видимости прямоугольника на пирамиде глубины, используется в HiZ.
-* [ProjectSphere test](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-ProjectSphere.as) - отладочная визуализация быстрой проекции сферы, используется для HiZ.
-  Тут [шейдер с проекцией](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ProjectSphere.as).
-* [HiZ-DebugVis](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-HiZ-DebugVis.as) - отладочная визуализаций HiZ теста.
-* [RasterCull-DebugVis](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-RasterCull-DebugVis.as) - отладочная визуализаций Raster Occlusion теста.
-* [MaterialDepthBuffer](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/gbuffer-classify/MaterialDepthBuffer.as) - тест производительности этапа классификации для visibility buffer.
-* [VisibilityBuffer](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/VisibilityBuffer.as) - реализация visibility buffer. В редакторе шейдеров нет подготовки геометрии для VisBuf, поэтому используется RTX, где все подготовленно под bindless.
-* [DeferredTexturing](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/DeferredTexturing.as) - реализация отложенного текстурирования.
+* [GeometryCulling-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/GeometryCulling-1.as) - тест производительности, нагрузка на VS и растеризатор.
+  Тут [VS и FS шейдеры](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipeline_inc/GeometryCulling-1-shared.as).
+* [GeometryCulling-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/GeometryCulling-2.as) - тест производительности, нагрузка на FS.
+  Тут [VS и FS шейдеры](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipeline_inc/GeometryCulling-2-shared.as).
+* [GenHiZ-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-1.as) - расчет мип-уровней HiZ, вариант со степенью 2.
+* [GenHiZ-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-2.as) - расчет мип-уровней HiZ, вариант с сохранением пропорций.
+* [DepthPyramidCulling](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-DepthPyramidCulling.as) - визуализация проверки видимости прямоугольника на пирамиде глубины, используется в HiZ.
+* [ProjectSphere test](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-ProjectSphere.as) - отладочная визуализация быстрой проекции сферы, используется для HiZ.
+  Тут [шейдер с проекцией](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/ProjectSphere.as).
+* [HiZ-DebugVis](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-HiZ-DebugVis.as) - отладочная визуализаций HiZ теста.
+* [RasterCull-DebugVis](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-RasterCull-DebugVis.as) - отладочная визуализаций Raster Occlusion теста.
+* [MaterialDepthBuffer](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/gbuffer-classify/MaterialDepthBuffer.as) - тест производительности этапа классификации для visibility buffer.
+* [VisibilityBuffer](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/VisibilityBuffer.as) - реализация visibility buffer. В редакторе шейдеров нет подготовки геометрии для VisBuf, поэтому используется RTX, где все подготовленно под bindless.
+* [DeferredTexturing](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/DeferredTexturing.as) - реализация отложенного текстурирования.
+* [Parallax mapping with Deferred Texturing](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/DeferredParallax.as) - упаковка TBN в 32-битный кватернион.

@@ -4,22 +4,22 @@
 **Тест нагрузки на VS и растеризатор**<br/>
 Фрагментный шейдер расчитывает попиксельную нормаль и финальный цвет.
 Основная нагрузка идет на вершинный шейдер, растеризатор или ZS-тест, в зависимости от возможностей железа.<br/>
-[Исходники](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/GeometryCulling-1.as).
+[Исходники](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/GeometryCulling-1.as).
 
 **Тест нагрузки на FS**<br/>
 В фрагментном шейдере сделан случайный доступ к текстурам, что дает большую нагрузку на VRAM и не нагружает кэши.
 Второй вариант - нагрузка ALU генерацией шума.<br/>
-[Исходники](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/GeometryCulling-2.as).
+[Исходники](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/GeometryCulling-2.as).
 
 **Тест генерации пирамиды глубины (HZB)**<br/>
 Используется R32F или R16_UNorm формат в зависимости от формата буфера глубины.
 Сравнивается генерация в компьют шейдере (cs) и в фрагментном шейдер, что включает компрессию и снижает нагрузку на память (gfx). Уровень компрессии зависит от содержимого текстуры, чем больше градиентов и меньше шумов, тем лучше компрессия и быстрее генерация пирамиды.
 Дополнительная оптимизация - sampler min reduction, позволяет заменить линейную фильтрацию на min функцию, получается один запрос к текстуре вместо 4х.<br/>
 Разрешение не степени 2 уменьшается до:<br/>
-2К: 1024x512<br/>
-4K: 2048x1024<br/>
-8K: 4096x2048<br/>
-Исходники: [GenHiZ-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-1.as), [GenHiZ-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-2.as).
+1К: 1024x512<br/>
+2К: 2048x1024<br/>
+4К: 4096x2048<br/>
+Исходники: [GenHiZ-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-1.as), [GenHiZ-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-2.as).
 
 **Используются техники:**
 1. without ZS - не использует тест глубины, должен показать максимальную нагрузку на растеризатор или FS.
@@ -54,10 +54,10 @@ HiZ и RasterCulling показывают насколько отсечение 
 * [PowerVR BXM-8-256](#PowerVR-BXM-8-256)
 
 **Резрешение:**<br/>
-1K - 960x540, 0.5 MPix<br/>
-2K - 1920x1080, 2.07MPix<br/>
-2K+ - 2400x1080, 2.6MPix - типичное разрешение на 6" смартфонах<br/>
-4K - 3840×2160, 8.3 MPix<br/>
+1К - 960x540, 0.5 MPix<br/>
+~2К - 1920x1080, 2.07MPix (настоящий 2К: 2048х1080, 2.2MPix)<br/>
+2К+ - 2400x1080, 2.6MPix - типичное разрешение на 6" смартфонах<br/>
+4К - 3840×2160, 8.3 MPix<br/>
 
 
 ## Nvidia RTX 2080

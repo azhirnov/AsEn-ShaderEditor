@@ -68,7 +68,7 @@ The first pass writes depth, material index, and triangle index. The second pass
   - For mobile devices, it may be more optimal to read vertices from a texture or texture buffer (TBO), which would fit into L1 cache.
 
 **Classification Stage**
-* Material Depth Buffer ([Dawn Engine (page 16)](https://gitea.yiem.net/QianMo/Real-Time-Rendering-4th-Bibliography-Collection/raw/branch/main/Chapter%201-24/%5B0363%5D%20%5BGPU%20Zen%202017%5D%20Deferred%20-%20Next-Gen%20Culling%20and%20Rendering%20for%20the%20Dawn%20Engine.pdf) and [Nanite (slides 100-105)](https://advances.realtimerendering.com/s2021/Karis_Nanite_SIGGRAPH_Advances_2021_final.pdf), with a [performance test](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/gbuffer-classify/MaterialDepthBuffer.as)). The idea is that after the depth buffer pass, pixels (actually 2x2 squares) are grouped to fill warps as much as possible, but cannot collect pixels outside the tile (on TBR and TBDR), thus reducing efficiency. The tile size may depend on the number of registers in the fragment shader, so for heavy shaders, efficiency drops more.
+* Material Depth Buffer ([Dawn Engine (page 16)](https://gitea.yiem.net/QianMo/Real-Time-Rendering-4th-Bibliography-Collection/raw/branch/main/Chapter%201-24/%5B0363%5D%20%5BGPU%20Zen%202017%5D%20Deferred%20-%20Next-Gen%20Culling%20and%20Rendering%20for%20the%20Dawn%20Engine.pdf) and [Nanite (slides 100-105)](https://advances.realtimerendering.com/s2021/Karis_Nanite_SIGGRAPH_Advances_2021_final.pdf), with a [performance test](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/gbuffer-classify/MaterialDepthBuffer.as)). The idea is that after the depth buffer pass, pixels (actually 2x2 squares) are grouped to fill warps as much as possible, but cannot collect pixels outside the tile (on TBR and TBDR), thus reducing efficiency. The tile size may depend on the number of registers in the fragment shader, so for heavy shaders, efficiency drops more.
 * Classification in the compute shader as in [Horizon Forbidden West](https://www.gdcvault.com/play/1027553/Adventures-with-Deferred-Texturing-in). Tile size is manually set, allowing better pixel grouping, and there is no quad overdraw in the compute shader.
 * Classification on workgraphs as in [Simple Classify demo](https://github.com/GPUOpen-LibrariesAndSDKs/WorkGraphsDirectX-Graphics-Samples/tree/main/Samples/Desktop/D3D12GPUWorkGraphs/SimpleClassify).
 
@@ -108,12 +108,12 @@ Here, one mip level is compared to a higher one. Red indicates areas where coord
 ![](img/other/Cull_NonPOT_MipError.png)
 
 There are two options to solve the problem:
-* First reduce to power of 2, then calculate mip levels. [Example](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-1.as).
+* First reduce to power of 2, then calculate mip levels. [Example](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-1.as).
   - For power of 2 mip levels are calculated faster.
   - Distorts proportions, squares become rectangles and visibility test accuracy slightly decreases.
-* For each mip level, choose which pixels from the higher level affect it. [Example](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-2.as).
+* For each mip level, choose which pixels from the higher level affect it. [Example](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-2.as).
 
-[Example HiZ with debug visualization](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-HiZ-DebugVis.as)<br/>
+[Example HiZ with debug visualization](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-HiZ-DebugVis.as)<br/>
 ![](img/other/Cull_HiZ-DebugVis.png)
 
 </details>
@@ -135,7 +135,7 @@ Implemented in [gl_occlusion_culling](https://github.com/nvpro-samples/gl_occlus
 * For better accuracy, requires splitting geometry into small parts (meshlets).
 * Good for thin geometry: vegetation, poles, wires.
 
-[Example Raster Occlusion debug visualization](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-RasterCull-DebugVis.as)
+[Example Raster Occlusion debug visualization](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-RasterCull-DebugVis.as)
 
 ## Cone/Cluster Culling
 
@@ -177,10 +177,6 @@ A library for calculating PVS in real-time. Uses rasterization of simplified geo
 
 For cubic worlds, all faces with the same normal can be grouped and culled as a whole, similar to PVS, but built for free.
 Video with technique description: [I Optimised My Game Engine Up To 12000 FPS](https://youtu.be/40JzyaOYJeY).
-
-## Coverage Bitmasks
-
-https://media.contentapi.ea.com/content/dam/ea/seed/presentations/seed-coverage-bitmasks-mittring.pdf
 
 ## Hardware Implementation
 
@@ -357,17 +353,17 @@ Larger effect has HiZ, Raster occlusion, and camera distance sorting.
 
 # Source Code
 
-* [GeometryCulling-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/GeometryCulling-1.as) - performance test, load on VS and rasterizer.
-  Here are [VS and FS shaders](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipeline_inc/GeometryCulling-1-shared.as).
-* [GeometryCulling-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/GeometryCulling-2.as) - performance test, load on FS.
-  Here are [VS and FS shaders](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipeline_inc/GeometryCulling-2-shared.as).
-* [GenHiZ-1](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-1.as) - HiZ mip level calculation, power of 2 variant.
-* [GenHiZ-2](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/perf-GenHiZ-2.as) - HiZ mip level calculation, preserve proportions variant.
-* [DepthPyramidCulling](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-DepthPyramidCulling.as) - debug visualization of rectangle visibility test on depth pyramid, used in HiZ.
-* [ProjectSphere test](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-ProjectSphere.as) - debug visualization of fast sphere projection, used for HiZ.
-  Here is [shader with projection](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/ProjectSphere.as).
-* [HiZ-DebugVis](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-HiZ-DebugVis.as) - debug visualization of HiZ test.
-* [RasterCull-DebugVis](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/test-RasterCull-DebugVis.as) - debug visualization of Raster Occlusion test.
-* [MaterialDepthBuffer](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/gbuffer-classify/MaterialDepthBuffer.as) - performance test of classification stage for visibility buffer.
-* [VisibilityBuffer](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/VisibilityBuffer.as) - visibility buffer implementation. In the shader editor there's no geometry preparation for VisBuf, so RTX is used where everything is prepared for bindless.
-* [DeferredTexturing](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/geom-cull/DeferredTexturing.as) - compare different packing.
+* [GeometryCulling-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/GeometryCulling-1.as) - performance test, load on VS and rasterizer.
+  Here are [VS and FS shaders](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipeline_inc/GeometryCulling-1-shared.as).
+* [GeometryCulling-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/GeometryCulling-2.as) - performance test, load on FS.
+  Here are [VS and FS shaders](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipeline_inc/GeometryCulling-2-shared.as).
+* [GenHiZ-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-1.as) - HiZ mip level calculation, power of 2 variant.
+* [GenHiZ-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-2.as) - HiZ mip level calculation, preserve proportions variant.
+* [DepthPyramidCulling](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-DepthPyramidCulling.as) - debug visualization of rectangle visibility test on depth pyramid, used in HiZ.
+* [ProjectSphere test](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-ProjectSphere.as) - debug visualization of fast sphere projection, used for HiZ.
+  Here is [shader with projection](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/ProjectSphere.as).
+* [HiZ-DebugVis](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-HiZ-DebugVis.as) - debug visualization of HiZ test.
+* [RasterCull-DebugVis](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-RasterCull-DebugVis.as) - debug visualization of Raster Occlusion test.
+* [MaterialDepthBuffer](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/gbuffer-classify/MaterialDepthBuffer.as) - performance test of classification stage for visibility buffer.
+* [VisibilityBuffer](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/VisibilityBuffer.as) - visibility buffer implementation. In the shader editor there's no geometry preparation for VisBuf, so RTX is used where everything is prepared for bindless.
+* [DeferredTexturing](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/DeferredTexturing.as) - compare different packing.

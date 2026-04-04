@@ -21,9 +21,9 @@ A cheaper effect is built using geometry and a gradient texture is applied, or t
 If the geometry construction is refined, it can also mimic volumetric light.
 However, this approach requires OIT, unlike Bloom.
 
-![](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/docs/img/FakeGlow.jpg)
+![](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/docs/img/FakeGlow.jpg)
 
-[Example](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/vfx/FakeGlow.as)
+[Example](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/vfx/FakeGlow.as)
 
 
 ## Light Volume
@@ -92,7 +92,7 @@ Additionally, the effect can be applied separately to all bright light sources o
 
 ![](img/hzd/LightShafts.jpg)
 
-[Example](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/vfx/LightShafts.as)
+[Example](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/vfx/LightShafts.as)
 
 
 [GDC2014: Adding High-End Graphical Effects to GT Racing 2 on Android x86 (slides 15-21)](https://gdcvault.com/play/1020220/Adding-High-End-Graphical-Effects) - another version of the effect.
@@ -123,9 +123,9 @@ The effect consists of several parts:
 * Before tonemapping, the top blurred mip is added to the scene color.
 
 Examples:
-* [Gaussian blur, without optimizations](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/Blur-1.as)
-* [Gaussian blur in two passes](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/Blur-2.as)
-* [Dual filter blur, faster on mobile](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/Blur-3.as)
-* [Kawase blur, similar to Dual filter](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/perf/Blur-4.as)
-* [Bloom](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/samples-2d/Bloom.as)
+* [Gaussian blur, without optimizations](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/perf/Blur-1.as)
+* [Gaussian blur in two passes](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/perf/Blur-2.as)
+* [Dual filter blur, faster on mobile](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/perf/Blur-3.as)
+* [Kawase blur, similar to Dual filter](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/perf/Blur-4.as)
+* [Bloom](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/samples-2d/Bloom.as)
 

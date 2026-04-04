@@ -45,7 +45,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	pass = scene.AddGraphicsPass( "draw" );
-			pass.AddPipeline( "tests/Billboard.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/tests/Billboard.as)
+			pass.AddPipeline( "tests/Billboard.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/Billboard.as)
 			pass.Output( "out_Color",	rt,		RGBA32f(0.3, 0.5, 1.0, 1.0) );
 			pass.Slider( "iWorldSize",	1.0,	50.0,	1.0 );
 			pass.Slider( "iCoordZ",		1.0,	199.0,	1.0 );

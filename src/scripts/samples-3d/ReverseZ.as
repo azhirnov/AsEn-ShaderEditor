@@ -47,27 +47,19 @@
 
 		// create sphere
 		{
-			RC<Buffer>				sphere		= Buffer();
-			RC<UnifiedGeometry>		geometry	= UnifiedGeometry();
+			RC<Mesh>	mesh = Mesh();
+			mesh.SetAttributes( EAttribute::Position | EAttribute::Normal );
+			mesh.AddSphere( 4 );
 
-			array<float3>	positions;
-			array<float3>	normals;
-			array<float3>	tangents;
-			array<float3>	bitangents;
-			array<float2>	texcoords;
-			array<uint>		indices;
-			GetSphere( 4, OUT positions, OUT normals, OUT tangents, OUT bitangents, OUT texcoords, OUT indices );
-
-			sphere.FloatArray( "positions",	positions );
-			sphere.FloatArray( "normals",	normals );
-			sphere.UIntArray(  "indices",	indices );
+			RC<Buffer>	sphere = mesh.ToBuffer();
 			sphere.LayoutName( "GeometrySBlock" );
 
 			UnifiedGeometry_DrawIndexed	cmd;
-			cmd.indexCount		= indices.size();
+			cmd.indexCount		= mesh.IndexCount();
 			cmd.instanceCount	= instance_count;
 			cmd.IndexBuffer( sphere, "indices" );
 
+			RC<UnifiedGeometry>		geometry = UnifiedGeometry();
 			geometry.Draw( cmd );
 			geometry.ArgIn(	"un_Geometry",	sphere );
 			geometry.ArgIn( "un_DrawTasks",	drawtasks );
@@ -78,7 +70,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "main pass" );
-			draw.AddPipeline( "samples/ColoredSpheres-RevZ.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/ColoredSpheres-RevZ.as)
+			draw.AddPipeline( "samples/ColoredSpheres-RevZ.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/ColoredSpheres-RevZ.as)
 			draw.Output( "out_Color", rt, RGBA32f(0.f) );
 			draw.Output( ds, DepthStencil( 0.f, 0 ));
 		}

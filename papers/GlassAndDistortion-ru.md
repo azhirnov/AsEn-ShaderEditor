@@ -30,7 +30,7 @@
 
 ![](img/doom/Distortion.jpg)
 
-[Пример DistortionMap](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/scripts/posteffects/DistortionMap.as).
+[Пример DistortionMap](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/posteffects/DistortionMap.as).
 
 В статье [Refracting Pixels](https://www.froyok.fr/blog/2024-12-refraction/) также рассматривается и рефракция.
 Так в Half-Life 2 и F.E.A.R. каждый прозрачный объект с рефракцией копирует рендер таргет и затем читает из него с учетом рефракции.

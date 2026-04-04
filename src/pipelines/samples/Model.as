@@ -15,14 +15,14 @@
 		{
 			RC<ShaderStructType>	st = ShaderStructType( prefix+"io.vs-fs" );
 			st.Set( EStructLayout::InternalIO,
-					"float3		worldNormal;" +
-					"float3		worldPos;" +
-					"float2		texcoord;" +
+					"float3		worldNormal;"
+					"float3		worldPos;"
+					"float2		texcoord;"
 					"uint		materialIdx;" );
 		}
 		{
 			RC<GraphicsPipeline>	ppln = GraphicsPipeline( prefix+"t" );
-			ppln.SetLayout( "model.pl" );	// [InitPipelineLayout()](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipeline_inc/ModelTypes.as)
+			ppln.SetLayout( "model.pl" );	// [InitPipelineLayout()](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipeline_inc/ModelTypes.as)
 
 			if ( withUV and withNorm )	ppln.SetVertexInput( "VB{Posf3, Normf3, UVf2}" );	else
 			if ( withNorm )				ppln.SetVertexInput( "VB{Posf3, Normf3}" );			else

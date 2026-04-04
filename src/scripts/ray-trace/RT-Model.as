@@ -30,7 +30,7 @@
 		{
 			RC<Model>	model = Model( "res/models/Sponza/Sponza.gltf" );
 
-			model.InitialTransform( float3(0.f, -1.f, 0.f), float3(0.f, ToRad(90.f), ToRad(180.f)), 100.f );
+			model.InitialTransform( Transform().Position( 0.f, 1.f, 0.f ).Rotation( 0.f, ToRad(90.f), ToRad(180.f) ).Scale( 100.f ));
 
 			model.AddOmniLight( float3(0.f, -5.f, 0.f), float3(0.f, 0.f, 0.05f), RGBA32f(1.f) );
 
@@ -43,7 +43,7 @@
 		// render loop
 		{
 			RC<SceneGraphicsPass>	draw = scene.AddGraphicsPass( "draw opaque" );
-			draw.AddPipeline( "samples/Model.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Model.as)
+			draw.AddPipeline( "samples/Model.as" );		// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/Model.as)
 			draw.Output( "out_Color", rt, RGBA32f(0.0f, 1.f, 1.f, 1.f) );
 			draw.Output( ds, DepthStencil(1.f, 0) );
 			draw.Layer( ERenderLayer::Opaque );
@@ -51,7 +51,7 @@
 		}
 		{
 			RC<SceneRayTracingPass>	pass = scene.AddRayTracingPass( "rtrace" );
-			pass.SetPipeline( "samples/Model-RT.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/tree/main/src/pipelines/samples/Model-RT.as)
+			pass.SetPipeline( "samples/Model-RT.as" );	// [src](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/Model-RT.as)
 			pass.ArgOut( "un_OutImage",	rt );
 			pass.Dispatch( rt.Dimension() );
 			pass.EnableIfEqual( view_mode, 1 );

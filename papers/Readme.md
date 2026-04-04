@@ -7,7 +7,6 @@
 ### Lighting
 
 * [GBuffer](GBuffer.md)
-* [Lighting](Lighting-en.md)
 * [Light Effects](LightEffects-en.md)
 * [Reflections](Reflections-en.md)
 
@@ -36,7 +35,6 @@
 
 * [GBuffer](GBuffer.md)
 * [Light Culling](LightCulling-ru.md)
-* [Lighting](Lighting-ru.md)
 * [Light Effects](LightEffects-ru.md)
 * [Shadows](Shadows-ru.md)
 * [Reflections](Reflections-ru.md)
@@ -53,4 +51,4 @@
 * [Glass and Distortion](GlassAndDistortion-ru.md)
 * [Particles](Particles-ru.md)
 * [Smoke and Clouds](SmokeAndClouds-ru.md)
-* [Lens Flares](LensEffects-ru.md)
+* [Lens Flares](LensFlares-ru.md)

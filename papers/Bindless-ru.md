@@ -235,9 +235,43 @@ dstAccess = VK_ACCESS_2_DESCRIPTOR_BUFFER_READ_BIT_EXT
 </details>
 
 
+### Descriptor Heap
+
+Дальнейшее развития `VK_EXT_descriptor_buffer` привело к `VK_EXT_descriptor_heap`, который полностью заменяет descriptor buffer и аналогичен [Resource Heaps из SM 6.6](https://github.com/KhronosGroup/Vulkan-Docs/blob/main/proposals/VK_EXT_descriptor_heap.adoc#hlsl-mapping).
+
+Больше не используется descriptor set layout, вместо него VkShaderDescriptorSetAndBindingMappingInfoEXT указывается для каждого шейдера отдельно.
+Вместо пуш-констант и пуш-дескрипторов используется общий vkCmdPushDataEXT().
+
+Лимиты на ресурсы стали другими, так для буферов они рассчитываются:<br/>
+`(maxResourceHeapSize - minResourceHeapReservedRange) / bufferDescriptorSize`.
+
+Ограничения:
+* Переключение между descriptor heap может быть очень дорогим, поэтому рекомендуют использовать одну для всего приложения.
+* Также дорого переключаться между descriptor heap и другими вариантами дескрипторов: descriptor set, descriptor buffer.
+* Командный буфер может использовать только один descriptor heap.
+
+Отсюда можно расчитать максимальное количество ресурсов без потери производительности.
+
+<details><summary>Лимиты:</summary>
+
+* AMD RDNA3+: 134М буферов или 67М текстур.
+* NV Turing+: 2М буферов или 1М текстур.
+
+</details>
+
+Для storage buffer лимитов нет, так как можно использовать device address и не занимать дескрипторы.
+
+Упростили и SPIRV: теперь все ресурсы изначально помечены как non-uniform.
+
+Подробнее в [proposal](https://github.com/KhronosGroup/Vulkan-Docs/blob/main/proposals/VK_EXT_descriptor_heap.adoc), [docs](https://docs.vulkan.org/refpages/latest/refpages/source/VK_EXT_descriptor_heap.html), [GLSL](https://github.com/KhronosGroup/GLSL/blob/main/extensions/ext/GLSL_EXT_descriptor_heap.txt).
+
+
+
 ## Bindless в Metal
 
 TODO
+
+
 
 # GPU Driven Rendering
 
@@ -323,6 +357,32 @@ Bindless техники позволяют перенести больше ло�
 Позволяет передавать данные инстанса через вершинный буфер, что может быть быстрее на старом железе, где медленно работает storage buffer.
 
 Такой подход описан в [Optimizing the Graphics Pipeline with Compute](https://gdcvault.com/play/1023109/Optimizing-the-Graphics-Pipeline-With) (слайд 23).
+
+
+## GPU Instancing
+
+Более старый подход, когда сцена в основном состоит из повторяющихся объектов.
+
+Алгоритм примерно такой:
+* Карта состоит из больших тайлов, с расстоянием тайлы увеличиваются в 2 раза, проход по ним очень дешевый.
+* При обновлении тайлов (подгрузились новые, удалились старые и тд) одинаковые объекты добавляются/удаляются из менеджера инстансов.
+* Создается массив данных для каждого инстанса.
+* Каждый кадр на ГП происходит фрустум тест всех инстансов - это намного быстрее чем на ЦП.
+* Дополнительно можно сделать HiZ тест, но его точность хуже чем у варианта с мешлетами.
+* Количество видимых инстансов записывается в команду рисования и используется при вызове DrawIndirect.
+* Для каждого типа инстанса вызывается DrawIndirect со всеми текстурами и состояниями, если все инстансы не видны, то вызовы сделаны зря, но обычно это не так дорого.
+* Лоды можно считать в зависимости от детализации тайла, на котором расположен инстанс, либо каждый кадр на ГП.
+  В первом случае возможна экономия на вызовах DrawIndirect, если инстансов с определенным лодом нет на тайлах.
+  Во втором случае лоды считаются лучше, но количество DrawIndirect увеличивается.
+
+Главное преимущество такой техники - возможность обойтись без виртуальных текстур, bindless и мешлетов, что намного сложнее реализовать.
+
+
+## Device Generated Commands
+
+Позволяет записывать команды вида: BindPipeline, BindDescriptorSet, Draw прямо в шейдере и затем выполнять их.
+
+Таким образом уходят лишние вызовы рисования, где внутри ничего не рисуется.
 
 
 # Тесты производительности

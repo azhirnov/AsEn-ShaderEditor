@@ -14,6 +14,8 @@
 * Каждый источник света будет читать GBuffer, но на тайловом рендере все останется в кэше.
 * Не работает для полупрозрачных объектов и частиц.
 
+Из не самых старых игр такой подход использовался в Fallout 4.
+
 На современных дискретных картах это все равно работает очень быстро, даже несмотря на множественное наложение.
 Иногда для оптимизации делают предварительное отсечение по HiZ.
 
@@ -54,6 +56,9 @@
 Из плюсов GBuffer читается один раз на пиксель тайла, в отличие от кластерного подхода.
 В целом чисто тайловый подход устарел и не дает существенного ускорения.
 
+Ссылки:
+* [Optimizing tile-based light culling](https://turanszkij.wpcomstaging.com/2018/01/optimizing-tile-based-light-culling/) - способ српавиться с depth discontinuities.
+
 
 ### Clustered
 
@@ -79,6 +84,7 @@
 * Чем больше количество кластеров, тем лучше отсечение, но дороже рассчеты и расходуется больше памяти.
 * Есть худшие случаи, когда малая часть объема попадает в кластер или из-за неточности проверки пересечения. Но такие случаи хорошо сглаживаются за счет однородности выполнения (uniform control flow), что позволяет пропустить светильник для всего варпа, если все потоки не прошли тест на расстояние.
 * В deferred режиме, где нужно пройтись по многим кластерам получается дублирование светильников из соседних кластеров и пересвеченная картинка в этих местах.
+* Как и тайловый плохо подходит для мелких освещенных объемов, например декоративного освещения.
 
 
 ### Tiled + ZBin
@@ -94,7 +100,7 @@
 Преимущества такие же как у кластеров, но разрешение намного больше, а памяти расходуется меньше.
 Битовые маски решают проблему дублирования светильников в кластерах (ZBin'ах).
 
-Главный недостаток - фиксированный размер битовой маски, если все светильники не влезают, то остаток рисуется другим способом.
+Главный недостаток - фиксированный размер битовой маски, если все светильники не влезают, то остаток рисуется другим способом, чаще всего геометрией.
 Также дальние светильники рисуются другим способом и более простым шейдером.
 
 
@@ -322,6 +328,10 @@
 * [GDC2018: Clustered Forward Rendering and Anti-Aliasing in ‘Detroit: Become Human’](https://www.gdcvault.com/play/1025420/Cluster-Forward-Rendering-and-Anti)
 * [Siggraph2016: The devil is in the details](https://advances.realtimerendering.com/s2016/Siggraph2016_idTech6.pdf)
 * [Physically Based Rendering in Filament](https://google.github.io/filament/Filament.md.html#imagingpipeline/lightpath)
+* [Forward and Deferred Rendering - Cambridge Computer Science Talks](https://www.youtube.com/watch?v=n5OiqJP2f7w)
+* [Optimizing tile-based light culling](https://turanszkij.wpcomstaging.com/2018/01/optimizing-tile-based-light-culling/)
+* [Thoughts on light culling: stream compaction vs flat bit arrays](https://turanszkij.wpcomstaging.com/2019/02/thoughts-on-light-culling-stream-compaction-vs-flat-bit-arrays/)
+* [Intro to GPU Scalarization – Part 2 -Scalarize all the lights](https://flashypixels.wordpress.com/2018/11/10/intro-to-gpu-scalarization-part-2-scalarize-all-the-lights/)
 
 ## Исходники
 

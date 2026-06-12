@@ -1,7 +1,8 @@
 **Виды проекций на экран.**
 
+## Проекция на 180°
 
-## Прямолинейная проекция (Rectilinear)
+### Прямолинейная проекция (Rectilinear)
 
 Она же перспективная проекция.
 
@@ -15,9 +16,10 @@
 
 ![](img/projections/Proj_Rectilinear-1.jpg)
 ![](img/projections/Proj_Rectilinear-2.jpg)
-![](img/projections/Proj_Rectilinear-3.jpg)
+![](img/projections/Rectilinear110.jpg)
 
-## Стереографическая проекция (Stereographical)
+
+### Стереографическая проекция (Stereographical)
 
 Вектор в 3D конвертируется в сферические координаты и отображается на плоскости.
 
@@ -33,9 +35,13 @@
 
 ![](img/projections/Proj_Stereographical-1.jpg)
 ![](img/projections/Proj_Stereographical-2.jpg)
-![](img/projections/Proj_Stereographical-3.jpg)
+![](img/projections/Stereographical180.jpg)
 
-## Panini
+Проекция на 360°
+![](img/projections/Stereographical360.jpg)
+
+
+### Panini
 
 Стереографическая проекция, где камера смещена назад. Смещение задается от 0 до 1, для больших углов можно зафиксировать 1, смещение 0 совпадает с перспективной проекцией.
 
@@ -51,10 +57,10 @@
 
 ![](img/projections/Proj_Panini-1.jpg)
 ![](img/projections/Proj_Panini-2.jpg)
-![](img/projections/Proj_Panini-3.jpg)
+![](img/projections/Panini180.jpg)
 
 
-## Особенности проекций на 180°
+### Особенности проекций на 180°
 
 Проекция на 180° потребует изменений в рендеринге:
 * Делается через рисование в 3 камеры по 45° и пост-процессом с коррекцией на стаках.
@@ -63,10 +69,58 @@
 * SSR и прочие экранные техники нужно дорабатывать, чтобы не было артефактов на границе между камерами, либо заменить на другие техники, например трассировку.
 
 
+## Проекция на 360°
+
+Применяется для:
+* тени для точечтных источников света
+* проба с отражениями
+
+### Cubemap
+
+Самый простой способ - отрисовать сцену 6 раз в кубическую карту с перспективной проекцией.
+Но из-за этого и самый дорогой.
+
+Обычно используются для качественных отражений.
+
+
+### Single Paraboloid
+
+Проекция похожа на fish eye 180°x360°, но совместима с растеризацией.
+
+Центр проекции наиболее четкий, а к краям искажения усиливаются.
+
+Главный недостаток - сильные искажения на больших треугольниках, что решается только тесселяцией.
+
+![](img/projections/Paraboloid.jpg)
+
+
+### Dual Paraboloid
+
+Проекция похожа на две fish eye 180°x180°.
+
+Немного сложнее обычного параболоида, так как требуется вручную отсекать треугольники за камерой.
+Для этого есть несколько способов:
+* discard в фрагментном шейдере, на современном железе это [почти бесплатно](GeometryCulling-ru.md#Discard).
+* gl_ClipDistance, также работает быстро, но не поддерживается на старых ARM Mali.
+* различные проекции, заставляющие работать W клиппинг.
+
+![](img/projections/DualParaboloid.jpg)
+
+Адаптивная тесселяция убирает все искажения, при этом уровень тесселяции в 2-3 раза меньше, чем необходим для аналогичного качества в параболоид проекции.
+
+![](img/projections/DualParaboloidTess.jpg)
+
+Раньше проекция часто использовалась для оптимизации теней, а также для проекционных теней (декалей).
+
+![](img/f4/DualParaboloidShadow.jpg)
+
+
 ## Примеры
 
 * [Panini](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/posteffects/Panini.as) - сцена рисуется с перспективной проекцией, затем применяется пост-процесс с Panini проекцией.
 * [RenderToCubemap](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/projections/RenderToCubemap.as) - сцена рисуется в кубическую карту, затем нужный тексель выбирается по 3D координатам, аналогично трассировке лучей.
+* [RayProjections](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/projections/RayProjections.as) - все виды проекции на экран, большинство совместимо только с трассировкой лучей.
+* [RasterProjections](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/projections/RasterProjections.as) - проекции, совместимые с растеризацией.
 
 ## Ссылки
 

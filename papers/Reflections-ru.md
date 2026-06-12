@@ -10,16 +10,36 @@
 
 ![](img/doom/SSR_LightProbe.jpg)
 
+
 В Cyberpunk 2077 сделали иначе и в отражении оказывается больше тумана чем нужно.
 Зато вариант с трассировкой лучей (справа) работает корректнее.
 
 ![](img/cp/SSR_RTRefl.jpg)
+
 
 В Horizon Forbidden West отражения читают текстуру после рисования полупрозрачных из-за чего листья дерева перед водой попадают в отражения.
 Зато меньше артефактов из-за несработавшего SSR. Если не приглядываться, то даже не заметно.
 
 ![](img/hfw/SSR.jpg)
 
+Еще в Horizon Forbidden West сделали переключение на cubemap в случае промаха SSR, что в сочетании с туманом сильно бросается в глаза.
+
+![](img/hfw/SSR-2.jpg)
+
+
 В более старой Outer Worlds все намного хуже - SSR применяют для отражений на металических поверхностях из-за чего происходят частые промахи и сильное зашумление.
 
 ![](img/other/OuterWorlds_SSR.jpg)
+
+
+## Cubemap
+
+Во многих играх для оптимизации не используют SSR и ограничиваются только кубическими картами, но это создает неточности, когда точка захвата отражений находится далеко от камеры.
+
+![](img/cs2/CubemapReflection.jpg)
+
+Для исправления таких искажений используется parallax corrected cubemap.
+
+Сселки:
+* [Image-based Lighting approaches and parallax-corrected cubemap](https://seblagarde.wordpress.com/2012/09/29/image-based-lighting-approaches-and-parallax-corrected-cubemap/)
+* [Parallax-corrected cubemapping with any cubemap](https://interplayoflight.wordpress.com/2013/04/29/parallax-corrected-cubemapping-with-any-cubemap/)

@@ -30,6 +30,7 @@
 
 * [Bindless](Bindless-ru.md)
 * [HDR Display](HDR_Display-ru.md)
+* [Warp Scheduler](WarpScheduler-ru.md)
 
 ### Lighting
 

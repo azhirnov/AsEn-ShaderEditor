@@ -93,7 +93,7 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 * [HybridShadow](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/shadows/RT-HybridShadow.as)
 
 Ссылки:
-* [Advanced Graphics Summit: 'Cyberpunk 2077': Bringing Light to Night City](https://www.youtube.com/watch?v=NvK1apLLF6w) 41.08
+* [Advanced Graphics Summit: 'Cyberpunk 2077': Bringing Light to Night City (41.08)](https://youtu.be/NvK1apLLF6w?t=2468)
 
 
 ### Signed Distance Field Shadows
@@ -129,6 +129,14 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 * [The Irregular Z-Buffer and its Application to Shadow Mapping](https://www.cs.utexas.edu/ftp/techreports/tr04-09.pdf)
 
 
+## Contact Shadows
+
+Постпроцесс для улучшения детализации тени. Идет маршинг на небольшое расстояние по буферу глубины.
+
+Обычные карты теней имеют недостаточное разрешение и накладываются со смещением, в результате мелкие детали теряются, что как раз компенсируют контактные тени.
+Тут важно правильно сложить тени чтобы не получилось двойного затенения.
+
+
 ## Оптимизация
 
 ### CSM Scrolling
@@ -137,11 +145,17 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 предлагают вместо обновления каскадов каждый кадр смещать их аналогично geometry clipmap и дорисовывать только недостающую часть.
 
 Сейчас в играх много динамических объектов, анимированой растительности, разрушаемых объектов, все это требует постоянного обновления каскадов.
+Также при движении камеры идет переключение уровня детализации, это нужно отслеживать и обновлять область каскада, затронутую этим объектом.
 Поэтому такой способ оптимизации работает только для дальних каскадов.
 
 Увеличить разрешение каскадов тоже не получится, так как это больше влияет на расход памяти и скорость чтения при наложении теней, а в этой части никаких ускорений нет.
 
 
+### Отсечение по размеру проекции для CSM
+
+В CSM используется ортогональная проекция для теней, следовательно размер спроецированного объекта не зависит от положении камеры и объекта.
+За счет этого можно сделать отсечение очень маленьких объектов для каждого каскада.
+Отсекаться должны объекты, размер проекции которых менее нескольких пикселей, либо для тонких объектов типа столбов, деревьев, альфа-тестного забора проверяется проекция сферы радиусом со среднюю толщину этого объекта.
 
 ### Ограниченное количество теней
 
@@ -151,7 +165,11 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 По этой причине динамические тени включают только на небольшом расстоянии от игрока.
 
 В Cyberpunk количество динамических теней ограничено 4-6 источниками.
-[Advanced Graphics Summit: 'Cyberpunk 2077': Bringing Light to Night City](https://www.youtube.com/watch?v=NvK1apLLF6w) 49.53
+[Advanced Graphics Summit: 'Cyberpunk 2077': Bringing Light to Night City (49.53)](https://youtu.be/NvK1apLLF6w?t=2993)
+
+В Horizon Forbidden West также тени от динамических источников пропадают с расстоянием.
+
+![](img/hfw/DynShadowLimit.jpg)
 
 
 ### Статичные тени
@@ -161,7 +179,7 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 Таким образом экономится время на их обновление, но остается еще нагрузна на чтение из shadow map и расход видеопамяти на хранение.
 
 В Cyberpunk источники света помечаются как статичные и редко обновляются.
-[Advanced Graphics Summit: 'Cyberpunk 2077': Bringing Light to Night City](https://www.youtube.com/watch?v=NvK1apLLF6w) 50:45
+[Advanced Graphics Summit: 'Cyberpunk 2077': Bringing Light to Night City (50:45)](https://youtu.be/NvK1apLLF6w?t=3045)
 
 
 ### Shadow map cache
@@ -245,6 +263,8 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 Для сравнения слева используется depthBiasConstFactor и depthBiasSlopeFactor, справа - смещение по нормали к поверхности.
 ![](img/shadows/DepthBias-vs-NormalOffset.png)
 
+Другой вариант исправления проблемы - добавить [контактные тени](#Contact-Shadows).
+
 
 ### Depth Clamp
 
@@ -259,6 +279,20 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 ## Фильтрация shadow map
 
 
+
+### Percentage-Closer Soft Shadows (PCSS)
+
+Улучшение PCF за счет маршинга по карте глубины.
+
+Подход устарел, так как вариант с трассировкой лучей по границе тени дает лучшее разрешение, тогда как PCSS ограничен разрешением текстуры и требует алгоритмы типа SMAA для сглаживания углов.
+
+Ссылки:
+* [Percentage-Closer Soft Shadows](https://developer.download.nvidia.com/shaderlibrary/docs/shadow_PCSS.pdf)
+* [SIGGRAPH](https://http.download.nvidia.com/developer/presentations/2005/SIGGRAPH/Percentage_Closer_Soft_Shadows.pdf)
+* [Analysing the Percentage-Closer Soft Shadows rendering technique](https://publications.scss.tcd.ie/theses/diss/2022/TCD-SCSS-DISSERTATION-2022-059.pdf)
+* [исходники](https://github.com/proskur1n/vwa-code)
+
+
 ## Ссылки
 
 * [Sample Distribution Shadow Maps](https://advances.realtimerendering.com/s2010/Lauritzen-SDSM(SIGGRAPH%202010%20Advanced%20RealTime%20Rendering%20Course).pdf)
@@ -268,6 +302,8 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 * [Common Techniques to Improve Shadow Depth Maps](https://learn.microsoft.com/en-us/windows/win32/dxtecharts/common-techniques-to-improve-shadow-depth-maps)
 * [A Sampling of Shadow Techniques](https://therealmjp.github.io/posts/shadow-maps/), [sources](https://github.com/TheRealMJP/Shadows)
 * [Advanced Soft Shadow Mapping Techniques](https://developer.download.nvidia.com/presentations/2008/GDC/GDC08_SoftShadowMapping.pdf)
+* [Easy Transparent Shadow Maps](https://turanszkij.wpcomstaging.com/2018/01/easy-transparent-shadow-maps/)
+* [Percentage-Closer Soft Shadows](https://developer.download.nvidia.com/shaderlibrary/docs/shadow_PCSS.pdf), [SIGGRAPH](https://http.download.nvidia.com/developer/presentations/2005/SIGGRAPH/Percentage_Closer_Soft_Shadows.pdf)
 
 ## Исходники
 

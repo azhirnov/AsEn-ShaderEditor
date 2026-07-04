@@ -32,6 +32,12 @@
 ![](img/other/OuterWorlds_SSR.jpg)
 
 
+### Оптимизация
+
+Один из способов оптимизации SSR - уменьшить количество шагов за счет трассировки по HiZ:
+[Screen Space Reflections : Implementation and optimization – Part 2 : HI-Z Tracing Method](https://sugulee.wordpress.com/2021/01/19/screen-space-reflections-implementation-and-optimization-part-2-hi-z-tracing-method/).
+
+
 ## Cubemap
 
 Во многих играх для оптимизации не используют SSR и ограничиваются только кубическими картами, но это создает неточности, когда точка захвата отражений находится далеко от камеры.

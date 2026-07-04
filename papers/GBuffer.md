@@ -7,7 +7,7 @@ Size and content of GBuffer in games.
 
 * RG16_UNorm - UV in virtual texture
 * R32U - tangent frame as quaternion
-* Depth - TODO ?
+* Depth - ???
 
 **Total:**
 * color: 8 bytes

@@ -14,7 +14,7 @@
 
 * [Geometry Culling](GeometryCulling-en.md)
 * [Spherical Cube](SphericalCube-en.md)
-* [Impostors](Impostors-en.md)
+* [LODs and Impostors](LODsAndImpostors-en.md)
 * [Screen Projections](ScreenProjections-en.md)
 
 ### Effects
@@ -29,6 +29,7 @@
 ### GAPI / HW
 
 * [Bindless](Bindless-ru.md)
+* [GPU Driven Rendering](GPUDriven-ru.md)
 * [HDR Display](HDR_Display-ru.md)
 * [Warp Scheduler](WarpScheduler-ru.md)
 
@@ -44,7 +45,7 @@
 
 * [Geometry Culling](GeometryCulling-ru.md)
 * [Spherical Cube](SphericalCube-ru.md)
-* [Impostors](Impostors-ru.md)
+* [LODs and Impostors](LODsAndImpostors-ru.md)
 * [Screen Projections](ScreenProjections-ru.md)
 
 ### Effects

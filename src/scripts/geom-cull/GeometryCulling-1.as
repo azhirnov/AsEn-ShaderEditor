@@ -1,6 +1,6 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'AE/LICENSE.md'
 /*
-	results in [GeometryCulling paper](https://github.com/azhirnov/as-en/blob/dev/AE/papers/graphics/GeometryCulling-ru.md)
+	results in [GeometryCulling paper](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/graphics/GeometryCulling-ru.md)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>

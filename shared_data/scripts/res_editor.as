@@ -3777,7 +3777,7 @@ struct Buffer
 
 	// Allow to declare array of struct with constant or dynamic size.
 	// Created a new structure with type 'arrayElementTypeName' and fields in 'arrayElementSource'.
-	// See field declaration rules for 'ShaderStructType::Set()' method in [pipeline_compiler.as](https://github.com/azhirnov/as-en/blob/dev/AE/engine/shared_data/scripts/pipeline_compiler.as).
+	// See field declaration rules for 'ShaderStructType::Set()' method in [pipeline_compiler.as](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/shared_data/scripts/pipeline_compiler.as).
 	// Buffer typename: '<arrayElementTypeName>_Array'.
 	void  ArrayLayout (const string & arrayElementTypeName, const string & arrayElementSource, uint count);
 	void  ArrayLayout (const string & arrayElementTypeName, const string & arrayElementSource, const RC<DynamicUInt> & count);
@@ -3791,7 +3791,7 @@ struct Buffer
 	void  UseLayout (const string & typeName);
 
 	// Created a new structure with type 'typeName' and fields in 'source'.
-	// See field declaration rules for 'ShaderStructType::Set()' method in [pipeline_compiler.as](https://github.com/azhirnov/as-en/blob/dev/AE/engine/shared_data/scripts/pipeline_compiler.as).
+	// See field declaration rules for 'ShaderStructType::Set()' method in [pipeline_compiler.as](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/shared_data/scripts/pipeline_compiler.as).
 	void  UseLayout (const string & typeName, const string & source);
 
 	// Returns buffer device address.

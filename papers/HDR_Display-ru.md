@@ -16,7 +16,7 @@
 Теперь цветовое пространство задается при создании свопчейна и требуется модифицировать шейдеры, чтобы финальный цвет содержал нужное преобразование.
 Вместо устеревшей гамма-коррекции вида `pow(color, 2.2)` нужно делать преобразование под выбранное цветовое пространство,
 пример из DX: [ColorSpaceUtility.hlsli](https://github.com/Microsoft/DirectX-Graphics-Samples/blob/master/MiniEngine/Core/Shaders/ColorSpaceUtility.hlsli)
-и порт на GLSL: [ColorSpace](https://github.com/azhirnov/as-en/blob/dev/AE/engine/shared_data/shaders/ColorSpace.glsl).
+и порт на GLSL: [ColorSpace](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/shared_data/shaders/ColorSpace.glsl).
 
 
 ## Extended sRGB

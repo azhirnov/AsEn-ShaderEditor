@@ -6,7 +6,7 @@ The [`scripts`](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scri
 
 The script is executed once when loaded, then a sequence of the graphics/compute passes is created and rendering begins.
 
-See [`res_editor.as`](https://github.com/azhirnov/as-en/blob/dev/AE/engine/shared_data/scripts/res_editor.as) file with built-in docs and see [Samples](Samples.md) with examples.
+See [`res_editor.as`](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/shared_data/scripts/res_editor.as) file with built-in docs and see [Samples](Samples.md) with examples.
 
 
 ## Pipeline Scripts
@@ -14,7 +14,7 @@ See [`res_editor.as`](https://github.com/azhirnov/as-en/blob/dev/AE/engine/share
 Second type of script is used to define pipelines which will be selected by the main script.
 The [`pipelines`](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines) folder contains this type of scripts.
 
-See 'Pipelines' tab in [Resource Compilation](https://github.com/azhirnov/as-en/blob/dev/AE/docs/engine/ResourceCompilation.md) docs and '[pipeline_compiler.as](https://github.com/azhirnov/as-en/blob/dev/AE/engine/shared_data/scripts/pipeline_compiler.as)' file with built-in docs.
+See 'Pipelines' tab in [Resource Compilation](https://github.com/azhirnov/as-en/blob/dev/AE/docs/engine/ResourceCompilation.md) docs and '[pipeline_compiler.as](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/shared_data/scripts/pipeline_compiler.as)' file with built-in docs.
 
 
 ## Startup Config

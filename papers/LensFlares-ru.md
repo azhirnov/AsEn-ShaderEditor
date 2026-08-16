@@ -30,7 +30,7 @@
 * Прочитать буфера глубины в определенной области, но такие проверки затратны.
 * Прочитать один раз мип из HiZ, но тут хуже точность.
 * Комбинированный подход: полноразмерный буфер глубины для точного теста и HiZ чтобы узнать насколько он загорожен и снизить яркость.
-* [Raster occlusion](https://github.com/azhirnov/as-en/blob/dev/AE/papers/graphics/GeometryCulling-ru.md#Raster-Occlusion) когда рисуется светящаяся геометрия и каждый пиксель увеличивает счетчик.
+* [Raster occlusion](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/graphics/GeometryCulling-ru.md#Raster-Occlusion) когда рисуется светящаяся геометрия и каждый пиксель увеличивает счетчик.
 
 Затем две части комбинируются, bloom дополнительно комбинируется с lensDirt.
 

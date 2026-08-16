@@ -2,7 +2,7 @@
 /*
 	Find difference between texture array and array of texture.
 
-	results in [Bindless paper](https://github.com/azhirnov/as-en/blob/dev/AE/papers/graphics/Bindless-ru.md)
+	results in [Bindless paper](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/graphics/Bindless-ru.md)
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>

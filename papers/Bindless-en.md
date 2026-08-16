@@ -66,7 +66,7 @@ The extension `VK_EXT_descriptor_indexing` (added in 1.x.72) enables bindless te
 
 `shaderSampledImageArrayNonUniformIndexing` and others determine if dynamic indexing of resource arrays is allowed when the index varies within a warp (non-uniform).
 In shaders, the index must be explicitly marked as [nonuniformEXT](https://github.com/KhronosGroup/GLSL/blob/master/extensions/ext/GL_EXT_nonuniform_qualifier.txt): `resource[nonuniformEXT(index)]`.
-The minimal set of options widely supported across most GPUs can be viewed in [min_nonuniform_desc_idx](https://github.com/azhirnov/as-en/blob/dev/AE/engine/shared_data/feature_set/parts/min_nonuniform_desc_idx.as).
+The minimal set of options widely supported across most GPUs can be viewed in [min_nonuniform_desc_idx](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/shared_data/feature_set/parts/min_nonuniform_desc_idx.as).
 Older GPUs only support `shaderSampledImageArrayNonUniformIndexing`, so buffers must be stored in RGBA32F textures, a format widely supported but without linear filtering.
 
 In Vulkan 1.4, the `VK_EXT_descriptor_indexing` extension became part of the core, while it was optional in 1.2. At minimum, `shaderUniformTexelBufferArrayDynamicIndexing` and `shaderStorageTexelBufferArrayDynamicIndexing` must be supported.

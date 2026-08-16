@@ -1,4 +1,4 @@
-// Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
+// Copyright (c) Zhirnov Andrey. For more information see 'AE/LICENSE.md'
 /*
 	Also see [DeferredSM](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/shadows/DeferredSM.as).
 */

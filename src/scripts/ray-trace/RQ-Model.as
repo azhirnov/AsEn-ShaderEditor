@@ -1,4 +1,4 @@
-// Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
+// Copyright (c) Zhirnov Andrey. For more information see 'AE/LICENSE.md'
 /*
 	Copy of [RT-Model](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/ray-trace/RT-Model.as) script with
 	[Model-RT](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/samples/Model-RT.as) pipeline, ported to RayQuery.

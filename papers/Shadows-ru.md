@@ -38,7 +38,10 @@
 Используется для глобального направленного источника, такого как солнце.
 
 Решают проблему плотности текселей вблизи и вдали за счет разделения на каскады.
-Также лучше повторяет детализацию сцены, что уменьшает количество однописельных треугольников.
+Также лучше повторяет детализацию сцены, что уменьшает количество однописельных треугольников, так как они отбрасываются еще до растеризации.
+
+Недостатки тоже есть:
+* Так как тень способна накрыть всю видимую часть сцены, то сильно растет нагрузка на ЦП из-за обхода и рисования большего количества объектов. Что особенно чувствительно было во времена до Vulkan/DX12.
 
 ![](img/shadows/CSM-density.jpg)
 
@@ -90,7 +93,7 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 
 Исходники:
 * [RT-Shadow](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/ray-trace/RT-Shadow.as)
-* [HybridShadow](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/shadows/RT-HybridShadow.as)
+* [Deferred RT-Shadow](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/shadows/Deffered-RT-Shadow.as)
 
 Ссылки:
 * [Advanced Graphics Summit: 'Cyberpunk 2077': Bringing Light to Night City (41.08)](https://youtu.be/NvK1apLLF6w?t=2468)
@@ -298,6 +301,7 @@ ESM, VSM и EVSM используют дешевую реконструкцию 
 * [Sample Distribution Shadow Maps](https://advances.realtimerendering.com/s2010/Lauritzen-SDSM(SIGGRAPH%202010%20Advanced%20RealTime%20Rendering%20Course).pdf)
 * [Adaptive Volumetric Shadow Maps](https://advances.realtimerendering.com/s2010/Salvi-AVSM(SIGGRAPH%202010%20Advanced%20RealTime%20Rendering%20Course).pdf)
 * [Rendering Roblox Vulkan Optimisations on PowerVR](https://ubm-twvideo01.s3.amazonaws.com/o1/vault/gdc2020/presentations/ImaginationTechnologies_Rendering_Roblox_Vulkan_Alhuwalia_Maya_slides.pdf)
+* [Rendering of Call of Duty Infinite Warfare](https://www.activision.com/cdn/research/2017_DD_Rendering_of_COD_IW.pdf)
 * [Cascaded Shadow Maps](https://learn.microsoft.com/en-us/windows/win32/dxtecharts/cascaded-shadow-maps)
 * [Common Techniques to Improve Shadow Depth Maps](https://learn.microsoft.com/en-us/windows/win32/dxtecharts/common-techniques-to-improve-shadow-depth-maps)
 * [A Sampling of Shadow Techniques](https://therealmjp.github.io/posts/shadow-maps/), [sources](https://github.com/TheRealMJP/Shadows)

@@ -1,4 +1,4 @@
-// Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
+// Copyright (c) Zhirnov Andrey. For more information see 'AE/LICENSE.md'
 /*
 	Also see tests [](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/screenshot-test/RayProjection.as)
 */

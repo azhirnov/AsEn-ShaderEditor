@@ -1,11 +1,12 @@
-// Copyright (c) Zhirnov Andrey. For more information see 'LICENSE'
+// Copyright (c) Zhirnov Andrey. For more information see 'AE/LICENSE.md'
 /*
-	Load 2D image from file and compare different compression methods.
+	Generate image and compare compression algorithms.
 */
 #ifdef __INTELLISENSE__
 #	define SH_COMPUTE
 # 	include <res_editor.as>
 #	include <glsl.h>
+#	define GEN_IMAGE
 #	define COMPARE
 #endif
 //-----------------------------------------------------------------------------
@@ -14,21 +15,29 @@
 	void ASmain ()
 	{
 		// initialize
+		const uint2			dim			= uint2(512);
+	//	const EPixelFormat	src_fmt		= EPixelFormat::RGBA16F;
 		const EPixelFormat	src_fmt		= EPixelFormat::RGBA8_UNorm;
 
-		const EPixelFormat	comp1_req	= EPixelFormat::BC7_RGBA8_UNorm;
+		const EPixelFormat	comp1_req	= EPixelFormat::ASTC_RGBA8_4x4;
 		const EPixelFormat	comp2_req	= EPixelFormat::ASTC_RGBA8_8x8;
 
 		const EPixelFormat	comp1_fmt	= Supports_LinearSampledFormat( comp1_req ) ? comp1_req : src_fmt;
 		const EPixelFormat	comp2_fmt	= Supports_LinearSampledFormat( comp2_req ) ? comp2_req : src_fmt;
+	//	const EPixelFormat	comp1_fmt	= src_fmt;
+	//	const EPixelFormat	comp2_fmt	= src_fmt;
 
 		RC<Image>	rt			= Image( EPixelFormat::RGBA8_UNorm, SurfaceSize() );
-		RC<Image>	non_comp	= Image( EImageType::Float_2D, "shadertoy/Abstract_1.jpg" );
-		RC<Image>	comp1		= Image( comp1_fmt, non_comp.Dimension() );
-		RC<Image>	comp2		= Image( comp2_fmt, non_comp.Dimension() );
+		RC<Image>	non_comp	= Image( src_fmt, dim );
+		RC<Image>	comp1		= Image( comp1_fmt, dim );
+		RC<Image>	comp2		= Image( comp2_fmt, dim );
 
 		// render loop
 		{
+			RC<Postprocess>		pass = Postprocess( "", "GEN_IMAGE" );
+			pass.Output( "out_Color",	non_comp );
+			pass.Slider( "iMode",		0,		2,		0 );
+		}{
 			CompressImage( non_comp, comp1, comp1_req );
 			CompressImage( non_comp, comp2, comp2_req );
 		}{
@@ -40,9 +49,27 @@
 			pass.Slider( "iCmp",		0,		5,		4 );
 			pass.Slider( "iDiff",		1.f,	100.f,	10.f );
 			pass.Slider( "iChannel",	0,		4,		0 );
-			pass.Slider( "iLevel",		0,		16 );
 		}
 		Present( rt );
+	}
+
+#endif
+//-----------------------------------------------------------------------------
+#ifdef GEN_IMAGE
+	#include "Hash.glsl"
+	#include "Color.glsl"
+	#include "InvocationID.glsl"
+
+	void  Main ()
+	{
+		float2	uv = GetGlobalCoordUNorm().xy;
+
+		switch ( iMode )
+		{
+			case 0 :	out_Color = float4(uv, 0.f, 1.f);				break;
+			case 1 :	out_Color = Rainbow( DHash12( uv * 100.0 ));	break;
+			case 2 :	out_Color = float4( ToUNorm( Cos( un_PerPass.time * 0.1 + uv.xyx + float3(0,2,4) )), 1.f );	break;
+		}
 	}
 
 #endif
@@ -65,9 +92,9 @@
 	void  Main ()
 	{
 		float2	uv		= MapPixCoordToUNormCorrected( gl.FragCoord.xy, un_PerPass.resolution.xy, float2(gl.texture.GetSize( un_NonComp, 0 )) );
-		float4	col1	= Swizzle( gl.texture.SampleLod( un_NonComp, uv, iLevel ));
-		float4	col2	= Swizzle( gl.texture.SampleLod( un_Comp1, uv, iLevel ));
-		float4	col3	= Swizzle( gl.texture.SampleLod( un_Comp2, uv, iLevel ));
+		float4	col1	= Swizzle( gl.texture.Sample( un_NonComp, uv ));
+		float4	col2	= Swizzle( gl.texture.Sample( un_Comp1, uv ));
+		float4	col3	= Swizzle( gl.texture.Sample( un_Comp2, uv ));
 
 		if ( IsNotUNorm( uv ))
 		{

@@ -53,11 +53,12 @@
 
 * Заменяет первый проход depth pre-pass, что меньше нагружает растеризатор.
 * Применим только для статичной геометрии.
-* При репроекции снижается точность значений, нужно компенсировать это смещением.
+* При репроекции снижается точность глубины, нужно компенсировать это смещением.
 * Часть пикселей теряется и в этом месте резко увеличивается нагрузка на растеризатор.
 	- Требуется дополнительное отсечение.
 	- Другой вариант - взять наибольшее значение от соседних пикселей и добавить смещение.
 * Попиксельная запись глубины может отключить оптимизации в драйвере.
+	- Вместо этого можно взять один из уровней сгенерированного HiZ с предыдущего кадра и отрисовать квадратами. Это правильно проинициализирует аппаратный HiZ.
 
 Также используется для ускорения рисования теней:
 * [Camera Depth Reprojection for ShadowCulling (слайд 26)](https://games-1312234642.cos.ap-guangzhou.myqcloud.com/course/GAMES104/GAMES104_Lecture22.pdf)
@@ -190,6 +191,7 @@
 * [GPU-based Scene Management for Rendering Large Crowds (2008)](https://drivers.amd.com/misc/siggraph_asia_08/GPUBasedSceneManagementLargeCrowds_SLIDES.pdf)
 * [Hierarchical-Z map based occlusion culling](https://www.rastergrid.com/blog/2010/10/hierarchical-z-map-based-occlusion-culling/)
 * [Hierarchical Depth Buffers (2020)](https://miketuritzin.com/post/hierarchical-depth-buffers/), [[перевод](https://habr.com/ru/articles/494376/)]
+* [Как в Unreal Engine генерируется Hierarchical Z Buffer](https://habr.com/ru/articles/1008236/) - есть нюансы по конвертации fp32 в fp16.
 
 
 ## Raster Occlusion
@@ -340,6 +342,16 @@ Discard в шейдере и прозрачность:
 **Ссылки**
 * [Low Resolution Z Buffer support on Turnip (2021)](https://blogs.igalia.com/siglesias/2021/04/19/low-resolution-z-buffer-support-on-turnip/)
 * [Low-resolution-Z on Adreno GPUs](https://blogs.igalia.com/dpiliaiev/adreno-lrz/)
+
+
+### Adreno Binned Direct Mode
+
+* Adreno может переключаться между TBDR и immediate mode rendering (IMR) - как NV/AMD/Intel. Но в 700-серии и X1 добавили третий режим сочетающий оба подхода.
+* Сначала идет привычное нарезание на тайлы с отсечением лишних треугольников. А следущим этапом вместо потайловой растеризации включается IMR режим.
+* Получается дешевый depth pre-pass и геометрия для растеризации хранится в тайлах, что дает лучшее использование кэшей даже в IMR режиме.
+
+**Ссылки**
+* [Adreno X1 GPU Architecture: A More Familiar Face](https://web.archive.org/web/20240804114054/https://www.anandtech.com/show/21445/qualcomm-snapdragon-x-architecture-deep-dive/3)
 
 
 ### Mali Forward Pixel Kill (FPK)
@@ -499,6 +511,8 @@ Adreno 505 плохо справляется со случайным чтени�
   Тут [VS и FS шейдеры](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipeline_inc/GeometryCulling-2-shared.as).
 * [GenHiZ-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-1.as) - расчет мип-уровней HiZ, вариант со степенью 2.
 * [GenHiZ-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-2.as) - расчет мип-уровней HiZ, вариант с сохранением пропорций.
+* [GenHiZ fp16](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-fp16-max.as) - расчет мип-уровней HiZ с понижением точности до fp16.
+* [GenHiZ u16](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-GenHiZ-u16-max.as) - расчет мип-уровней HiZ с понижением точности до 16bit unorm.
 * [DepthPyramidCulling](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-DepthPyramidCulling.as) - визуализация проверки видимости прямоугольника на пирамиде глубины, используется в HiZ.
 * [ProjectSphere test](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/test-ProjectSphere.as) - отладочная визуализация быстрой проекции сферы, используется для HiZ.
   Тут [шейдер с проекцией](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/pipelines/tests/ProjectSphere.as).

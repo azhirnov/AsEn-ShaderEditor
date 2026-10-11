@@ -19,7 +19,7 @@
 		RC<Buffer>		his_buf				= Buffer();
 		RC<Buffer>		id_buf				= Buffer();
 		RC<FeatureSet>	fs					= GetFeatureSet();
-		const uint		local_size			= 16; //GetSubgroupSize();
+		const uint		local_size			= 16;	// supported on most GPUs
 
 		const uint		local_size_bits		= HighBitIndex( local_size );
 		const uint		col_count			= local_size;

@@ -1,7 +1,6 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'AE/LICENSE.md'
 /*
-	Move random distributed IDs to the left.
-	Doesn't keep origin order of IDs, so may have flickering.
+	Global prefix scan, may be slow because of single atomic.
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>
@@ -24,7 +23,10 @@
 
 		id_buf.ArrayLayout(
 			"IdBuffer",
+			// element
 			"	int		id;",
+			// static src
+			"uint	count;",	// atomic
 			id_count.Mul(2) );
 
 		Slider( row_count,	"Count",	1,	64,		1 );
@@ -37,6 +39,8 @@
 			pass.LocalSize( col_count );
 			pass.DispatchGroups( row_count );
 		}{
+			ClearBuffer( id_buf, /*offset*/0, /*size*/4, /*value*/0 );
+
 			RC<ComputePass>		pass = ComputePass( "", "PREFIX_SCAN" );
 			pass.ArgInOut(	"un_IdBuf",		id_buf );
 			pass.Constant(	"iColSize",		col_count );
@@ -73,9 +77,8 @@
 #endif
 //-----------------------------------------------------------------------------
 #ifdef PREFIX_SCAN
+	#include "Atomic.glsl"
 	#include "InvocationID.glsl"
-
-	WGShared uint	s_Pos;
 
 	void  Main ()
 	{
@@ -96,7 +99,9 @@
 		int			src3_id	= un_IdBuf.elements[ src_idx + 3 ].id;
 
 		const uint	cnt	= uint(src0_id >= 0) + uint(src1_id >= 0) + uint(src2_id >= 0) + uint(src3_id >= 0);
-		uint		i	= gl.AtomicAdd( INOUT s_Pos, cnt );
+
+		uint		i;
+		SubgroupAtomicAdd( OUT i, INOUT un_IdBuf.pos, cnt );
 
 		if ( src0_id >= 0 )	un_IdBuf.elements[ dst_off + i++ ].id = src0_id;
 		if ( src1_id >= 0 )	un_IdBuf.elements[ dst_off + i++ ].id = src1_id;

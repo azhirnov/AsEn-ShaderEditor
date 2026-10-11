@@ -126,7 +126,7 @@
 		// calculate offset for same 'key & mask'
 
 		#if 0
-			// same algorithm as in [UniqueIDs](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/UniqueIDs-1.as)
+			// same algorithm as in [UniqueIDs](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/UniqueIDs-sg-1.as)
 			// may degradate to single thread if all buckets are unique
 			for (;;)
 			{
@@ -161,7 +161,7 @@
 		const uint	bucket		= (current_key >> bitShift) & mask;
 
 		// build histogram
-		// see HistogramPass_v3 in [Histogram](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/Histogram-1.as)
+		// see HistogramPass_v3 in [Histogram](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/Histogram-sg-1.as)
 		uint	histogram;
 		uint	rank;
 		{

@@ -12,69 +12,68 @@
 
 	void ASmain ()
 	{
+		const string	pass = "pass-0";
 		{
-			RC<ShaderStructType>	st = ShaderStructType( "io" );
+			RC<ShaderStructType>	st = ShaderStructType( pass+".io" );
 			st.Set( EStructLayout::InternalIO,
 					"float4		color;"
 					"float4		worldPos;"
 					"float		viewDepth;" );
 		}{
-			RC<DescriptorSetLayout>	ds = DescriptorSetLayout( "mtr.ds" );
+			RC<DescriptorSetLayout>	ds = DescriptorSetLayout( pass+".mtr.ds" );
 			ds.UniformBuffer( EShaderStages::Vertex,	"un_PerObject",	"UnifiedGeometryMaterialUB" );
 			ds.StorageBuffer( EShaderStages::Vertex,	"un_Geometry",	"GeometrySBlock",	EResourceState::ShaderStorage_Read );	// external
 			ds.StorageBuffer( EShaderStages::Vertex,	"un_DrawTasks",	"DrawTask",			EResourceState::ShaderStorage_Read );	// external
 		}{
-			RC<PipelineLayout>		pl = PipelineLayout( "pl" );
+			RC<PipelineLayout>		pl = PipelineLayout( pass+".pl" );
 			pl.DSLayout( "pass",	 0, "pass.ds" );
-			pl.DSLayout( "material", 1, "mtr.ds" );
+			pl.DSLayout( "material", 1, pass+".mtr.ds" );
 		}
 
+		RC<GraphicsPipeline>	ppln = GraphicsPipeline( pass+".tmpl" );
+		ppln.SetLayout( pass+".pl" );
+		ppln.SetFragmentOutputFromRenderTech( "rtech", pass );
+		ppln.SetShaderIO( EShader::Vertex, EShader::Fragment, pass+".io" );
+
 		{
-			RC<GraphicsPipeline>	ppln = GraphicsPipeline( "tmpl" );
-			ppln.SetLayout( "pl" );
-			ppln.SetFragmentOutputFromRenderTech( "rtech", "main" );
-			ppln.SetShaderIO( EShader::Vertex, EShader::Fragment, "io" );
+			RC<Shader>	vs = Shader();
+			vs.LoadSelf();
+			ppln.SetVertexShader( vs );
+		}{
+			RC<Shader>	fs = Shader();
+			fs.LoadSelf();
+			ppln.SetFragmentShader( fs );
+		}
 
+		// specialization
+		{
+			RC<GraphicsPipelineSpec>	spec = ppln.AddSpecialization( pass+".spec" );
+			spec.AddToRenderTech( "rtech", pass );  // in ScriptSceneGraphicsPass
+
+			RenderState	rs;
 			{
-				RC<Shader>	vs = Shader();
-				vs.LoadSelf();
-				ppln.SetVertexShader( vs );
+				RenderState_ColorBuffer		cb;
+				cb.SrcBlendFactor( EBlendFactor::One );
+				cb.DstBlendFactor( EBlendFactor::One );
+				cb.BlendOp( EBlendOp::Add );
+				rs.color.SetColorBuffer( 0, cb );
 			}{
-				RC<Shader>	fs = Shader();
-				fs.LoadSelf();
-				ppln.SetFragmentShader( fs );
+				RenderState_ColorBuffer		cb;
+				cb.SrcBlendFactor( EBlendFactor::Zero );
+				cb.DstBlendFactor( EBlendFactor::OneMinusSrcColor );
+				cb.BlendOp( EBlendOp::Add );
+				rs.color.SetColorBuffer( 1, cb );
 			}
 
-			// specialization
-			{
-				RC<GraphicsPipelineSpec>	spec = ppln.AddSpecialization( "spec" );
-				spec.AddToRenderTech( "rtech", "main" );  // in ScriptSceneGraphicsPass
+			rs.depth.test					= true;
+			rs.depth.write					= false;
 
-				RenderState	rs;
-				{
-					RenderState_ColorBuffer		cb;
-					cb.SrcBlendFactor( EBlendFactor::One );
-					cb.DstBlendFactor( EBlendFactor::One );
-					cb.BlendOp( EBlendOp::Add );
-					rs.color.SetColorBuffer( 0, cb );
-				}{
-					RenderState_ColorBuffer		cb;
-					cb.SrcBlendFactor( EBlendFactor::Zero );
-					cb.DstBlendFactor( EBlendFactor::OneMinusSrcColor );
-					cb.BlendOp( EBlendOp::Add );
-					rs.color.SetColorBuffer( 1, cb );
-				}
+			rs.inputAssembly.topology		= EPrimitive::TriangleList;
 
-				rs.depth.test					= true;
-				rs.depth.write					= false;
+			rs.rasterization.frontFaceCCW	= true;
+			rs.rasterization.cullMode		= ECullMode::Back;
 
-				rs.inputAssembly.topology		= EPrimitive::TriangleList;
-
-				rs.rasterization.frontFaceCCW	= true;
-				rs.rasterization.cullMode		= ECullMode::Back;
-
-				spec.SetRenderState( rs );
-			}
+			spec.SetRenderState( rs );
 		}
 	}
 
@@ -102,7 +101,7 @@
 #endif
 //-----------------------------------------------------------------------------
 #ifdef SH_FRAG
-	#include "Normal.glsl"
+	#include "Math.glsl"
 
 	float4  Shading ()
 	{
@@ -133,8 +132,8 @@
 
 		float	weight = WeightingFn( color );
 
-		out_Color	= color * weight;
-		out_Weights	= float4(color.a);
+		out_Color		= color * weight;
+		out_Weights.r	= color.a;
 	}
 
 #endif

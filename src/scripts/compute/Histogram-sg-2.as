@@ -1,13 +1,14 @@
 // Copyright (c) Zhirnov Andrey. For more information see 'AE/LICENSE.md'
 /*
 	Calculate number of unique IDs per subgroup.
+	Compaction and deduplication pass.
 	IDs in range 0..2^32
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>
-#	include <glsl.h>
-#	define INIT_IDs
-#	define HISTOGRAM
+# 	include <glsl.h>
+# 	define INIT_IDs
+# 	define HISTOGRAM
 #endif
 //-----------------------------------------------------------------------------
 #ifdef SCRIPT
@@ -16,11 +17,12 @@
 	{
 		// initialize
 		RC<Image>		rt					= Image( EPixelFormat::RGBA8_UNorm, SurfaceSize() );
-		RC<Buffer>		his_buf				= Buffer();
+		RC<Buffer>		row_size_buf		= Buffer();
 		RC<Buffer>		id_buf				= Buffer();
-		const bool		has_sg_size_ctrl	= GetFeatureSet().hasSubgroupSizeControl();
-		const uint		local_size			= has_sg_size_ctrl ? GetFeatureSet().getMaxSubgroupSize() : GetSubgroupSize();
-		const uint		col_count			= local_size;
+		RC<Buffer>		his_buf				= Buffer();
+		RC<FeatureSet>	fs					= GetFeatureSet();
+		const bool		has_sg_size_ctrl	= fs.hasSubgroupSizeControl();
+		const uint		col_count			= has_sg_size_ctrl ? fs.getMaxSubgroupSize() : GetSubgroupSize();
 		RC<DynamicUInt>	row_count			= DynamicUInt();
 		RC<DynamicUInt>	id_count			= row_count.Mul( col_count );
 
@@ -30,7 +32,13 @@
 			id_count );
 
 		his_buf.ArrayLayout(
-			"HistogramBuffer",
+			"HistorammBuffer",
+			"	int		id;"
+			"	uint	count;",	// histogram
+			id_count );
+
+		row_size_buf.ArrayLayout(
+			"RowSizeBuffer",
 			"	uint	count;",
 			row_count );
 
@@ -45,17 +53,20 @@
 			pass.LocalSize( col_count );
 			pass.DispatchGroups( row_count );
 		}{
+			ClearBuffer( row_size_buf, 0 );
 			ClearBuffer( his_buf, 0 );
 
 			RC<ComputePass>		pass = ComputePass( "", "HISTOGRAM" );
-			pass.ArgInOut(	"un_Histogram",		his_buf );
+			pass.ArgInOut(	"un_RowSize",		row_size_buf );
+			pass.ArgOut(	"un_Histogramm",	his_buf );
 			pass.ArgIn(		"un_IdBuf",			id_buf );
 			pass.LocalSize( col_count );
 			pass.DispatchGroups( row_count );
-			if ( has_sg_size_ctrl ) pass.SubgroupSize( local_size );
+			if ( has_sg_size_ctrl ) pass.SubgroupSize( col_count );
 		}{
 			RC<Postprocess>		pass = Postprocess();
-			pass.ArgIn(		"un_Histogram",		his_buf );
+			pass.ArgIn(		"un_RowSize",		row_size_buf );
+			pass.ArgIn(		"un_Histogramm",	his_buf );
 			pass.ArgIn(		"un_IdBuf",			id_buf );
 			pass.Output(	"out_Color",		rt );
 			pass.Constant(	"iRows",			row_count );
@@ -85,7 +96,7 @@
 #ifdef HISTOGRAM
 	#include "InvocationID.glsl"
 
-	void  Main ()
+	void  Main () [[maximally_reconverges]]
 	{
 		const int	src_idx	= GetGlobalIndex();
 		int			src_id	= un_IdBuf.elements[ src_idx ].id;
@@ -94,22 +105,35 @@
 			return;
 
 		uint	count = 1;
-		for (; count < gl.subgroup.Size; ++count)
+		for (;;)
 		{
-			// get unique ID per subgroup
-			sg_uniform int		id = gl.subgroup.BroadcastFirst( src_id );
+			sg_uniform int	id = gl.subgroup.BroadcastFirst( src_id );
 
-			if ( id == src_id )
+		  #if 0
+			if ( gl.subgroup.Elect() )
+		  #else
+			// fix for NV with independent thread scheduling
+			uint4	active_threads	= gl.subgroup.Ballot( id == src_id );
+			uint	first_thread	= gl.subgroup.BallotFindLSB( active_threads );
+			if ( gl.subgroup.Index == first_thread )
+		  #endif
+			{
+				uint	slot = GetGroupIndex() * gl.subgroup.Size + (count - 1);
+				un_Histogramm.elements[slot].id  	= id;
+				un_Histogramm.elements[slot].count 	= gl.subgroup.BallotBitCount( active_threads );
+			}
+
+			if ( id == src_id || count >= gl.subgroup.Size )
 				break;
-		}
 
-		gl.subgroup.Barrier();
+			++count;
+		}
 
 		uint	max_count = gl.subgroup.Max( count );
 
 		if ( gl.subgroup.Elect() )
 		{
-			un_Histogram.elements[ GetGroupIndex() ].count = max_count;
+			un_RowSize.elements[ GetGroupIndex() ].count = max_count;
 		}
 	}
 
@@ -153,11 +177,20 @@
 		uint	col1	= uint( x1 * iColSize );
 		uint	row		= Clamp( uint( y0 * iRows ), 0, iRows-1 );
 		uint	row1	= uint( y1 * iRows );
-		uint	count	= un_Histogram.elements[ row ].count;
+		uint	count	= un_RowSize.elements[ row ].count;
 		float4	color	= float4(0.0);
 
 		if ( col < count )
-			color = Rainbow( float(row) / float(iRows) );
+		{
+			uint 	i   = col + row * iColSize;
+			int	 	id  = un_Histogramm.elements[ i ].id;
+			uint 	his = un_Histogramm.elements[ i ].count;
+			float	h 	= 1.0 / float(his);
+			float	y	= 1.0 - Fract( y0 * iRows );
+
+			if ( y < h )
+				color.rgb = DHash31( float(id) );
+		}
 
 		if ( col != col1 )
 			color = float4(0.2);

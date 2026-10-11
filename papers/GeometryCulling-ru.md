@@ -46,6 +46,12 @@
 * Наложение материала происходит один раз на пиксель, но из-за вспомогательных потоков по краям треугольника может вызываться несколько FS на пиксель, хотя записывает результат только один.
 * Для оптимизации доступа к памяти нужно хранить позицию вершин отдельно от остальных аттрибутов.
 
+Оптимизированный DPP в Horizon Zero Dawn, используются 3 пересекающиеся плоскости повторяющие контур объекта.
+Все еще есть пустоты, что приведет к увеличению количества фрагментов на пиксель.
+Также это не позволит рисовать в GBuffer с Equal тестом глубины, но для альфа-тест геометрии они рисуют настоящую геометрию.
+
+![](img/hzd/DPP.jpg)
+
 
 ## Depth reprojection
 
@@ -58,7 +64,7 @@
 	- Требуется дополнительное отсечение.
 	- Другой вариант - взять наибольшее значение от соседних пикселей и добавить смещение.
 * Попиксельная запись глубины может отключить оптимизации в драйвере.
-	- Вместо этого можно взять один из уровней сгенерированного HiZ с предыдущего кадра и отрисовать квадратами. Это правильно проинициализирует аппаратный HiZ.
+	- Вместо этого можно сгенерировать один мип-уровень MaxZ (обратное от min(Z) в [HiZ](#Hierarchy-Z-Buffer-HZB-HiZ)) с предыдущего кадра и отрисовать квадратами. Это правильно проинициализирует аппаратный HiZ.
 
 Также используется для ускорения рисования теней:
 * [Camera Depth Reprojection for ShadowCulling (слайд 26)](https://games-1312234642.cos.ap-guangzhou.myqcloud.com/course/GAMES104/GAMES104_Lecture22.pdf)
@@ -249,7 +255,7 @@ Cluster Culling описан в [Optimizing the Graphics Pipeline with Compute](
 
 Ссылки:
 * [Improving Geometry Culling for 'Deus Ex: Mankind Divided'](https://www.gdcvault.com/play/1023678/)
-* [Solving Visibility and Streaming in the The Witcher 3: Wild Hunt with Umbra 3](https://gdcvault.com/play/1020231/Solving-Visibility-and-Streaming-in)
+* [Solving Visibility and Streaming in the The Witcher 3: Wild Hunt with Umbra 3](https://gdcvault.com/play/1020231/Solving-Visibility-and-Streaming-in), [video](https://gdcvault.com/play/1021141/Solving-Visibility-and-Streaming-in)
 * [UE: Precomputed Visibility Volume](https://dev.epicgames.com/documentation/en-us/unreal-engine/precomputed-visibility-volumes-in-unreal-engine?application_version=5.5)
 * [Old school rendering rant - Tomb Raider](https://medium.com/@reinigdavid/old-school-rendering-rant-tomb-raider-913f7837de7e)
 
@@ -522,3 +528,4 @@ Adreno 505 плохо справляется со случайным чтени�
 * [VisibilityBuffer](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/VisibilityBuffer.as) - реализация visibility buffer. В редакторе шейдеров нет подготовки геометрии для VisBuf, поэтому используется RTX, где все подготовленно под bindless.
 * [DeferredTexturing](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/DeferredTexturing.as) - реализация отложенного текстурирования.
 * [Parallax mapping with Deferred Texturing](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/DeferredParallax.as) - упаковка TBN в 32-битный кватернион.
+* [Alpha test & Depth pre pass](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/geom-cull/perf-DepthPrePass.as) - как ускорить DPP с альфа тестом.

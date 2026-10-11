@@ -3,10 +3,9 @@
 	Each warp will find set of unique IDs and store it to the dst buffer.
 	This is similar as some GPUs handle non-uniform indices, it also known as waterfall loop.
 
-	Warning: version with 'subgroupElect()' (mode=0) works only on NV RTX because of independent thread scheduling (?)
+	Warning: version with 'subgroupElect()' (mode=0) works only on NV RTX because of independent thread scheduling.
 
-	https://github.com/KhronosGroup/Vulkan-Guide/blob/main/chapters/extensions/VK_KHR_shader_subgroup_uniform_control_flow.adoc
-	https://docs.vulkan.org/features/latest/features/proposals/VK_KHR_shader_maximal_reconvergence.html
+	Similar to 'Deduplicate-sg.as' algorithm.
 */
 #ifdef __INTELLISENSE__
 # 	include <res_editor.as>

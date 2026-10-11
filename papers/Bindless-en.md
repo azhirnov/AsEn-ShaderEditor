@@ -119,7 +119,7 @@ Non-uniform data includes:
 * `gl_BaseInstance`, `gl_BaseVertex`, `gl_ViewIndex` ???
 
 When using `nonuniform()`, the compiler may add extra instructions. If the compiler knows the variable is only `uniform`, it ignores `nonuniform()`, avoiding unnecessary instructions.
-The example [UniqueIDs](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/UniqueIDs-1.as) shows how the compiler converts non-uniform resource access into uniform.
+The example [UniqueIDs](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/UniqueIDs-sg-1.as) shows how the compiler converts non-uniform resource access into uniform.
 
 The example [BrokenNonuniform](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/nonuniform/BrokenNonuniform.as) demonstrates what happens if `nonuniform()` isn't used.
 On most tested GPUs, the driver detects non-uniformity, and `nonuniform()` has no effect, making such errors hard to catch. Only on AMD GCN does using `nonuniform()` immediately reveal issues.
@@ -227,9 +227,9 @@ The main downside is difficulty in debugging. Out-of-bounds array accesses don't
 
 ## Prefix Scan
 
-One stage of GPU-Driven rendering involves checking object visibility and removing invisible objects from the rendering queue. Visibility checks are performed using frustum culling, [HiZ](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/GeometryCulling-ru.md#hierarchy-z-buffer-hzb-hiz), [Raster occlusion](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/GeometryCulling-ru.md#raster-occlusion), and others. After visibility checks, we get an array of object IDs and empty elements. To group IDs, a prefix scan/prefix sum algorithm is used. Examples: [PrefixScan-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-1.as), [PrefixScan-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-2.as).
+One stage of GPU-Driven rendering involves checking object visibility and removing invisible objects from the rendering queue. Visibility checks are performed using frustum culling, [HiZ](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/GeometryCulling-ru.md#hierarchy-z-buffer-hzb-hiz), [Raster occlusion](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/papers/GeometryCulling-ru.md#raster-occlusion), and others. After visibility checks, we get an array of object IDs and empty elements. To group IDs, a prefix scan/prefix sum algorithm is used. Examples: [PrefixScan-sg-1](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-sg-1.as), [PrefixScan-sg-2](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-sg-2.as).
 
-If the order of IDs doesn't matter, a simpler algorithm with atomics can be used. Example: [PrefixScan-3](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-3.as), with flickering due to atomic operations.
+If the order of IDs doesn't matter, a simpler algorithm with atomics can be used. Example: [PrefixScan-wg](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/compute/PrefixScan-wg.as), with flickering due to atomic operations.
 
 ## Radix Sort
 

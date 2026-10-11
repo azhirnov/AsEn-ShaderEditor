@@ -27,7 +27,7 @@ Adreno использует общую память и создает столь
 
 ### AMD
 
-RDNA3 на Windows -
+RDNA3 на Windows - для 8 запрошеных дескрипторов выделяется память под 128 любых дескрипторов.
 
 RDNA3 RADV -
 
@@ -57,7 +57,7 @@ BXM - для 8 запрошеных дескрипторов резервиру�
 
 [Исходник теста](https://github.com/azhirnov/as-en/blob/dev/AE/engine/performance/graphics/Vulkan/VkTest_MutableDescriptorType.cpp)
 
-NVIDIA - поддерживает все типы дескрипторов.
+NVIDIA и AMD - поддерживают все типы дескрипторов.
 
 Intel Xe+LP - не поддерживает только CombinedImage.
 

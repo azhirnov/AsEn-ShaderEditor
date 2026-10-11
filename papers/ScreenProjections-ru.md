@@ -119,6 +119,7 @@
 * [RenderToCubemap](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/projections/RenderToCubemap.as) - сцена рисуется в кубическую карту, затем нужный тексель выбирается по 3D координатам, аналогично трассировке лучей.
 * [RayProjections](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/projections/RayProjections.as) - все виды проекции на экран, большинство совместимо только с трассировкой лучей.
 * [RasterProjections](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/projections/RasterProjections.as) - проекции, совместимые с растеризацией.
+* [3CamerasToPanini](https://github.com/azhirnov/AsEn-ShaderEditor/blob/main/src/scripts/projections/3CamerasToPanini.as) - сцена рисуется в 3 камеры, затем делается репроекция в Panini.
 
 ## Ссылки
 
